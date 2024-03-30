@@ -30,6 +30,7 @@ class Accnts {
         Accnts(string);
         void open();
         int count();
+        long int size();
         static void create(string);
         void add(const User*);
         int fnd(string email);
@@ -37,6 +38,7 @@ class Accnts {
         User* geta();
         void set(int, const User*);
         void del(int);
+        void dela();
         void close();
 };
 

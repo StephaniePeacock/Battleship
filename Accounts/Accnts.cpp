@@ -54,17 +54,25 @@ void Accnts::create(string fname)
     file.close();
 }
 
+/// @brief Get the number of records in the database.
+/// @return The number of records in the database.
 int Accnts::count() {
     
     // Get size of file
-    file.seekg(0L, ios::end);
-    int fbytes = file.tellg();
+    int fbytes = size();
     
     // Get size of record
     int rbytes = sizeof(User);
     
     // Calculate and return number of records in database
     return fbytes / rbytes;
+}
+
+/// @brief Get the size (in bytes) of the database.
+/// @return The size (in bytes) of the database.
+long int Accnts::size() {
+    file.seekg(0L, ios::end);
+    return file.tellg();
 }
 
 /// @brief Add a new user record to the database.
@@ -141,5 +149,71 @@ void Accnts::set(int pos, const User* user)
 /// @param pos The index position of the user record to delete.
 void Accnts::del(int pos)
 {
+    // Start position of chunk
+    long int sbytes = pos * sizeof(User);  //Start byte of record to del.
+    long int ebytes = size();  //Size (bytes) of file
+    long int rbytes = sizeof(User);  //Size (bytes) of record
+    long int cbytes = ebytes - sbytes - rbytes; //Size (bytes) of chunk to shift
     
+    char buffer_a[sbytes];
+    char buffer_b[cbytes];
+    // Read the chunk of bytes up to record to be deleted into buffer
+    file.seekg(0L, ios::beg);
+    file.read(buffer_a, sbytes);
+    // Read the chunk of bytes after record to be deleted into the buffer
+    file.seekg(sbytes + rbytes, ios::beg);
+    file.read(buffer_b, cbytes);
+    
+    // Clear file contents;
+    dela();
+    
+    // Reconstruct file contents (without deleted record)
+    file.seekp(0L, ios::end);
+    file.write(buffer_a, sbytes);
+    file.write(buffer_b, cbytes);
+    
+    file.flush();    
+}
+// FAILED ATTEMPT: This leaves the file the same size it was before...
+// NOTE: Keeping this around in case I have time to attempt to make this work later...
+///// @brief Delete the record at the given index in the database.
+///// @param pos The index position of the user record to delete.
+//void Accnts::del(int pos)
+//{
+//    // Start position of chunk
+//    long int sbytes = pos * sizeof(User);  //Start byte of record to del.
+//    long int ebytes = size();  //Size (bytes) of file
+//    long int rbytes = sizeof(User);  //Size (bytes) of record
+//    long int cbytes = ebytes - sbytes - rbytes; //Size (bytes) of chunk to shift
+//    
+//    char buffer[cbytes];
+//    // Read the chunk of bytes into the buffer
+//    file.seekg(sbytes + rbytes, ios::beg);
+//    file.read(buffer, cbytes);
+//    // Write the chunk of bytes shifted left by one record
+//    file.seekp(sbytes, ios::beg);
+//    file.write(buffer, cbytes);
+//    
+//    
+/// @brfile.flush();
+//}
+
+/// @brief Delete all records in the database.
+void Accnts::dela(){
+    
+    // Check if stream is open, close if open, remember initial state
+    bool opn = false;
+    if (file.is_open()){
+        opn = true;
+        close();
+    }
+    
+    // Clear all contents from file
+    file.open(fname, ios::binary | ios::out | ios::trunc);
+    close();
+
+    // If initial state was open, reopen.
+    if (opn) {
+        open();
+    }
 }
