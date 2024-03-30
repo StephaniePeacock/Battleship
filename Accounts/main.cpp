@@ -37,7 +37,7 @@ int main() {
     accnts.open();
     
     cout << "\nDatabase contents:\n\n";
-    User* tusers = accnts.getAll();  //!This function returns dynamically allocated memory!
+    User* tusers = accnts.geta();  //!This function returns dynamically allocated memory!
     for (int i = 0; i < accnts.count(); i++) {
         tusers[i].display();
     }

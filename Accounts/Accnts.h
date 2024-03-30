@@ -34,7 +34,7 @@ class Accnts {
         void add(const User*);
         int fnd(string email);
         User* get(int);
-        User* getAll();
+        User* geta();
         void set(int, const User*);
         void del(int);
         void close();

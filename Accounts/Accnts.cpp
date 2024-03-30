@@ -115,7 +115,7 @@ User* Accnts::get(int pos)
 
 /// @brief Get all user records from the database.
 /// @return A pointer to an array of user records.
-User* Accnts::getAll()
+User* Accnts::geta()
 {
     int end = count();
     User* users = new User[count()];
@@ -141,4 +141,5 @@ void Accnts::set(int pos, const User* user)
 /// @param pos The index position of the user record to delete.
 void Accnts::del(int pos)
 {
+    
 }
