@@ -117,14 +117,13 @@ User* Accnts::get(int pos)
 /// @return A pointer to an array of user records.
 User* Accnts::getAll()
 {
-//    int end = count();
-//    User* users = new User[count()];
-//    file.seekg(cur, ios::beg);
-//    for (int i = 0, i < end; i++){
-//        users[i] = new User;
-//        file.read(reinterpret_cast<char*>(users[i], sizeof(User)));
-//    }
-//    return users;
+    int end = count();
+    User* users = new User[count()];
+    file.seekg(0L, ios::beg);
+    for (int i = 0; i < end; i++){
+        file.read(reinterpret_cast<char*>(&users[i]), sizeof(User));
+    }
+    return users;
 }
 
 /// @brief Set the given record at the given index in the database.

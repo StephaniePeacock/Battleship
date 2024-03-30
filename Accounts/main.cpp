@@ -36,6 +36,12 @@ int main() {
     cout << "Opening database for processing...\n";
     accnts.open();
     
+    cout << "\nDatabase contents:\n\n";
+    User* tusers = accnts.getAll();  //!This function returns dynamically allocated memory!
+    for (int i = 0; i < accnts.count(); i++) {
+        tusers[i].display();
+    }
+    
     cout << "Adding a user...\n";
     accnts.add(&user);
     
@@ -67,8 +73,11 @@ int main() {
     
     // Cleanup
     accnts.close();
-    delete tuser;  //free dynamically allocated memory
-    tuser = nullptr;  // set to nullptr to avoid dangling pointer.
+    delete tuser;
+    tuser = nullptr;
+    delete[] tusers;
+    tusers = nullptr;
+
     
     return 0;
 }
