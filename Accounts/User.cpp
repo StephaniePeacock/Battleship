@@ -16,7 +16,7 @@ using namespace std;
 
 #include "User.h"
 
-User::User(char email[MAXFLD], char pword[MAXFLD]) {
+User::User(const char email[MAXFLD], const char pword[MAXFLD]) {
     strncpy(this->email, email, MAXFLD);
     strncpy(this->pword, pword, MAXFLD);
     this->info = Stats {0, 0};

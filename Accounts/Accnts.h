@@ -31,9 +31,9 @@ class Accnts {
         void open();
         int count();
         static void create(string);
-        void add(const User&);
+        void add(const User*);
         int fnd(string email);
-        User get(int);  // Should we return pointer? downside: rem. to delete it later
+        User* get(int);
         User* getAll();
         void set(int, const User*);
         void del(int);

@@ -69,11 +69,11 @@ int Accnts::count() {
 
 /// @brief Add a new user record to the database.
 /// @param user The user record to add.
-void Accnts::add(const User& user)
+void Accnts::add(const User* user)
 {
 //    user.display();  //DEBUG
     file.seekp(0L, ios::end);
-    file.write(reinterpret_cast<const char*>(&user), sizeof(User));
+    file.write(reinterpret_cast<const char*>(user), sizeof(User));
     file.flush();
 }
 
@@ -82,32 +82,34 @@ void Accnts::add(const User& user)
 /// @return The index position of the record in the database.
 int Accnts::fnd(string email)
 {
-//    int i = 0;
-//    int pos = -1;
-//    int count = count();
-////    cout << "Searching for " << name << "\n";  //DEBUG
-//
-//    while (i < count) {
-////        cout << "Searching catalog item #" << i << "\n";  //DEBUG
-//        if (accounts[i].name == name) {
-//            pos = i;
-//            break; //item found
-//        }
-//        i++;
-//    }
-//    return pos;
+    int i = 0;
+    int pos = -1;
+    int count = this->count();
+    User* current = nullptr;
+//    cout << "Searching for " << email << "\n";  //DEBUG
+
+    while (i < count) {
+//        cout << "Searching user #" << i << "\n";  //DEBUG
+        current = get(i);
+        if (current->email == email) {  //account found
+            pos = i;
+            break; 
+        }
+        i++;
+    }
+    return pos;
 }
 
 /// @brief Get a user recrod from the database.
 /// @param pos The index position of the user record to get.
 /// @return The record of the found user.
-User Accnts::get(int pos)
+User* Accnts::get(int pos)
 {
-    User acct;
+    User* acct = new User;
     
     long int cur = pos * sizeof(User);
     file.seekg(cur, ios::beg);
-    file.read(reinterpret_cast<char*>(&acct), sizeof(User));
+    file.read(reinterpret_cast<char*>(acct), sizeof(User));
     return acct;
 }
 
@@ -123,6 +125,10 @@ User* Accnts::getAll()
 /// @param  user The user record to set.
 void Accnts::set(int pos, const User* user)
 {
+    long int cur = pos * sizeof(User);
+    file.seekp(cur, ios::beg);
+    file.write(reinterpret_cast<const char*>(user), sizeof(User));
+    file.flush();
 }
 
 /// @brief Delete the record at the given index in the database.

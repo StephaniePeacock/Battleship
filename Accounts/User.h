@@ -28,7 +28,7 @@ struct Stats {
 // NOTE: This is just a stub for testing.
 class User {
     public:
-        User(char [MAXFLD], char [MAXFLD]);
+        User(const char [MAXFLD], const char [MAXFLD]);
         User();
         char email[MAXFLD];
         char pword[MAXFLD];

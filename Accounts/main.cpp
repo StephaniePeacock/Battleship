@@ -22,7 +22,9 @@ using namespace std;
  */
 int main() {
     
-    User user = User("hansintheair@email.com", "pwd");
+    string email = "testing5@email.com";
+    string pword = "pwd";
+    User user = User(email.c_str(), pword.c_str());
     
     cout << "Creating database file if it doesn't exist...\n";
     string db = "users.bin";
@@ -35,19 +37,33 @@ int main() {
     accnts.open();
     
     cout << "Adding a user...\n";
-    accnts.add(user);
+    accnts.add(&user);
     
     cout << "There are " << accnts.count() << " users in the database.\n";
     
-    User tuser;
+    User* tuser = nullptr; 
     cout << "\nShowing first user in database:\n";
     tuser = accnts.get(0);
-    tuser.display();    
+    tuser->display();    
     cout << "\nShowing last user in database:\n";
     tuser = accnts.get(accnts.count()-1);
-    tuser.display();
+    tuser->display();
     
-    cout << "Closing database...\n";
+    cout << "\nFinding user that doesn't exist:\n";
+    cout << "Position: " << accnts.fnd("DOESNOTEXIST") << "\n";
+    
+    cout << "\nFinding user that does exist:\n";
+    cout << "Position: " << accnts.fnd(email) << "\n";
+
+    cout << "\nChanging the win count of the second-to-last user...\n";
+    tuser = accnts.get(accnts.count()-2);
+    tuser->info.win += 1;
+    accnts.set(accnts.count()-1, tuser);
+    cout << "\nShowing second-to-last user in database:\n";
+    tuser = accnts.get(accnts.count()-2);
+    tuser->display();
+    
+    cout << "\nClosing database...\n";
     accnts.close();
 
     
