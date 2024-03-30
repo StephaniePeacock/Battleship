@@ -21,5 +21,13 @@ User::User(char email[MAXFLD], char pword[MAXFLD]) {
     strncpy(this->pword, pword, MAXFLD);
     this->info = Stats {0, 0};
 }
+User::User() {}
+
+void User::display() const{
+    cout << "Email: " << this->email << "\n";
+    cout << "Password: " << this->pword << "\n";
+    cout << "Wins: " << this->info.win << "\n";
+    cout << "Losses: " << this->info.loss << "\n";
+}
 
 

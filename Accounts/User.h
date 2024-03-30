@@ -13,6 +13,10 @@
 #ifndef USER_H
 #define USER_H
 
+#include <iostream>
+using namespace std;
+
+
 const int MAXFLD = 81;
 
 struct Stats {
@@ -25,9 +29,12 @@ struct Stats {
 class User {
     public:
         User(char [MAXFLD], char [MAXFLD]);
+        User();
         char email[MAXFLD];
         char pword[MAXFLD];
         Stats info;
+        
+        void display() const;        
 
     private:
 

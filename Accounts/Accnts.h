@@ -29,10 +29,11 @@ class Accnts {
         // Member functions
         Accnts(string);
         void open();
+        int count();
         static void create(string);
-        void add(const User*);
+        void add(const User&);
         int fnd(string email);
-        User* get(int);
+        User get(int);  // Should we return pointer? downside: rem. to delete it later
         User* getAll();
         void set(int, const User*);
         void del(int);

@@ -23,16 +23,33 @@ using namespace std;
 int main() {
     
     User user = User("hansintheair@email.com", "pwd");
-    cout << "User Email: " << user.email << "\n";
     
     cout << "Creating database file if it doesn't exist...\n";
-    string db = "test.bin";
+    string db = "users.bin";
     Accnts::create(db);
     
     cout << "Creating instance of database interface...\n";
     Accnts accnts = Accnts(db);
+
+    cout << "Opening database for processing...\n";
+    accnts.open();
     
+    cout << "Adding a user...\n";
+    accnts.add(user);
     
+    cout << "There are " << accnts.count() << " users in the database.\n";
+    
+    User tuser;
+    cout << "\nShowing first user in database:\n";
+    tuser = accnts.get(0);
+    tuser.display();    
+    cout << "\nShowing last user in database:\n";
+    tuser = accnts.get(accnts.count()-1);
+    tuser.display();
+    
+    cout << "Closing database...\n";
+    accnts.close();
+
     
     return 0;
 }
