@@ -43,7 +43,7 @@ int main() {
     
     User* tuser = nullptr; 
     cout << "\nShowing first user in database:\n";
-    tuser = accnts.get(0);
+    tuser = accnts.get(0);  //!This function returns dynamically allocated memory!
     tuser->display();    
     cout << "\nShowing last user in database:\n";
     tuser = accnts.get(accnts.count()-1);
@@ -64,8 +64,11 @@ int main() {
     tuser->display();
     
     cout << "\nClosing database...\n";
+    
+    // Cleanup
     accnts.close();
-
+    delete tuser;  //free dynamically allocated memory
+    tuser = nullptr;  // set to nullptr to avoid dangling pointer.
     
     return 0;
 }

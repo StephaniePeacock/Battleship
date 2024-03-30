@@ -102,7 +102,7 @@ int Accnts::fnd(string email)
 
 /// @brief Get a user recrod from the database.
 /// @param pos The index position of the user record to get.
-/// @return The record of the found user.
+/// @return The record of the found user. WARNING: Returns dynamically allocated memory.
 User* Accnts::get(int pos)
 {
     User* acct = new User;
