@@ -26,20 +26,58 @@ class Accnts {
         // Member variables
         string fname;
         fstream file;
+        
         // Member functions
+
         Accnts(string);
+        
+        /// @brief Open file stream.
         void open();
-        int count();
-        long int size();
-        static void create(string);
-        void add(const User*);
-        int fnd(string email);
-        User* get(int);
-        User* geta();
-        void set(int, const User*);
-        void del(int);
-        void dela();
+
+        /// @brief Close file stream.
         void close();
+
+        /// @brief Create a new database.
+        /// @param fname The path to the new database.
+        static void create(string);
+        
+        /// @brief Get the number of records in the database.
+        /// @return The number of records in the database.
+        int count();
+
+        /// @brief Get the size (in bytes) of the database.
+        /// @return The size (in bytes) of the database.
+        long int size();
+
+        /// @brief Find a user record in the database.
+        /// @param email The email of the user record to find.
+        /// @return The index position of the record in the database.
+        int fnd(string email);
+
+        /// @brief Add a new user record to the database.
+        /// @param user The user record to add.        
+        void add(const User*);
+
+        /// @brief Get a user recrod from the database.
+        /// @param pos The index position of the user record to get.
+        /// @return The record of the found user. WARNING: Returns dynamically allocated memory.
+        User* get(int);
+
+        /// @brief Get all user records from the database.
+        /// @return A pointer to an array of user records. WARNING: Returns dynamically allocated memory.
+        User* geta();
+
+        /// @brief Set the given record at the given index in the database.
+        /// @param  pos The index position of the record to set.
+        /// @param  user The user record to set.void set(int, const User*);
+        void set(int, const User*);
+
+        /// @brief Delete the record at the given index in the database.
+        /// @param pos The index position of the user record to delete.
+        void del(int);
+
+        /// @brief Delete all records in the database.
+        void dela();
 };
 
 #endif /* ACCNTS_H */

@@ -60,6 +60,7 @@ int main() {
     }
     
     cout << "\nThere are " << accnts.count() << " users in the database.\n";
+    cout << "The account is " << accnts.size() << " bytes large.\n";
     
     User* tuser = nullptr; 
     cout << "\nShowing first user in database:\n";
@@ -87,7 +88,7 @@ int main() {
         tusers[i].display();
     }
     
-    cout << "\nDeleted the second-to-last user\n\n";
+    cout << "\nDeleted the second-to-last user...\n";
     accnts.del(accnts.count()-2);
     
     cout << "\nDatabase contents:\n\n";
@@ -96,17 +97,18 @@ int main() {
         tusers[i].display();
     }
     
-    cout << "\nClosing database...\n";
-    
-    // Cleanup
+    cout << "\nThere are " << accnts.count() << " users in the database.\n";
+    cout << "The account is " << accnts.size() << " bytes large.\n";
+       
+    cout << "\nClosing database and clearing up memory...\n";
     accnts.close();
     delete tuser;
     tuser = nullptr;
     delete[] tusers;
     tusers = nullptr;
     
+    cout << "Clearing out (emptying) " << db << "...\n";
     accnts.dela();
-
     
     return 0;
 }

@@ -17,7 +17,6 @@ Accnts::Accnts(string fname)
     this->fname = fname;
 }
 
-/// @brief Open file stream.
 void Accnts::open()
 {
     file.open(fname, std::ios::binary | std::ios::in | std::ios::out);
@@ -27,14 +26,10 @@ void Accnts::open()
     }
 }
 
-/// @brief Close file stream.
 void Accnts::close()
 {
     file.close();
 }
-
-/// @brief Create a new database.
-/// @param fname The path to the new database.
 
 void Accnts::create(string fname)
 {
@@ -54,8 +49,6 @@ void Accnts::create(string fname)
     file.close();
 }
 
-/// @brief Get the number of records in the database.
-/// @return The number of records in the database.
 int Accnts::count() {
     
     // Get size of file
@@ -68,26 +61,11 @@ int Accnts::count() {
     return fbytes / rbytes;
 }
 
-/// @brief Get the size (in bytes) of the database.
-/// @return The size (in bytes) of the database.
 long int Accnts::size() {
     file.seekg(0L, ios::end);
     return file.tellg();
 }
 
-/// @brief Add a new user record to the database.
-/// @param user The user record to add.
-void Accnts::add(const User* user)
-{
-//    user.display();  //DEBUG
-    file.seekp(0L, ios::end);
-    file.write(reinterpret_cast<const char*>(user), sizeof(User));
-    file.flush();
-}
-
-/// @brief Find a user record in the database.
-/// @param email The email of the user record to find.
-/// @return The index position of the record in the database.
 int Accnts::fnd(string email)
 {
     int i = 0;
@@ -108,9 +86,14 @@ int Accnts::fnd(string email)
     return pos;
 }
 
-/// @brief Get a user recrod from the database.
-/// @param pos The index position of the user record to get.
-/// @return The record of the found user. WARNING: Returns dynamically allocated memory.
+void Accnts::add(const User* user)
+{
+//    user.display();  //DEBUG
+    file.seekp(0L, ios::end);
+    file.write(reinterpret_cast<const char*>(user), sizeof(User));
+    file.flush();
+}
+
 User* Accnts::get(int pos)
 {
     User* acct = new User;
@@ -121,8 +104,6 @@ User* Accnts::get(int pos)
     return acct;
 }
 
-/// @brief Get all user records from the database.
-/// @return A pointer to an array of user records.
 User* Accnts::geta()
 {
     int end = count();
@@ -134,9 +115,6 @@ User* Accnts::geta()
     return users;
 }
 
-/// @brief Set the given record at the given index in the database.
-/// @param  pos The index position of the record to set.
-/// @param  user The user record to set.
 void Accnts::set(int pos, const User* user)
 {
     long int cur = pos * sizeof(User);
@@ -145,8 +123,6 @@ void Accnts::set(int pos, const User* user)
     file.flush();
 }
 
-/// @brief Delete the record at the given index in the database.
-/// @param pos The index position of the user record to delete.
 void Accnts::del(int pos)
 {
     // Start position of chunk
@@ -198,7 +174,6 @@ void Accnts::del(int pos)
 /// @brfile.flush();
 //}
 
-/// @brief Delete all records in the database.
 void Accnts::dela(){
     
     // Check if stream is open, close if open, remember initial state
