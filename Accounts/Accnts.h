@@ -32,10 +32,10 @@ class Accnts {
         static void create(string);
         void add(const User*);
         int fnd(string email);
-        User* get(string email);
+        User* get(int);
         User* getAll();
-        void set(const User*);
-        void del(string email);
+        void set(int, const User*);
+        void del(int);
         void close();
 };
 

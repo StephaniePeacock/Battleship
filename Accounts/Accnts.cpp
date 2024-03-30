@@ -35,6 +35,7 @@ void Accnts::close()
 
 /// @brief Create a new database.
 /// @param fname The path to the new database.
+
 void Accnts::create(string fname)
 {
 
@@ -45,15 +46,49 @@ void Accnts::create(string fname)
     {
         file.close();
         file.open(fname, ios::out | ios::binary);
-    } else {
+    }
+    else
+    {
         cout << "File \"" << fname << "\" already exists.\n";
     }
     file.close();
 }
 
 /// @brief Add a new user record to the database.
-/// @param New record.
-void add(const User *)
+/// @param user The user record to add.
+void Accnts::add(const User* user)
 {
-    
+}
+
+/// @brief Find a user record in the database.
+/// @param email The email of the user record to find.
+/// @return The index position of the record in the database.
+int Accnts::fnd(string email)
+{
+}
+
+/// @brief Get a user recrod from the database.
+/// @param pos The index position of the user record to get.
+/// @return The record of the found user.
+User* Accnts::get(int pos)
+{
+}
+
+/// @brief Get all user records from the database.
+/// @return A pointer to an array of user records.
+User* Accnts::getAll()
+{
+}
+
+/// @brief Set the given record at the given index in the database.
+/// @param  pos The index position of the record to set.
+/// @param  user The user record to set.
+void Accnts::set(int pos, const User* user)
+{
+}
+
+/// @brief Delete the record at the given index in the database.
+/// @param pos The index position of the user record to delete.
+void Accnts::del(int pos)
+{
 }
