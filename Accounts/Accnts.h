@@ -22,16 +22,21 @@ using namespace std;
 #include "User.h"
 
 class Accnts {
-public:
-    // Member variables
-    string fname;
-    fstream file;
-    // Member functions
-    Accnts(string);
-    void open();
-    void close();
-    static void create(string);
-    void add(const User*);
+    public:
+        // Member variables
+        string fname;
+        fstream file;
+        // Member functions
+        Accnts(string);
+        void open();
+        static void create(string);
+        void add(const User*);
+        int fnd(string email);
+        User* get(string email);
+        User* getAll();
+        void set(const User*);
+        void del(string email);
+        void close();
 };
 
 #endif /* ACCNTS_H */
