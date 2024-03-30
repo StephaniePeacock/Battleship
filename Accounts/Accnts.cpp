@@ -84,11 +84,11 @@ int Accnts::fnd(string email)
 {
     int i = 0;
     int pos = -1;
-    int count = this->count();
+    int end = count();
     User* current = nullptr;
 //    cout << "Searching for " << email << "\n";  //DEBUG
 
-    while (i < count) {
+    while (i < end) {
 //        cout << "Searching user #" << i << "\n";  //DEBUG
         current = get(i);
         if (current->email == email) {  //account found
@@ -117,7 +117,14 @@ User* Accnts::get(int pos)
 /// @return A pointer to an array of user records.
 User* Accnts::getAll()
 {
-    
+//    int end = count();
+//    User* users = new User[count()];
+//    file.seekg(cur, ios::beg);
+//    for (int i = 0, i < end; i++){
+//        users[i] = new User;
+//        file.read(reinterpret_cast<char*>(users[i], sizeof(User)));
+//    }
+//    return users;
 }
 
 /// @brief Set the given record at the given index in the database.
