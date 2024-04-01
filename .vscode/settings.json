@@ -1,5 +1,6 @@
 {
-    "files.associations": {
-        "new": "cpp"
-    }
+  "files.associations": {
+    "new": "cpp"
+  },
+  "C_Cpp_Runner.msvcBatchPath": "C:/"
 }
