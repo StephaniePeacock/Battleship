@@ -9,15 +9,16 @@ using namespace std;
 
 #ifndef BATTLESHIP_H
 #define BATTLESHIP_H
-
+#include "User.h"
 //template <class T>
 
 class Battleship {
 private:
     char choice;
+    User* user;
 public:
     Battleship();
-    virtual ~Battleship(){}
+    virtual ~Battleship() {}
     //Other Functions
     void login();
     void reg();
