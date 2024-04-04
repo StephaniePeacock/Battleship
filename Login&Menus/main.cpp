@@ -22,6 +22,8 @@ using namespace std;
 //Function Prototypes
 void menu();
 void Quit();
+void DemoGame();
+void DemoRegister();
 
 //Execution Begins Here!
 int main(int argc, char** argv) {
@@ -38,9 +40,9 @@ int main(int argc, char** argv) {
             switch (choice)
             {
             case 1:
-                cout << "Login in" << endl;break;
+                DemoGame();break;
             case 2:
-                cout << "Register account" << endl;break;
+                DemoRegister();break;
             case 3:
                 Quit();
                 break;
@@ -58,6 +60,24 @@ int main(int argc, char** argv) {
 
     //Exit
     return 0;
+}
+void DemoGame() {
+    cout << "User login and plays game...running appropriate functions" << endl;
+    //User logins in
+    //Pulls from database and validates credentials
+    //if true game starts
+    // *****if false returns to main menu to create new user
+    
+    //Game Ends
+    //Returns to main menu
+
+}
+void DemoRegister() {
+    cout << "User creates a new account...running appropriate functions" << endl;
+    //get user email and password
+    // verified they meet requirements
+    // account gets created and store to database
+    //returns to main menu
 }
 void menu() {
     //Constructing battleship game and thread - duration function for 3 seconds, with terminal clear
