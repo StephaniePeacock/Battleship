@@ -65,11 +65,9 @@ void PlayGame() {
             case 2:
                 Registering(); break;
             case 3:
-                endgame = true;
-                break;
+                endgame = true; break;
             default:
-                cout << "Invalid selection" << endl;
-                break;
+                cout << "Invalid selection" << endl; break;
             }
         } while (choice >= '1' && choice <= '3');
 
