@@ -1,8 +1,8 @@
 /*
  * File:   main.cpp
  * Author: Stephanie Peacock
- * Created on: 3/11/24 at 6:14PM
- * Purpose:  Movie Structures
+ * Created on: 4/05/24 at 6:14PM
+ * Purpose:  Battleship Menu
  */
 
  //System Libraries Here
@@ -22,37 +22,22 @@ using namespace std;
 //Function Prototypes
 void menu();
 void Quit();
-void DemoGame();
-void DemoRegister();
+void PlayGame();
+bool LoggingIn();
+bool Registering();
+void Loading();
 
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Set Random Number Seed Here
     srand(static_cast<unsigned int>(time(0)));
     //Declare all Variables Here
-    int choice;
-
-    //Switch case to start the game 
-    do
-        {
-        menu();
-            cin >> choice;
-            switch (choice)
-            {
-            case 1:
-                DemoGame();break;
-            case 2:
-                DemoRegister();break;
-            case 3:
-                Quit();
-                break;
-            default:
-                cout << "Invalid selection" << endl;
-                break;
-            }
-        } while (choice >= '1' && choice <= '3');
 
     //Input or initialize values Here
+
+    //Launching Game
+    Loading();
+    PlayGame();
 
     //Process/Calculations Here
 
@@ -61,25 +46,74 @@ int main(int argc, char** argv) {
     //Exit
     return 0;
 }
-void DemoGame() {
-    cout << "User login and plays game...running appropriate functions" << endl;
-    //User logins in
+void PlayGame() {
+    //Declare all Variables Here
+    int choice;
+    char c;
+    bool endgame = false;
+    //Switch case within do-while loop to start the game 
+
+    do {
+        do
+        {
+            menu();
+            cin >> choice;
+            switch (choice)
+            {
+            case 1:
+                endgame = LoggingIn(); break;
+            case 2:
+                Registering(); break;
+            case 3:
+                endgame = true;
+                break;
+            default:
+                cout << "Invalid selection" << endl;
+                break;
+            }
+        } while (choice >= '1' && choice <= '3');
+
+    } while (!endgame);
+    //Quitting game
+    Quit();
+}
+bool LoggingIn() {
+    //Declare all variables
+    char c = ' ';
+    cout << "User creates a new account...running appropriate functions" << endl;
+    //User login
+    
     //Pulls from database and validates credentials
+    
     //if true game starts
+    
     // *****if false returns to main menu to create new user
     
-    //Game Ends
-    //Returns to main menu
-
+    //Prompting User to return to main menu or exit game
+    cout << "Would you like to quit or return to main menu" << endl;
+    cout << endl << "1 = Quit Game" << endl << "2 = Main Menu " << endl << "Choose: ";
+    cin >> c;
+    if (toupper(c) == '1') { return true; }
+    //returning to main menu and clear terminal
+    if (toupper(c) == '2') { system("cls"); return false; }
 }
-void DemoRegister() {
+bool Registering() {
     cout << "User creates a new account...running appropriate functions" << endl;
     //get user email and password
+    
     // verified they meet requirements
+    
     // account gets created and store to database
-    //returns to main menu
+    
+    cout << "User profile has been created, returning to main menu" << endl;
+    //returning to main menu after 2 second delay and clearing terminal
+    chrono::seconds duration(2);
+    this_thread::sleep_for(duration);
+    system("cls");
+    return false;
+    //Registration is complete, returning to main menu
 }
-void menu() {
+void Loading() {
     //Constructing battleship game and thread - duration function for 3 seconds, with terminal clear
     cout << "Loading please wait...";
     chrono::seconds duration(3);
@@ -90,8 +124,11 @@ void menu() {
     cout << "*\tBattleship \t*" << endl;
     cout << "*\t\t\t*" << endl;
     cout << "*************************" << endl;
+}
+void menu() {
     //Menu options for the User/Admin
-    cout << "1. Login" << endl;
+    cout << endl << "Main Menu" << endl;
+    cout << endl << "1. Login" << endl;
     cout << "2. Register a new account" << endl;
     cout << "3. Quit Game" << endl;
     cout << "Choose: ";
