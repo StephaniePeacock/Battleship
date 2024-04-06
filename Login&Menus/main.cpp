@@ -11,6 +11,7 @@
 #include <cstdlib>  
 #include <ctime>
 #include <thread>
+#include <fstream>
 
 using namespace std;
 
@@ -20,12 +21,13 @@ using namespace std;
 //Math/Physics/Conversions/Higher Dimensions - i.e. PI, e, etc...
 
 //Function Prototypes
-void menu();
-void Quit();
-void PlayGame();
-bool LoggingIn();
-bool Registering();
-void Loading();
+void menu(); //Main Menu
+void Quit(); //Quitting Game
+void PlayGame(); //Starting the Program
+bool LoggingIn();//logging in and having fun
+bool Registering(); //Creating a new user profile
+bool Rules(); //Rules for Battleship
+void Loading(); //Loading Screen
 
 //Execution Begins Here!
 int main(int argc, char** argv) {
@@ -65,11 +67,14 @@ void PlayGame() {
             case 2:
                 Registering(); break;
             case 3:
-                endgame = true; break;
+                endgame = Rules(); break;
+            case 4:
+                endgame = true;break;
             default:
-                cout << "Invalid selection" << endl; break;
+                cout << "Invalid selection" << endl;
+                break;
             }
-        } while (choice >= '1' && choice <= '3');
+        } while (choice >= '1' && choice <= '4');
 
     } while (!endgame);
     //Quitting game
@@ -77,7 +82,7 @@ void PlayGame() {
 }
 bool LoggingIn() {
     //Declare all variables
-    char c = ' ';
+    char c;
     cout << "User creates a new account...running appropriate functions" << endl;
     //User login
     
@@ -111,6 +116,29 @@ bool Registering() {
     return false;
     //Registration is complete, returning to main menu
 }
+bool Rules() {
+    //Declaring variables
+    fstream txt;
+    char c = ' ';
+    string str;
+
+    //Clearing terminal and opening up text file and displaying rules of game
+    system("cls");
+    txt.open("Rules.txt", ios::in);
+    while (getline(txt, str)) {
+        cout << str << endl;
+    }
+    //closing file
+    txt.close();
+
+    //Prompting User to return to main menu or exit game
+    cout << endl << endl << "Would you like to quit or return to main menu" << endl;
+    cout << endl << "1 = Quit Game" << endl << "2 = Main Menu " << endl << "Choose: ";
+    cin >> c;
+    if (toupper(c) == '1') { return true; }
+    //returning to main menu and clear terminal
+    if (toupper(c) == '2') { system("cls"); return false; }
+}
 void Loading() {
     //Constructing battleship game and thread - duration function for 3 seconds, with terminal clear
     cout << "Loading please wait...";
@@ -128,7 +156,8 @@ void menu() {
     cout << endl << "Main Menu" << endl;
     cout << endl << "1. Login" << endl;
     cout << "2. Register a new account" << endl;
-    cout << "3. Quit Game" << endl;
+    cout << "3. Review Rules" << endl;
+    cout << "4. Quit Game" << endl;
     cout << "Choose: ";
 }
 void Quit() {
