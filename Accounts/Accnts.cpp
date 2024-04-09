@@ -71,13 +71,14 @@ int Accnts::fnd(string email)
     int i = 0;
     int pos = -1;
     int end = count();
-    User* current = nullptr;
+    User current;
+    file.seekg(0L, ios::beg);
 //    cout << "Searching for " << email << "\n";  //DEBUG
 
     while (i < end) {
 //        cout << "Searching user #" << i << "\n";  //DEBUG
-        current = get(i);
-        if (current->email == email) {  //account found
+        file.read(reinterpret_cast<char*>(&current), sizeof(User));
+        if (current.email == email) {  //account found
             pos = i;
             break; 
         }

@@ -98,7 +98,7 @@ int main() {
     }
     
     cout << "\nThere are " << accnts.count() << " users in the database.\n";
-    cout << "The account is " << accnts.size() << " bytes large.\n";
+    cout << "The database is " << accnts.size() << " bytes large.\n";
        
     cout << "\nClosing database and clearing up memory...\n";
     accnts.close();
