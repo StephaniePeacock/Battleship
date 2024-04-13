@@ -24,7 +24,7 @@ int main() {
    
     cout << "Creating database file if it doesn't exist...\n";
     string db = "users.bin";
-    Accnts::create(db);
+    Accnts::createDB(db);
     
     cout << "Creating instance of database interface...\n";
     Accnts accnts = Accnts(db);
@@ -54,7 +54,7 @@ int main() {
     accnts.add(&user);
     
     cout << "\nDatabase contents:\n\n";
-    User* tusers = accnts.geta();  //!This function returns dynamically allocated memory!
+    User* tusers = accnts.getAll();  //!This function returns dynamically allocated memory!
     for (int i = 0; i < accnts.count(); i++) {
         tusers[i].display();
     }
@@ -71,10 +71,10 @@ int main() {
     tuser->display();
     
     cout << "\nFinding user that doesn't exist:\n";
-    cout << "Position: " << accnts.fnd("DOESNOTEXIST") << "\n";
+    cout << "Position: " << accnts.find("DOESNOTEXIST") << "\n";
     
     cout << "\nFinding user that does exist:\n";
-    cout << "Position: " << accnts.fnd("testing3@email.com") << "\n";
+    cout << "Position: " << accnts.find("testing3@email.com") << "\n";
 
     cout << "\nChanging the win/loss count of the second-to-last user...\n";
     tuser = accnts.get(accnts.count()-2);
@@ -83,7 +83,7 @@ int main() {
     accnts.set(accnts.count()-2, tuser);
 
     cout << "\nDatabase contents:\n\n";
-    tusers = accnts.geta();  //!This function returns dynamically allocated memory!
+    tusers = accnts.getAll();  //!This function returns dynamically allocated memory!
     for (int i = 0; i < accnts.count(); i++) {
         tusers[i].display();
     }
@@ -92,7 +92,7 @@ int main() {
     accnts.del(accnts.count()-2);
     
     cout << "\nDatabase contents:\n\n";
-    tusers = accnts.geta();  //!This function returns dynamically allocated memory!
+    tusers = accnts.getAll();  //!This function returns dynamically allocated memory!
     for (int i = 0; i < accnts.count(); i++) {
         tusers[i].display();
     }
@@ -108,7 +108,7 @@ int main() {
     tusers = nullptr;
     
     cout << "Clearing out (emptying) " << db << "...\n";
-    accnts.dela();
+    accnts.delAll();
     
     return 0;
 }

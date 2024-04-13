@@ -16,6 +16,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <cstdio>
 
 using namespace std;
 
@@ -39,7 +40,11 @@ class Accnts {
 
         /// @brief Create a new database.
         /// @param fname The path to the new database.
-        static void create(string);
+        static void createDB(string);
+
+        /// @brief Delete an existing database.
+        /// @param fname The path to the database that will be deleted.
+        static void deleteDB(string);
         
         /// @brief Get the number of records in the database.
         /// @return The number of records in the database.
@@ -52,7 +57,7 @@ class Accnts {
         /// @brief Find a user record in the database.
         /// @param email The email of the user record to find.
         /// @return The index position of the record in the database.
-        int fnd(string email);
+        int find(string email);
 
         /// @brief Add a new user record to the database.
         /// @param user The user record to add.        
@@ -65,19 +70,24 @@ class Accnts {
 
         /// @brief Get all user records from the database.
         /// @return A pointer to an array of user records. WARNING: Returns dynamically allocated memory.
-        User* geta();
+        User* getAll();
 
         /// @brief Set the given record at the given index in the database.
         /// @param  pos The index position of the record to set.
         /// @param  user The user record to set.void set(int, const User*);
         void set(int, const User*);
 
+        /// @brief Set all records in the database at once.
+        /// @param  users The array of users to write to the database.
+        /// @param  cnt The number of records in the array that will be written to the database.
+        void setAll(User*, int);
+
         /// @brief Delete the record at the given index in the database.
         /// @param pos The index position of the user record to delete.
         void del(int);
 
         /// @brief Delete all records in the database.
-        void dela();
+        void delAll();
 };
 
 #endif /* ACCNTS_H */

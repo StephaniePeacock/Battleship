@@ -31,10 +31,10 @@ void Accnts::close()
     file.close();
 }
 
-void Accnts::create(string fname)
+void Accnts::createDB(string fname)
 {
 
-    // check file existence, create if doesn't exist
+    // check file existence, createDB if doesn't exist
     fstream file;
     file.open(fname, ios::in | ios::binary);
     if (!file)
@@ -47,6 +47,15 @@ void Accnts::create(string fname)
         cout << "File \"" << fname << "\" already exists.\n";
     }
     file.close();
+}
+
+void Accnts::deleteDB(string fname) {
+    if (remove(fname.c_str()) != 0) {
+        cout << "   Failed to delete file \"" << fname << "\".\n";
+    }
+    else {
+        cout << "   Successfully deleted file \"" << fname << "\".\n";
+    }
 }
 
 int Accnts::count() {
@@ -66,7 +75,7 @@ long int Accnts::size() {
     return file.tellg();
 }
 
-int Accnts::fnd(string email)
+int Accnts::find(string email)
 {
     int i = 0;
     int pos = -1;
@@ -105,7 +114,7 @@ User* Accnts::get(int pos)
     return acct;
 }
 
-User* Accnts::geta()
+User* Accnts::getAll()
 {
     int end = count();
     User* users = new User[count()];
@@ -123,6 +132,17 @@ void Accnts::set(int pos, const User* user)
     file.write(reinterpret_cast<const char*>(user), sizeof(User));
     file.flush();
 }
+
+void Accnts::setAll(User* records, int cnt) {
+
+            delAll();
+            file.seekp(0L, ios::beg);
+            for (int i = 0; i < cnt; i++){
+                file.write(reinterpret_cast<char*>(&records[i]), sizeof(User));
+            }
+            
+            file.flush();
+        }
 
 void Accnts::del(int pos)
 {
@@ -142,7 +162,7 @@ void Accnts::del(int pos)
     file.read(buffer_b, cbytes);
     
     // Clear file contents;
-    dela();
+    delAll();
     
     // Reconstruct file contents (without deleted record)
     file.seekp(0L, ios::end);
@@ -175,7 +195,7 @@ void Accnts::del(int pos)
 /// @brfile.flush();
 //}
 
-void Accnts::dela(){
+void Accnts::delAll(){
     
     // Check if stream is open, close if open, remember initial state
     bool opn = false;
