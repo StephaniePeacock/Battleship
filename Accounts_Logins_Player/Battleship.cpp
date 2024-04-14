@@ -58,7 +58,40 @@ void Battleship::main() {
 }
 
 void Battleship::login() {
+    
+    string e, p;
+    int pos;
+    User user;
+    
     cout << "Ready yer Morse code, fer we’re about to transmit our login signal!\n";
+    
+    cout << "Enter your email address: ";
+    safeGetLine(e, MAXSTR);
+
+    // Find user
+    this->accounts.open();
+    pos = this->accounts.find(e);
+    if (pos < 0) {
+        cout << "That user does not exist\n";
+        return;
+    }
+    this->accounts.close();
+    
+    cout << "Enter your password: ";
+    safeGetLine(p, MAXSTR);
+
+    // Verify
+    if (!this->verify(e, p)) {
+        cout << "Invalid password\n";
+        return;
+    }
+    
+    // Get user
+    this->accounts.open();
+    this->accounts.get(pos, &user);
+    this->accounts.close();
+    
+    // TODO: user.main(); to show user menu  
 }
 
 void Battleship::reg() {
@@ -85,7 +118,7 @@ void Battleship::reg() {
     this->accounts.add(&usr);
     this->accounts.close();
     
-//    usr.display();  //DEBUG
+    cout << "Account registered\n";
 }
 
 bool Battleship::checkEm(string& em) {
@@ -95,7 +128,7 @@ bool Battleship::checkEm(string& em) {
     * lastly checks domain for no . at start or end
     * and at least 2 letters after the last . for top level domain
     */
-    safeGetLine(em, 6, MAXSTR);
+    safeGetLine(em, MINEMAIL, MAXSTR);
     const regex pattern(R"(\b[A-Za-z0-9_][A-Za-z0-9._-]*[A-Za-z0-9]@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*(?:\.[A-Z|a-z]{2,}\b))");
     //now check if the email matches the pattern and return it
     return regex_match(em, pattern);
@@ -109,7 +142,7 @@ bool Battleship::checkPw(string& pw) {
     bool lower = false; 
     bool num   = false;
     //Get password and verify password length
-    safeGetLine(pw, 7, MAXSTR);
+    safeGetLine(pw, MINPWORD, MAXSTR);
     //verify we have upper, lower, and number - check all at once!
     for(char ch : pw){
         if(isupper(ch)){ upper = true; }
@@ -125,20 +158,20 @@ bool Battleship::checkPw(string& pw) {
     //send it back baby
     return valid;
 }
-//
-//bool Battleship::verify(string em, string pw) {
-//    //initialize to false
-//    bool valid = false;
-//    //open the database file
-//    
-//    //check all records for em
-//    
-//    //em found - check if password matches
-//    
-//    //if not match found it returns false
-//    
-//    return valid;
-//}
+
+bool Battleship::verify(string em, string pw) {
+    //initialize to false
+    bool valid = false;
+    //open the database file
+    
+    //check all records for em
+    
+    //em found - check if password matches
+    
+    //if not match found it returns false
+    
+    return valid;
+}
 
 // TODO: --> MOVE THIS TO Game.cpp
 //void Battleship::play(){

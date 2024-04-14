@@ -108,25 +108,20 @@ void AccountsDB::add(const User* user)
     file.flush();
 }
 
-User* AccountsDB::get(int pos)
+void AccountsDB::get(int pos, User* user)
 {
-    User* acct = new User;
-    
     long int cur = pos * sizeof(User);
     file.seekg(cur, ios::beg);
-    file.read(reinterpret_cast<char*>(acct), sizeof(User));
-    return acct;
+    file.read(reinterpret_cast<char*>(user), sizeof(User));
 }
 
-User* AccountsDB::getAll()
+void AccountsDB::getAll(User* users)
 {
     int end = count();
-    User* users = new User[count()];
     file.seekg(0L, ios::beg);
     for (int i = 0; i < end; i++){
         file.read(reinterpret_cast<char*>(&users[i]), sizeof(User));
     }
-    return users;
 }
 
 void AccountsDB::set(int pos, const User* user)

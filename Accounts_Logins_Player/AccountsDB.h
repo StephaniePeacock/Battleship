@@ -67,11 +67,11 @@ class AccountsDB {
         /// @brief Get a user recrod from the database.
         /// @param pos The index position of the user record to get.
         /// @return The record of the found user. WARNING: Returns dynamically allocated memory.
-        User* get(int);
+        void get(int, User*);
 
         /// @brief Get all user records from the database.
         /// @return A pointer to an array of user records. WARNING: Returns dynamically allocated memory.
-        User* getAll();
+        void getAll(User*);
 
         /// @brief Set the given record at the given index in the database.
         /// @param  pos The index position of the record to set.
