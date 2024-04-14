@@ -102,7 +102,7 @@ int AccountsDB::find(string email)
 
 void AccountsDB::add(const User* user)
 {
-//    user.display();  //DEBUG
+    user->display();  //DEBUG
     file.seekp(0L, ios::end);
     file.write(reinterpret_cast<const char*>(user), sizeof(User));
     file.flush();
@@ -218,3 +218,19 @@ void AccountsDB::delAll(){
     }
 }
 
+void AccountsDB::display() {
+    int cnt = count();
+//    cout << "COUNT: " << cnt << "\n\n";  //DEBUG
+    if (cnt > 0){
+        User record;
+        file.seekg(0L, ios::beg);
+        for (int i = 0; i < cnt; i++){
+            file.read(reinterpret_cast<char*>(&record), sizeof(User));
+            record.display();
+        }
+    } else {
+        cout << "There are no users in the database\n";
+    }
+    
+    
+}

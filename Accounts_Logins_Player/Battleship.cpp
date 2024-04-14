@@ -27,11 +27,11 @@ Battleship::Battleship(){
 void Battleship::main() {
 
     cout << "--BATTLESHIP--\n";
-    cout << "[1] Login\n[2] Register\n[3] Exit\n";
     
     char choice;
     bool quit = false;
     while (!quit) {
+        cout << "[1] Login\n[2] Register\n[3] Exit\n";
         cout << ">> ";
         choice = getSingleChar();
         switch (choice) {
@@ -43,6 +43,11 @@ void Battleship::main() {
                 break;
             case '3':  // Quit
                 quit = true;
+                break;
+            case 'd':  //FOR DEBUG ONLY, display all users
+                this->accounts.open();
+                this->accounts.display();
+                this->accounts.close();
                 break;
             default:
                 cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";
@@ -73,8 +78,14 @@ void Battleship::reg() {
     }
     const char* em = e.c_str();
     const char* pw = p.c_str();
-    User usr(em,pw);
-    usr.display();  //DEBUG
+    User usr(em, pw);
+    
+    // Store new account in database
+    this->accounts.open();
+    this->accounts.add(&usr);
+    this->accounts.close();
+    
+//    usr.display();  //DEBUG
 }
 
 bool Battleship::checkEm(string& em) {

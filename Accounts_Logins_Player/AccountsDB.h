@@ -89,6 +89,9 @@ class AccountsDB {
 
         /// @brief Delete all records in the database.
         void delAll();
+        
+        /// @brief Display all users
+        void display();
 };
 
 #endif /* ACCOUNTSDB_H */
