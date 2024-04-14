@@ -19,7 +19,7 @@ class Comp : public Player {
 private:
     bool smart;
 public:
-    Comp(bool guesses[], char ships[], bool turn, int fleet, bool smart);
+    Comp(char board[][BOARDSIZE], char shots[][BOARDSIZE], bool turn, int fleet, bool smart);
 };
 
 #endif /* COMP_H */

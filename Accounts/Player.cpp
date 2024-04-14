@@ -12,12 +12,14 @@
 
 #include "Player.h"
 
-Player::Player(bool guesses[], char ships[], bool turn, int fleet) {
+Player::Player(char board[][BOARDSIZE], char shots[][BOARDSIZE], bool turn, int fleet) {
     this->turn = turn;
     this->fleet = fleet;
-    for (int i = 0; i < BOARDSIZE; ++i) {
-        this->guesses[i] = guesses[i];
-        this->ships[i] = ships[i];
+    for (int x = 0; x < BOARDSIZE; ++x) {
+        for (int y = 0; y < BOARDSIZE; ++y) {
+            this->board[x][y] = board[x][y];
+            this->shots[x][y] = shots[x][y];
+        }
     }
 }
 

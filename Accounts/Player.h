@@ -17,12 +17,12 @@
 
 class Player {
 private:
-    bool guesses[BOARDSIZE][BOARDSIZE];
-    char ships[BOARDSIZE][BOARDSIZE];
+    char board[BOARDSIZE][BOARDSIZE];
+    char shots[BOARDSIZE][BOARDSIZE];
     bool turn;
     int fleet;
 public:
-    Player(bool guesses[], char ships[], bool turn, int fleet);
+    Player(char board[][BOARDSIZE], char shots[][BOARDSIZE], bool turn, int fleet);
 };
 
 #endif /* PLAYER_H */

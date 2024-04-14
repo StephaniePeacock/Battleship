@@ -12,8 +12,8 @@
 
 #include "Comp.h"
 
-Comp::Comp(bool guesses[], char ships[], bool turn, int fleet, bool smart) 
-    : Player(guesses, ships, turn, fleet), smart(smart) {
+Comp::Comp(char board[][BOARDSIZE], char shots[][BOARDSIZE], bool turn, int fleet, bool smart) 
+    : Player(board, shots, turn, fleet), smart(smart) {
     this->smart = smart;
 }
 
