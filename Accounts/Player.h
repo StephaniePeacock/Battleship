@@ -17,8 +17,8 @@
 
 class Player {
 private:
-    bool guesses[BOARDSIZE];
-    char ships[BOARDSIZE];
+    bool guesses[BOARDSIZE][BOARDSIZE];
+    char ships[BOARDSIZE][BOARDSIZE];
     bool turn;
     int fleet;
 public:
