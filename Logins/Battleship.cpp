@@ -8,7 +8,8 @@
 #include <regex>
 #include "Battleship.h"
 #include "User.h"
-using namespace std;
+#include "GameBoard.h"
+//using namespace std;
 
 Battleship::Battleship(){
     cout << "Press 1 to login, 2 to register, anything else to exit: ";
@@ -16,6 +17,8 @@ Battleship::Battleship(){
     if(choice == '1'){ login();
     } else if(choice == '2'){ reg();
     } else { cout << "Exiting Battleship. Farewell Sailor!"; } 
+    cout << "Begin Game." << endl;
+    play();
 }
 
 void Battleship::login() {
@@ -103,4 +106,42 @@ bool Battleship::verify(string em, string pw) {
     //if not match found it returns false
     
     return valid;
+}
+
+void Battleship::play(){
+    // Create two game boards, one for each player
+    GameBoard p1;
+    GameBoard p2;
+    char row;
+    char col;
+
+    // Display player 1's board after ship placement
+    cout << "Player 1's Board before ship placement:" << endl;
+    p1.displayBoard();
+    
+    // Prompt player 1 to place ships on the board
+    cout << "Player 1, please place your ships:" << endl;
+    p1.promptShipPlacement();
+
+    // Display player 1's board after ship placement
+    cout << "Player 1's Board after ship placement:" << endl;
+    p1.displayBoard();
+    
+    // Prompt player 2 to place ships on the board
+    cout << "Player 2, please place your ships:" << endl;
+    p2.promptShipPlacement();
+
+    // Display player 2's board after ship placement
+    cout << "Player 1's Board after ship placement:" << endl;
+    p2.displayBoard();
+
+    while(p2.getUnsunk() > 0 || p1.getUnsunk() > 0){
+        
+        cout << "Commence attack. Enter row and col coordinates:" << endl;
+        cin >> col >> row;
+        p1.attackCell(row, col, p2);
+        p1.displayShots();
+    }
+    
+    
 }

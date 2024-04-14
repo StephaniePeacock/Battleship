@@ -22,6 +22,7 @@ public:
     bool checkEm(string);
     bool checkPw(string);
     bool verify(string, string);
+    void play();
 };
 
 #endif /* BATTLESHIP_H */
