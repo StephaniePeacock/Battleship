@@ -41,6 +41,7 @@ public:
     
     //Other Functions
     void display() const;
+    void save();
     // User operator=(User &); //override = so we can move account to admin type object
 };
 
