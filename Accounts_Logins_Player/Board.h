@@ -13,7 +13,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-const int BOARDSIZE = 10;
+const int BOARD_SIZE = 10;
 const char EMPTY_CELL = '-';
 const char SHIP_CELL = 'S';
 const char HIT_CELL = 'X';

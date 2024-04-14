@@ -7,6 +7,8 @@
       <itemPath>AccountsDB.h</itemPath>
       <itemPath>Battleship.h</itemPath>
       <itemPath>Board.h</itemPath>
+      <itemPath>Comp.h</itemPath>
+      <itemPath>Game.h</itemPath>
       <itemPath>Generics.h</itemPath>
       <itemPath>Player.h</itemPath>
       <itemPath>User.h</itemPath>
@@ -20,6 +22,8 @@
                    projectFiles="true">
       <itemPath>AccountsDB.cpp</itemPath>
       <itemPath>Battleship.cpp</itemPath>
+      <itemPath>Comp.cpp</itemPath>
+      <itemPath>Game.cpp</itemPath>
       <itemPath>Player.cpp</itemPath>
       <itemPath>User.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -55,6 +59,14 @@
       <item path="Battleship.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Board.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Comp.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Comp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Game.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Generics.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -98,6 +110,14 @@
       <item path="Battleship.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Board.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Comp.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Comp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Game.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Generics.h" ex="false" tool="3" flavor2="0">
       </item>

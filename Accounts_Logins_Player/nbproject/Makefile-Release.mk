@@ -37,6 +37,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/AccountsDB.o \
 	${OBJECTDIR}/Battleship.o \
+	${OBJECTDIR}/Comp.o \
+	${OBJECTDIR}/Game.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/User.o \
 	${OBJECTDIR}/main.o
@@ -75,6 +77,16 @@ ${OBJECTDIR}/Battleship.o: Battleship.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Battleship.o Battleship.cpp
+
+${OBJECTDIR}/Comp.o: Comp.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Comp.o Comp.cpp
+
+${OBJECTDIR}/Game.o: Game.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Game.o Game.cpp
 
 ${OBJECTDIR}/Player.o: Player.cpp
 	${MKDIR} -p ${OBJECTDIR}
