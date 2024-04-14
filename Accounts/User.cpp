@@ -13,12 +13,13 @@
 #include <cstring>
 using namespace std;
 
-
 #include "User.h"
+#include "GameDB.h"
 
 User::User(const char email[MAXFLD], const char pword[MAXFLD]) {
     strncpy(this->email, email, MAXFLD);
     strncpy(this->pword, pword, MAXFLD);
+//    this->save_id = NOTIMPLEMENTED  //TODO
     this->info = Stats {0, 0};
 }
 User::User() {}
@@ -26,6 +27,7 @@ User::User() {}
 void User::display() const{
     cout << "Email: " << this->email << "\n";
     cout << "Password: " << this->pword << "\n";
+    cout << "Save ID: " << this->save_id << "\n";
     cout << "Wins: " << this->info.win << "\n";
     cout << "Losses: " << this->info.loss << "\n";
 }

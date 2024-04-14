@@ -36,6 +36,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Accnts.o \
+	${OBJECTDIR}/Comp.o \
+	${OBJECTDIR}/Game.o \
+	${OBJECTDIR}/GameDB.o \
+	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/User.o \
 	${OBJECTDIR}/main.o
 
@@ -68,6 +72,26 @@ ${OBJECTDIR}/Accnts.o: Accnts.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Accnts.o Accnts.cpp
+
+${OBJECTDIR}/Comp.o: Comp.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Comp.o Comp.cpp
+
+${OBJECTDIR}/Game.o: Game.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Game.o Game.cpp
+
+${OBJECTDIR}/GameDB.o: GameDB.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GameDB.o GameDB.cpp
+
+${OBJECTDIR}/Player.o: Player.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Player.o Player.cpp
 
 ${OBJECTDIR}/User.o: User.cpp
 	${MKDIR} -p ${OBJECTDIR}

@@ -5,6 +5,11 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Accnts.h</itemPath>
+      <itemPath>Comp.h</itemPath>
+      <itemPath>Constants.h</itemPath>
+      <itemPath>Game.h</itemPath>
+      <itemPath>GameDB.h</itemPath>
+      <itemPath>Player.h</itemPath>
       <itemPath>User.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -15,6 +20,10 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>Accnts.cpp</itemPath>
+      <itemPath>Comp.cpp</itemPath>
+      <itemPath>Game.cpp</itemPath>
+      <itemPath>GameDB.cpp</itemPath>
+      <itemPath>Player.cpp</itemPath>
       <itemPath>User.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -43,6 +52,24 @@
       <item path="Accnts.cpp" ex="false" tool="0" flavor2="0">
       </item>
       <item path="Accnts.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Comp.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Comp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Constants.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Game.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GameDB.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="GameDB.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Player.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Player.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="User.cpp" ex="false" tool="0" flavor2="0">
       </item>
@@ -74,6 +101,24 @@
       <item path="Accnts.cpp" ex="false" tool="0" flavor2="0">
       </item>
       <item path="Accnts.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Comp.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Comp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Constants.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Game.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GameDB.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="GameDB.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Player.cpp" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="Player.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="User.cpp" ex="false" tool="0" flavor2="0">
       </item>

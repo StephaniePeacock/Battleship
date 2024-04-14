@@ -32,6 +32,7 @@ class User {
         User();
         char email[MAXFLD];
         char pword[MAXFLD];
+        unsigned int save_id;
         Stats info;
         
         void display() const;        
