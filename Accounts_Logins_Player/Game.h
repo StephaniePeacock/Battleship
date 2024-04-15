@@ -4,23 +4,25 @@
  */
 
 /* 
- * File:   Comp.h
+ * File:   Game.h
  * Author: hanne
  *
- * Created on April 13, 2024, 5:57 PM
+ * Created on April 14, 2024, 1:44 PM
  */
 
-#ifndef COMP_H
-#define COMP_H
+#ifndef GAME_H
+#define GAME_H
 
 #include "Player.h"
 
-class Comp : public Player {
+class Game {
 private:
-    bool smart;
+    Player* p1;  // Polymorphic: Can be Player or Comp
+    Player* p2;  // Polymorphic: Can be Player or Comp
 public:
-    Comp(bool smart);
+    Game(Player* p1, Player* p2);
 };
 
-#endif /* COMP_H */
+
+#endif /* GAME_H */
 
