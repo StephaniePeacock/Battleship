@@ -14,6 +14,7 @@
 #include "User.h"
 #include "Player.h"
 #include "Generics.h"
+#include "Game.h"
 
 #include <iostream>
 #include <regex>
@@ -31,7 +32,7 @@ void Battleship::main() {
     char choice;
     bool quit = false;
     while (!quit) {
-        cout << "[1] Login\n[2] Register\n[3] Exit\n";
+        cout << "[1] Login\n[2] Register\n[3] Exit\n[4] Play\n";
         cout << ">> ";
         choice = getSingleChar();
         switch (choice) {
@@ -49,6 +50,11 @@ void Battleship::main() {
                 this->accounts.display();
                 this->accounts.close();
                 break;
+            case '4' : { //play game
+                Game lets;
+                lets.play();
+                break;
+            }
             default:
                 cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";
                 break;
@@ -178,8 +184,8 @@ bool Battleship::verify(string em, string pw) {
 //    // Create two game boards, one for each player
 //    Player* p1;
 //    Player* p2;
-//    char row;
-//    char col;
+//    int row, col;
+//    char letter;
 //
 //    // Display player 1's board after ship placement
 //    cout << "Player 1's Board before ship placement:" << endl;
@@ -198,13 +204,14 @@ bool Battleship::verify(string em, string pw) {
 //    p2.promptShipPlacement();
 //
 //    // Display player 2's board after ship placement
-//    cout << "Player 1's Board after ship placement:" << endl;
+//   cout << "Player 2's Board after ship placement:" << endl;
 //    p2.displayBoard();
 //
 //    while(p2.getUnsunk() > 0 || p1.getUnsunk() > 0){
 //        
 //        cout << "Commence attack. Enter row and col coordinates:" << endl;
-//        cin >> col >> row;
+//        cin >> letter >> row;
+//        col = letter - 65;
 //        p1.attackCell(row, col, p2);
 //        p1.displayShots();
 //    }

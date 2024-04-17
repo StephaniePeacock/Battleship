@@ -147,15 +147,15 @@ void Player::promptShipPlacement() {
 }
 
 // Function to attack a cell on the opponent's board
-void Player::attackCell(int row, int col, Player enemy) {
-    if (enemy.board[row][col] == SHIP_CELL) {
+void Player::attackCell(int row, int col, Player* enemy) {
+    if (enemy->board[row][col] == SHIP_CELL) {
         cout << "Hit!" << endl;
-        enemy.setBoard(row,col,HIT_CELL);
+        enemy->setBoard(row,col,HIT_CELL);
         setShots(row,col,HIT_CELL);
     }
     else {
         cout << "Miss!" << endl;
-        enemy.setBoard(row,col,MISS_CELL);
+        enemy->setBoard(row,col,MISS_CELL);
         setShots(row,col,MISS_CELL);
     }
 }

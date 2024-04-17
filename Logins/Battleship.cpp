@@ -112,8 +112,8 @@ void Battleship::play(){
     // Create two game boards, one for each player
     GameBoard p1;
     GameBoard p2;
-    char row;
-    char col;
+    int row, col;
+    char letter;
 
     // Display player 1's board after ship placement
     cout << "Player 1's Board before ship placement:" << endl;
@@ -132,13 +132,14 @@ void Battleship::play(){
     p2.promptShipPlacement();
 
     // Display player 2's board after ship placement
-    cout << "Player 1's Board after ship placement:" << endl;
+    cout << "Player 2's Board after ship placement:" << endl;
     p2.displayBoard();
 
     while(p2.getUnsunk() > 0 || p1.getUnsunk() > 0){
         
         cout << "Commence attack. Enter row and col coordinates:" << endl;
-        cin >> col >> row;
+        cin >> letter >> row;
+        col = letter - 65;
         p1.attackCell(row, col, p2);
         p1.displayShots();
     }

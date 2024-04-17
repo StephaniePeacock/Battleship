@@ -26,7 +26,10 @@ private:
     void doTurn();
     
 public:
+    Game();
     Game(Player* p1, Player* p2);
+    void play();
+    ~Game() { delete p1; delete p2; }
 };
 
 

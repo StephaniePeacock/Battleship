@@ -48,7 +48,7 @@ public:
     void displayBoard();    //print current board
     void displayShots();
     void promptShipPlacement();
-    void attackCell(int, int, Player);
+    void attackCell(int, int, Player*);
     
     int getUnsunk() { return this->unsunk; }
     char getBoard(int,int);
