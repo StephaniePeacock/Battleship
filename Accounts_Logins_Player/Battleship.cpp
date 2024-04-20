@@ -52,8 +52,6 @@ void Battleship::main() {
     //Switch case within do-while loop to start the game
     loading();
     do {
-        do
-        {
             menu();
             cin >> choice;
             switch (choice)
@@ -78,8 +76,6 @@ void Battleship::main() {
                 Game lets;
                 lets.play();break;
             } 
-        } while (choice >= '1' && choice <= '5');
-
     } while (!quit);
     //Quitting game
     Quit();
