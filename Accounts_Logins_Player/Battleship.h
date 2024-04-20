@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cppFiles/class.h to edit this template
- */
-
 /* 
  * File:   Battleship.h
  * Author: hanne
@@ -30,13 +25,16 @@ public:
     Battleship();
     //Other Functions
     void main();
+    void menu();
+    void loading();
     void login();
     void reg();
     bool checkEm(string&);
     bool checkPw(string&);
     bool verify(string, string);
+    bool Rules();
+    void Quit();
 };
 
 
 #endif /* BATTLESHIP_H */
-
