@@ -70,13 +70,14 @@ void Battleship::main() {
                 this->accounts.close();
                 break;
             case 4:
-                //Game lets;
-                //lets.play();break;
-            case 5:
                 quit = true;break;
+            
             default:
                 cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";break;
-            }
+            case 5:
+                Game lets;
+                lets.play();break;
+            } 
         } while (choice >= '1' && choice <= '5');
 
     } while (!quit);
