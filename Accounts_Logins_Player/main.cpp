@@ -17,8 +17,8 @@
 using namespace std;
 
 int main() {
-    Battleship app = Battleship();
-    app.main();
+   // Battleship app = Battleship();
+    //app.main();
 
     return 0;
 }
