@@ -25,7 +25,6 @@ public:
     Battleship();
     //Other Functions
     void main();
-    void menu();
     void loading();
     void login();
     void reg();
@@ -35,6 +34,7 @@ public:
     bool Rules();
     void Quit();
 };
+
 
 
 #endif /* BATTLESHIP_H */

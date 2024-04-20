@@ -1,10 +1,3 @@
-/* 
- * File:   main.cpp
- * Author: Steven 
- *
- * Created on April 19, 2024, 6:39 PM
- */
-
 #include "Battleship.h"
 #include "User.h"
 #include "Player.h"
@@ -21,16 +14,15 @@ Battleship::Battleship(){
     AccountsDB::createDB(DBPATH);
     this->accounts = AccountsDB(DBPATH);
 }
-void Battleship::menu(){
-    //Menu options for the User/Admin
-    cout << endl << "Main Menu" << endl;
-    cout << "[1] Login\n[2] Register\n[3] Rules\n[4] Play\n[5] Exit\n";
-    cout << ">> ";
-}
 void Battleship::loading(){
     //Constructing battleship game and thread - duration function for 3 seconds, with terminal clear
     cout << "Loading please wait...";
     chrono::seconds duration(3);
+    /*
+     * if you reached this error then netbeans does not support this_thread function from thread library.
+     * function would pause game for as long as we want, perfect for loading games, simulation connecting to and online server etc..
+     * can comment out and I will try to find a work around
+     */
     //this_thread::sleep_for(duration);
     system("cls");
     cout << "8 8888888o          .8.    88888 88888   88888 88888   8 88        8 888888     d888888o.   8 88      8  8 88 8 88888888o" <<endl;  
@@ -47,12 +39,12 @@ void Battleship::loading(){
 void Battleship::main() {
     //Declare all Variables Here
     int choice;
-    char c = ' ';
     bool quit = false;
     //Switch case within do-while loop to start the game
     loading();
     do {
-            menu();
+            cout << endl << "Main Menu" << endl;
+            cout << "[1] Login\n[2] Register\n[3] Rules\n[4] Exit\n" << ">> ";
             cin >> choice;
             switch (choice)
             {
@@ -68,13 +60,9 @@ void Battleship::main() {
                 this->accounts.close();
                 break;
             case 4:
-                quit = true;break;
-            
+                quit = true;break;    
             default:
                 cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";break;
-            case 5:
-                Game lets;
-                lets.play();break;
             } 
     } while (!quit);
     //Quitting game
@@ -89,7 +77,7 @@ void Battleship::login() {
     
     cout << "Ready yer Morse code, fer we’re about to transmit our login signal!\n";
     
-    cout << "Enter your email address: ";
+    /*cout << "Enter your email address: ";
     safeGetLine(e, MAXSTR);
 
     // Find user
@@ -115,7 +103,11 @@ void Battleship::login() {
     this->accounts.get(pos, &user);
     this->accounts.close();
     
-    // TODO: user.main(); to show user menu  
+    // TODO: user.main(); to show user menu
+    */
+    user.main();
+    
+    //return to main menu
 }
 
 void Battleship::reg() {

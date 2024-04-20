@@ -46,11 +46,10 @@ public:
     const string getPword();
     
     //Other Functions
+    void main();
     void display() const;
     void save();
+    void acctMenu();
+    void start();
     // User operator=(User &); //override = so we can move account to admin type object
 };
-
-
-#endif /* USER_H */
-
