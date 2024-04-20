@@ -23,7 +23,7 @@ void Battleship::loading(){
      * function would pause game for as long as we want, perfect for loading games, simulation connecting to and online server etc..
      * can comment out and I will try to find a work around
      */
-    //this_thread::sleep_for(duration);
+    this_thread::sleep_for(duration);
     system("cls");
     cout << "8 8888888o          .8.    88888 88888   88888 88888   8 88        8 888888     d888888o.   8 88      8  8 88 8 88888888o" <<endl;  
     cout << "8 88    `88.       .88.        8 88         8 88       8 88        8 88         .`88:' `88. 8 88      8  8 88 8 888    `88." <<endl; 
