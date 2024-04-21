@@ -24,15 +24,17 @@ AccountsDB::AccountsDB(string fname)
 void AccountsDB::open()
 {
     file.open(fname, std::ios::binary | std::ios::in | std::ios::out);
-    if (!file)
-    {
-        cout << "Error opening file: " << fname << std::endl;
+    if (file.fail()) {
+        cout << "Error opening file: " << fname << "\n";
     }
 }
 
 void AccountsDB::close()
 {
     file.close();
+    if (file.fail()) {
+        cout << "Error closing file: " << fname << "\n";
+    }
 }
 
 void AccountsDB::createDB(string fname)

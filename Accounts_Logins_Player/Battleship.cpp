@@ -17,14 +17,14 @@ Battleship::Battleship(){
 void Battleship::loading(){
     //Constructing battleship game and thread - duration function for 3 seconds, with terminal clear
     cout << "Loading please wait...";
-    chrono::seconds duration(3);
+//    chrono::seconds duration(3);
     /*
      * if you reached this error then netbeans does not support this_thread function from thread library.
      * function would pause game for as long as we want, perfect for loading games, simulation connecting to and online server etc..
      * can comment out and I will try to find a work around
      */
-    this_thread::sleep_for(duration);
-    system("cls");
+//    this_thread::sleep_for(duration);
+//    system("cls");
     cout << "8 8888888o          .8.    88888 88888   88888 88888   8 88        8 888888     d888888o.   8 88      8  8 88 8 88888888o" <<endl;  
     cout << "8 88    `88.       .88.        8 88         8 88       8 88        8 88         .`88:' `88. 8 88      8  8 88 8 888    `88." <<endl; 
     cout << "8 88     `88      :888.        8 88         8 88       8 88        8 88         8.`88.   Y8 8 88      8  8 88 8 888     `88" <<endl; 
@@ -38,32 +38,39 @@ void Battleship::loading(){
 }
 void Battleship::main() {
     //Declare all Variables Here
-    int choice;
+    char choice;
     bool quit = false;
     //Switch case within do-while loop to start the game
     loading();
     do {
-            cout << endl << "Main Menu" << endl;
-            cout << "[1] Login\n[2] Register\n[3] Rules\n[4] Exit\n" << ">> ";
-            cin >> choice;
-            switch (choice)
-            {
-            case 1:
-                login();break;
-            case 2:
-                reg();break;
-            case 3:
-               quit = Rules(); break;
-            case 'd':  //FOR DEBUG ONLY, display all users
-                this->accounts.open();
-                this->accounts.display();
-                this->accounts.close();
-                break;
-            case 4:
-                quit = true;break;    
-            default:
-                cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";break;
-            } 
+        cout << endl << "Main Menu" << endl;
+        cout << "[1] Login\n[2] Register\n[3] Rules\n[4] Exit\n" << ">> ";
+        choice = getSingleChar();  // Get char safely
+        switch (choice)
+        {
+        case '1':
+            login();break;
+        case '2':
+            reg();break;
+        case '3':
+           quit = Rules(); break;
+        case 'd':  //FOR DEBUG ONLY, display all users
+            this->accounts.open();
+            this->accounts.display();
+            this->accounts.close();
+            break;
+        case 'l':  //FOR DEBUG ONLY, quickly login to test user account and play game
+        {   
+            User user;
+            this->accounts.get(0, &user);
+            user.main();
+            break;
+        }
+        case '4':
+            quit = true; break;    
+        default:
+            cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";break;
+        } 
     } while (!quit);
     //Quitting game
     Quit();
@@ -77,24 +84,25 @@ void Battleship::login() {
     
     cout << "Ready yer Morse code, fer we’re about to transmit our login signal!\n";
     
-    /*cout << "Enter your email address: ";
+    cout << "Enter your e-mail address, Captain: ";
     safeGetLine(e, MAXSTR);
 
     // Find user
     this->accounts.open();
     pos = this->accounts.find(e);
+    this->accounts.close();
     if (pos < 0) {
-        cout << "That user does not exist\n";
+        cout << "Are ye reporting to the wrong fleet, Captain!?\n";
+        cout << "That e-mail is not listed in our logbook.\n";
         return;
     }
-    this->accounts.close();
     
-    cout << "Enter your password: ";
+    cout << "Enter your top secret code: ";
     safeGetLine(p, MAXSTR);
 
     // Verify
     if (!this->verify(e, p)) {
-        cout << "Invalid password\n";
+        cout << "Blimey! That's not the right signal. Try again!\n";
         return;
     }
     
@@ -103,8 +111,8 @@ void Battleship::login() {
     this->accounts.get(pos, &user);
     this->accounts.close();
     
-    // TODO: user.main(); to show user menu
-    */
+    user.display();  //DEBUG
+    
     user.main();
     
     //return to main menu
@@ -112,7 +120,7 @@ void Battleship::login() {
 
 void Battleship::reg() {
     string e, p;
-    cout << "Registering account.\n";
+    cout << "Ahoy Captain! Ready to enlist?\n";
     
     // Get validated e-mail
     cout << "Enter your email address: ";
@@ -121,9 +129,9 @@ void Battleship::reg() {
     }
 
     // Get validated password
-    cout << "Enter a password: ";
+    cout << "Enter yer top secret code: ";
     while(!checkPw(p)){
-        cout << "Re-enter password: ";
+        cout << "This ain't no Sunday sail, Captain! Make your code more secure: ";
     }
     const char* em = e.c_str();
     const char* pw = p.c_str();
@@ -134,11 +142,11 @@ void Battleship::reg() {
     this->accounts.add(&usr);
     this->accounts.close();
     
-    cout << "Account registered\n";
+    cout << "Aye Captain, yer registered with the fleet!\n";
     //returning to main menu after 2 second delay and clearing terminal
-    chrono::seconds duration(2);
+//    chrono::seconds duration(2);
    //this_thread::sleep_for(duration);
-    system("cls");
+//    system("cls");
     //return false;
 }
 
@@ -181,15 +189,25 @@ bool Battleship::checkPw(string& pw) {
 }
 
 bool Battleship::verify(string em, string pw) {
-    //initialize to false
+    
     bool valid = false;
+    int pos = -1;
+
     //open the database file
-    
+    this->accounts.open();
+
     //check all records for em
-    
-    //em found - check if password matches
-    
-    //if not match found it returns false
+    pos = this->accounts.find(em);
+    if (pos > -1) {
+        //user found - check if password matches
+        User user;
+        this->accounts.get(pos, &user);
+        if (user.getPword() == pw) {
+            valid = true;
+        }
+    }
+
+    this->accounts.close();
     
     return valid;
 }
@@ -210,9 +228,16 @@ bool Battleship::Rules(){
     cout << endl << endl << "Would you like to quit or return to main menu" << endl;
     cout << endl << "1 = Quit Game" << endl << "2 = Main Menu " << endl << "Choose: ";
     cin >> c;
-    if (toupper(c) == '1') { return true; }
+    if (toupper(c) == '1') {
+        return true;
+    }
     //returning to main menu and clear terminal
-    if (toupper(c) == '2') { system("cls"); return false; }
+    else if (toupper(c) == '2') {
+        system("cls"); return false; 
+    }
+    else {
+        return false;
+    }
 }
 
 // TODO: --> MOVE THIS TO Game.cpp
