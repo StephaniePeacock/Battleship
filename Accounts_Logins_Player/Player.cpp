@@ -159,3 +159,11 @@ void Player::attackCell(int row, int col, Player* enemy) {
         setShots(row,col,MISS_CELL);
     }
 }
+
+void Player::serialize() {
+    
+}
+
+void Player::deserialize() {
+    
+}

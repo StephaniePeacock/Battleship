@@ -19,7 +19,10 @@ class Comp : public Player {
 private:
     bool smart;
 public:
+    const static PlayerType TYPE = PlayerType::COMP;
     Comp(bool smart);
+    void serialize() override;
+    void deserialize() override;
 };
 
 #endif /* COMP_H */

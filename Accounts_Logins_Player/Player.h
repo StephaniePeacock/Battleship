@@ -18,6 +18,11 @@
 #include <iostream>
 #include <unordered_map>
 
+enum class PlayerType {
+    PLAYER,
+    COMP
+};
+
 using namespace std;
 
 class Player {
@@ -27,7 +32,7 @@ private:
     unordered_map<char, int> shipCounts;
     int unsunk;
     //mutators
-    void setUnsunk();
+//    void setUnsunk();
     void setBoard(int,int,const char);
     void setShots(int,int,const char);
     //other functions
@@ -43,6 +48,7 @@ private:
     
     
 public:
+    const static PlayerType TYPE = PlayerType::PLAYER;
     Player();            //constructor
     ~Player();           //destructor
     void displayBoard();    //print current board
@@ -53,6 +59,8 @@ public:
     int getUnsunk() { return this->unsunk; }
     char getBoard(int,int);
     char getShots(int,int);
+    virtual void serialize();
+    virtual void deserialize();
 };    
 
 #endif /* PLAYER_H */

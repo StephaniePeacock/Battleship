@@ -4,25 +4,14 @@
  */
 
 /* 
- * File:   Comp.cpp
+ * File:   GamesDB.cpp
  * Author: hanne
  * 
- * Created on April 14, 2024, 1:24 PM
+ * Created on April 21, 2024, 1:51 PM
  */
 
-#include "Comp.h"
+#include "GamesDB.h"
 
-Comp::Comp(bool smart) : Player() {
-    this->smart = smart;
+GamesDB::GamesDB() {
 }
-
-
-void Comp::serialize() {
-    
-}
-
-void Comp::deserialize() {
-    
-}
-
 
