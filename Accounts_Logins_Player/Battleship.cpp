@@ -97,7 +97,7 @@ void Battleship::login() {
     pos = this->accounts.find(e);
     this->accounts.close();
     if (pos < 0) {
-        cout << "Are ye reporting to the wrong fleet, Captain!?\n";
+        cout << "\nAre ye reporting to the wrong fleet, Captain!?\n";
         cout << "That e-mail is not listed in our logbook.\n";
         return;
     }

@@ -63,7 +63,7 @@ void User::main(){
     system("cls");
     do {
             cout << "[1] Account\n[2] View Stats\n[3] Play Game\n[4] Logout\n";
-            cin >> choice;
+            getNumeric<int>(choice);
             switch (choice)
             {
             case 1:
@@ -91,7 +91,7 @@ void User::acctMenu(){
     system("cls");
     do {
             cout << "[1] Change email\n[2] Update Password\n[3] Delete Account\n[4] Go Back\n";
-            cin >> choice;
+            getNumeric<int>(choice);
             switch (choice)
             {
             case 1:
@@ -117,7 +117,7 @@ void User::start(){
     system("cls");
     do {
             cout << "[1] New Campaign\n[2] Load Campaign\n[3] Go Back\n";
-            cin >> choice;
+            getNumeric<int>(choice);
             switch (choice)
             {
             case 1:
