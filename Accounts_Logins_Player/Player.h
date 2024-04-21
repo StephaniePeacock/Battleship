@@ -18,6 +18,7 @@
 #include <iostream>
 #include <unordered_map>
 
+// A flag to aid in reconstructing Player objects from binary
 enum class PlayerType {
     PLAYER,
     COMP
