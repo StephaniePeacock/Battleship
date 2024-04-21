@@ -53,3 +53,5 @@ public:
     void start();
     // User operator=(User &); //override = so we can move account to admin type object
 };
+
+#endif /* USER_H */
