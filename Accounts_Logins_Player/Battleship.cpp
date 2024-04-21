@@ -54,7 +54,7 @@ void Battleship::main() {
             reg();break;
         case '3':
            quit = Rules(); break;
-        case 'd':  //FOR DEBUG ONLY, display all users
+        case 'a':  //FOR DEBUG ONLY, display all users
             this->accounts.open();
             this->accounts.display();
             this->accounts.close();
@@ -62,7 +62,12 @@ void Battleship::main() {
         case 'l':  //FOR DEBUG ONLY, quickly login to test user account and play game
         {   
             User user;
+            this->accounts.open();
             this->accounts.get(0, &user);
+            this->accounts.close();
+            cout << "LOGGING IN AS \n";
+            user.display();  //DEBUG
+            cout << "\n";
             user.main();
             break;
         }
@@ -111,7 +116,7 @@ void Battleship::login() {
     this->accounts.get(pos, &user);
     this->accounts.close();
     
-    user.display();  //DEBUG
+    //user.display();  //DEBUG
     
     user.main();
     
