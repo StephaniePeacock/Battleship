@@ -91,7 +91,7 @@ void Game::deserialize(fstream& file) {
     delete this->p1;
     this->p1 = nullptr;
 
-    // get new p1: Use appropriate serialization method for type
+    // get new p1; Use appropriate serialization method for type
     switch (type) {
         case PlayerType::PLAYER: {
             Player* p1 = new Player();
@@ -117,7 +117,7 @@ void Game::deserialize(fstream& file) {
     file.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
     type = static_cast<PlayerType>(type_val);
     
-    // get new p2: Use appropriate serialization method for type
+    // get new p2; Use appropriate serialization method for type
     switch (type) {
         case PlayerType::PLAYER: {
             Player* p2 = new Player();
