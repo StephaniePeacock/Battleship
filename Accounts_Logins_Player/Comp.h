@@ -20,9 +20,10 @@ private:
     bool smart;
 public:
     const static PlayerType TYPE = PlayerType::COMP;
+    Comp();
     Comp(bool smart);
-    void serialize() override;
-    void deserialize() override;
+    void serialize(fstream&) override;
+    void deserialize(fstream&) override;
 };
 
 #endif /* COMP_H */

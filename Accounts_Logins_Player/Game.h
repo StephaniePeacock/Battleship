@@ -13,7 +13,9 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "GamesDB.h"
 #include "Player.h"
+#include "Comp.h"
 
 class Game {
     
@@ -29,7 +31,9 @@ public:
     Game();
     Game(Player* p1, Player* p2);
     void play();
-    ~Game() { delete p1; delete p2; }
+    ~Game();
+    void serialize(fstream&);
+    void deserialize(fstream&);
 };
 
 

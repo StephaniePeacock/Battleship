@@ -15,11 +15,12 @@
 
 #include "Board.h"
 
+#include <fstream>
 #include <iostream>
 #include <unordered_map>
 
 // A flag to aid in reconstructing Player objects from binary
-enum class PlayerType {
+enum class PlayerType : short unsigned int {
     PLAYER,
     COMP
 };
@@ -60,8 +61,8 @@ public:
     int getUnsunk() { return this->unsunk; }
     char getBoard(int,int);
     char getShots(int,int);
-    virtual void serialize();
-    virtual void deserialize();
+    virtual void serialize(fstream&);
+    virtual void deserialize(fstream&);
 };    
 
 #endif /* PLAYER_H */

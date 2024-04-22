@@ -160,10 +160,35 @@ void Player::attackCell(int row, int col, Player* enemy) {
     }
 }
 
-void Player::serialize() {
+void Player::serialize(fstream& file) {
+    /* Player serialization structure:
+     * First store type of object (Player, Comp)
+     * Then store size of board (in total bytes to read)
+     * Then store each board (board, shots)
+     * TODO shipCounts mapping
+     */
     
+    // Store object type to aid in deserialization
+    short unsigned int type = static_cast<short unsigned int>(TYPE);
+    file.write(reinterpret_cast<char*>(&type), sizeof(type));
+    
+    // Store the number of bytes stored in each array (board, shots)
+    int board_size = BOARD_SIZE;
+    file.write(reinterpret_cast<char*>(&board_size), sizeof(board_size));
+    
+    // Store each of the arrays (board, shots)
+    // Store board
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        file.write(board[i], sizeof(board[i]));
+    }
+    // Store shots
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        file.write(shots[1], sizeof(shots[1]));
+    }    
+    
+    //TODO: Store the fleet_size map
 }
 
-void Player::deserialize() {
-    
+void Player::deserialize(fstream& file) {
+    //TODO
 }

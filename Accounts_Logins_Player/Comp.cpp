@@ -12,17 +12,20 @@
 
 #include "Comp.h"
 
+Comp::Comp() : Player() {
+    this->smart = false;
+}
 Comp::Comp(bool smart) : Player() {
     this->smart = smart;
 }
 
 
-void Comp::serialize() {
-    
+void Comp::serialize(fstream& file) {
+    //TODO
 }
 
-void Comp::deserialize() {
-    
+void Comp::deserialize(fstream& file) {
+    //TODO
 }
 
 
