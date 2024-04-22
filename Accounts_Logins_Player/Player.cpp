@@ -163,7 +163,7 @@ void Player::attackCell(int row, int col, Player* enemy) {
 void Player::serialize(fstream& file) {
     /* Player serialization structure:
      * First store type of object (Player, Comp)
-     * Then store size of board (in total bytes to read)
+     * Then store size of board
      * Then store each board (board, shots)
      * TODO shipCounts mapping
      */
