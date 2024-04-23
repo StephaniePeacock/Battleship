@@ -30,20 +30,24 @@ class User {
 protected:
     char email[MAXSTR];     //dynamic char array
     char pword[MAXSTR];     //dynamic password
+    bool isadmin;
     Stats info;
+    
     //add Game info
 public:
-    User();                                   //default
-    User(const string, const string);           //register new
-    User(const string, const string, Stats);    //load from db
+    User();                                                 //default
+    User(const string, const string, const bool);           //register new
+    User(const string, const string, Stats, const bool);    //load from db
 
     //Mutators
     void setEmail(const string);
     void setPword (const string);
+    void setAdmin (const bool);
     
     //Accessors
     const string getEmail();
     const string getPword();
+    const bool isAsmin();
     
     //Other Functions
     void main();

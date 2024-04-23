@@ -12,21 +12,24 @@
 User::User() {
     email[0] = '\0';
     pword[0] = '\0';
+    isadmin = false;
     info.win = 0;
     info.loss = 0;
     //add Game default
 }
 
-User::User(const string em, const string pw) { //for registering a new user
+User::User(const string em, const string pw, const bool adm) {  //for registering a new user
     safeCStrNCpy(this->email, em, MAXSTR);
     safeCStrNCpy(this->pword, pw, MAXSTR);
+    this->isadmin = adm;
     this->info = Stats {0, 0};
     //add Game default
 }
 
-User::User(const string em, const string pw, Stats s) { //for loading an existing user
+User::User(const string em, const string pw, Stats s, const bool adm) {  //for loading an existing user
     safeCStrNCpy(email, em, MAXSTR);
     safeCStrNCpy(pword, pw, MAXSTR);
+    isadmin = adm;
     info.win = s.win;
     info.loss = s.loss;
     //add Game object
@@ -46,6 +49,14 @@ void User::setPword(const string pw) {
 
 const string User::getPword() {
     return this->pword;
+}
+
+const bool User::isAsmin() {
+    return this->isadmin;
+}
+
+void User::setAdmin (const bool adm) {
+    this->isadmin = adm;
 }
 
 void User::display() const{

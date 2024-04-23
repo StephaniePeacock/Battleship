@@ -104,7 +104,6 @@ int AccountsDB::find(string email)
 
 void AccountsDB::add(const User* user)
 {
-    user->display();  //DEBUG
     file.seekp(0L, ios::end);
     file.write(reinterpret_cast<const char*>(user), sizeof(User));
     file.flush();

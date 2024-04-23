@@ -40,4 +40,3 @@ int main(int argc, char** argv) {
     //Exit
     return 0;
 }
-

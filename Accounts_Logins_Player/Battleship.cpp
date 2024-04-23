@@ -71,6 +71,13 @@ void Battleship::main() {
             user.main();
             break;
         }
+//        case 'm': { //FOR DEBUG ONLY, make an admin user lol
+//            User user = User("admin@org.com", "AdminUser1", true);
+//            this->accounts.open();
+//            this->accounts.add(&user);
+//            this->accounts.close();
+//            break;
+//        }
         case '4':
             quit = true; break;    
         default:
@@ -136,18 +143,18 @@ void Battleship::reg() {
     // Get validated password
     cout << "Enter yer top secret code: ";
     while(!checkPw(p)){
-        cout << "This ain't no Sunday sail, Captain! Make your code more secure: ";
+        cout << "This ain't no Sunday sail, Captain! Make your code more secure!!: ";
     }
     const char* em = e.c_str();
     const char* pw = p.c_str();
-    User usr(em, pw);
+    User usr(em, pw, false);
     
     // Store new account in database
     this->accounts.open();
     this->accounts.add(&usr);
     this->accounts.close();
     
-    cout << "Aye Captain, yer registered with the fleet!\n";
+    cout << "Arr! Yer registered with the fleet!\n";
     //returning to main menu after 2 second delay and clearing terminal
 //    chrono::seconds duration(2);
    //this_thread::sleep_for(duration);
