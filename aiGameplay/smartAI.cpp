@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <numeric>
+#include <random>
 
 using namespace std;
 
@@ -16,6 +18,8 @@ private:
     bool hasLastHit = false;
     vector<Point> hitHistory;  // Track history of hits
     bool lastSearchEven = false;  // check when the row search changes even or odd
+    int consecutiveMisses = 0;  // Track consecutive misses
+    int moves = 0; // number of moves
 
 public:
     void shoot(char board[10][10]);
@@ -26,31 +30,35 @@ public:
     bool checkHit(char board[10][10], int x, int y);
     bool sunk(char board[10][10]);
     void printBoard(char board[10][10]);
+    int getMoves() const { return moves; }
 };
 
 void ComputerPlayer::linsearch(char board[10][10]) {
-    bool searchEven = rand() % 2 == 0;  // Random even or odd row search
-    if (searchEven != lastSearchEven) {
-        cout << "Switching search pattern from " << (lastSearchEven ? "even" : "odd") << " to " << (searchEven ? "even" : "odd") << " rows." << endl;
-        printBoard(board);
-        lastSearchEven = searchEven;
-    }
-    vector<int> column(10);
-    for (int i = 0; i < 10; i++) {
-        column[i] = i;
-    }
-    random_shuffle(column.begin(), column.end());
+    random_device rd; 
+    mt19937 gen(rd()); 
+    uniform_int_distribution<> distColumn(0, 9);
 
-    int startRow = searchEven ? 1 : 0; 
-    cout << "Searching " << (searchEven ? "even rows (2, 4, 6, 8, 10)" : "odd rows (1, 3, 5, 7, 9)") << endl;
+    vector<int> rows = lastSearchEven ? vector<int>{1, 3, 5, 7, 9} : vector<int>{0, 2, 4, 6, 8};
+    uniform_int_distribution<> distRow(0, rows.size() - 1);
+    printBoard(board);
+    cout << "Searching " << (lastSearchEven ? "even rows (2, 4, 6, 8, 10)" : "odd rows (1, 3, 5, 7, 9)") << endl;
 
-    for (int i = startRow; i < 10; i += 2) {
-        for (int j : column) {
-            if (board[i][j] != 'X' && board[i][j] != 'O') {
-                if (checkHit(board, j, i)) {
-                    setLastHit(j, i);
-                    return;
-                }
+    bool keepSearching = true;
+    while (keepSearching) {
+        int rowIndex = rows[distRow(gen)]; 
+        int columnIndex = distColumn(gen);
+
+        if (board[rowIndex][columnIndex] != 'X' && board[rowIndex][columnIndex] != 'O') {
+            if (checkHit(board, columnIndex, rowIndex)) {
+                setLastHit(columnIndex, rowIndex);
+                keepSearching = false; 
+            }
+            if (consecutiveMisses >= 3) {
+                lastSearchEven = !lastSearchEven;
+                cout << "Switching search pattern due to 3 consecutive misses. Now searching " << (lastSearchEven ? "even rows" : "odd rows") << "." << endl;
+                printBoard(board);
+                consecutiveMisses = 0;
+                keepSearching = false;
             }
         }
     }
@@ -85,20 +93,24 @@ void ComputerPlayer::shoot(char board[10][10]) {
 }
 
 bool ComputerPlayer::checkHit(char board[10][10], int x, int y) {
-    if (x < 0 || x >= 10 || y < 0 || y >= 10) return false;  // Boundary check
+    moves++;
+    if (x < 0 || x >= 10 || y < 0 || y >= 10) return false;
     if (board[y][x] == 'X' || board[y][x] == 'O') return false;
 
     if (board[y][x] != '-') {
         board[y][x] = 'X';
-        cout << "Hit at [" << y + 1 << ", " << x + 1 << "]" << endl;
-        hitHistory.push_back({x, y});  // Save successful hit
+        cout << "Hit at [" << y + 1 << ", " << x + 1 << "], resetting miss counter." << endl;
+        hitHistory.push_back({x, y});
+        consecutiveMisses = 0;
         return true;
     } else {
         board[y][x] = 'O';
-        cout << "Miss at [" << y + 1 << ", " << x + 1 << "]" << endl;
+        consecutiveMisses++;
+        cout << "Miss at [" << y + 1 << ", " << x + 1 << "], consecutive misses: " << consecutiveMisses << "." << endl;
         return false;
     }
 }
+
 
 bool ComputerPlayer::sunk(char board[10][10]) {
     for (int i = 0; i < 10; i++) {
@@ -151,7 +163,7 @@ int main() {
 
     ComputerPlayer cp;
     cp.shoot(gameBoard);
-    cout << "all ships are sunk:" << endl;
+    cout << "All ships are sunk after " << cp.getMoves() << " moves." << endl;
     cp.printBoard(gameBoard);
 
     return 0;
