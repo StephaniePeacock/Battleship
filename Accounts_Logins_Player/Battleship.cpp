@@ -78,6 +78,14 @@ void Battleship::main() {
 //            this->accounts.close();
 //            break;
 //        }
+        case 'g': {  //FOR DEBUG ONLY, test storing Game object in binary file
+            Player p1 = Player();
+            Player p2 = Player();
+            Game game = Game(&p1, &p2);
+            game.serialize();
+            cout << "HERE!\n";  //DEBUG
+            break;
+            }
         case '4':
             quit = true; break;    
         default:

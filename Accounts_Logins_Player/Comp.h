@@ -22,7 +22,7 @@ public:
     const static PlayerType TYPE = PlayerType::COMP;
     Comp();
     Comp(bool smart);
-    void serialize(fstream&) override;
+    int serialize(stringstream&) override;
     void deserialize(fstream&) override;
 };
 

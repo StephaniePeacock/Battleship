@@ -10,7 +10,9 @@
 
 Game::Game() {
     p1 = new Player();
+    p1 = nullptr;
     p2 = new Player();
+    p2 = nullptr;
     this->turn = false;
 }
 
@@ -21,10 +23,15 @@ Game::Game(Player* p1, Player* p2) {
 }
 
 Game::~Game() {
-    delete p1;
-    p1 = nullptr;
-    delete p2;
-    p2 = nullptr;
+    // Sometimes we allocate new memory, conditionally clear it
+    if (p1 == nullptr) {
+        delete p1;
+        p1 = nullptr;
+    }
+    if (p2 == nullptr) {
+        delete p2;
+        p2 = nullptr;
+    }
 }
 
 
@@ -66,8 +73,15 @@ void Game::play(){
     }
 }
 
-void Game::serialize(fstream& file) {
-    //TODO
+void Game::serialize() {
+    stringstream p1_buff;
+    p1_buff.seekp(0L, std::ios_base::end);
+    stringstream p2_buff;
+    p2_buff.seekp(0L, std::ios_base::end);
+        
+    int p1_size = p1->serialize(p1_buff);
+    int p2_size = p2->serialize(p2_buff);
+    
 }
 
 void Game::deserialize(fstream& file) {

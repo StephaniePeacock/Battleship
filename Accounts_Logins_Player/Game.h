@@ -32,7 +32,7 @@ public:
     Game(Player* p1, Player* p2);
     void play();
     ~Game();
-    void serialize(fstream&);
+    void serialize();
     void deserialize(fstream&);
 };
 

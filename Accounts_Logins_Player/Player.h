@@ -15,6 +15,7 @@
 
 #include "Board.h"
 
+#include <sstream>
 #include <fstream>
 #include <iostream>
 #include <unordered_map>
@@ -61,7 +62,7 @@ public:
     int getUnsunk() { return this->unsunk; }
     char getBoard(int,int);
     char getShots(int,int);
-    virtual void serialize(fstream&);
+    virtual int serialize(stringstream&);
     virtual void deserialize(fstream&);
 };    
 
