@@ -160,37 +160,35 @@ void Player::attackCell(int row, int col, Player* enemy) {
     }
 }
 
-int Player::serialize(stringstream& buffer) {
-    /* --Player serialization structure--
-     * short unsigned int:  type of object (Player, Comp)
-     * int:                 store size of board
-     * char[board size]:    board array
-     * char[board size]:    shots array
-     * int:                 ship counts map size
-     * 
-     * TODO shipCounts mapping
+void Player::serialize(stringstream& buffer, int& size) {
+    /* --Player serialization binary storage structure--
+     * short unsigned int:  type of object (Player=0, Comp=1)
+     * int:                 size of board
+     * char[board size]:    char for each item in board array
+     * char[board size]:    char for each item in shots array
+     * int:                 shipCounts map count
+     * char & int pars:     first key (char) then value (int)
+     *                        for each pair in map
      */
-    
-    int obj_size = 0;
     
     // Store object type to aid in deserialization
     short unsigned int type = static_cast<short unsigned int>(TYPE);
     buffer.write(reinterpret_cast<char*>(&type), sizeof(type));
-    obj_size += sizeof(type);
+    size += sizeof(type);
     
     // Store each of the arrays (board, shots)
-    // Store the number of bytes stored in each array (board, shots)
+    // Store size of the board of each array (board, shots)
     int board_size = BOARD_SIZE;
     buffer.write(reinterpret_cast<char*>(&board_size), sizeof(board_size));
     // Store board
-    for (int i = 0; i < BOARD_SIZE; i++) {
-        buffer.write(board[i], sizeof(board[i]));
+    for (int r = 0; r < board_size; r++) {
+        buffer.write(board[r], sizeof(board[r]));
     }
     // Store shots
-    for (int i = 0; i < BOARD_SIZE; i++) {
-        buffer.write(shots[1], sizeof(shots[1]));
+    for (int r = 0; r < board_size; r++) {
+        buffer.write(shots[r], sizeof(shots[r]));
     }
-    obj_size += BOARD_SIZE*BOARD_SIZE*sizeof(char)*2;
+    size += board_size*board_size*sizeof(char)*2;
             
     // Store unordered_map (shipCounts)
     // Store size of unordered_map
@@ -202,13 +200,24 @@ int Player::serialize(stringstream& buffer) {
         buffer.write(reinterpret_cast<const char*>(&kv.first), sizeof(kv.first));
         buffer.write(reinterpret_cast<const char*>(&kv.second), sizeof(kv.second));
     }
-    obj_size += map_count*(sizeof(char) + sizeof(int));
-    
-    return obj_size;
+    size += map_count*(sizeof(char) + sizeof(int));
 }
 
-void Player::deserialize(fstream& file) {
+void Player::deserialize(stringstream& buffer) {
     
+    int board_size;
     
+    // Read each of the arrays (board, shots)
+    // Read the number of bytes stored in each array (board, shots)
+    buffer.read(reinterpret_cast<char*>(&board_size), sizeof(board_size));
+    cout << "BOARD_SIZE: " << board_size << "\n";
+    // Read board
+    for (int r = 0; r < board_size; r++) {
+        for (int c = 0; c < board_size; c++) {
+            buffer.read(reinterpret_cast<char*>(&board[r][c]), sizeof(char));
+        }
+    }
+    
+    displayBoard();
     
 }

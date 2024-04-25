@@ -22,8 +22,8 @@ public:
     const static PlayerType TYPE = PlayerType::COMP;
     Comp();
     Comp(bool smart);
-    int serialize(stringstream&) override;
-    void deserialize(fstream&) override;
+    void serialize(stringstream&, int&) override;
+    void deserialize(stringstream&) override;
 };
 
 #endif /* COMP_H */

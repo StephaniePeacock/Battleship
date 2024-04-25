@@ -83,7 +83,6 @@ void Battleship::main() {
             Player p2 = Player();
             Game game = Game(&p1, &p2);
             game.serialize();
-            cout << "HERE!\n";  //DEBUG
             break;
             }
         case '4':

@@ -20,12 +20,11 @@ Comp::Comp(bool smart) : Player() {
 }
 
 
-int Comp::serialize(stringstream& buffer) {
-    return 0;
+void Comp::serialize(stringstream& buffer, int&) {
     //TODO
 }
 
-void Comp::deserialize(fstream& file) {
+void Comp::deserialize(stringstream& file) {
     //TODO
 }
 

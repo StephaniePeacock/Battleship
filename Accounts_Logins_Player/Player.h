@@ -62,8 +62,8 @@ public:
     int getUnsunk() { return this->unsunk; }
     char getBoard(int,int);
     char getShots(int,int);
-    virtual int serialize(stringstream&);
-    virtual void deserialize(fstream&);
+    virtual void serialize(stringstream&, int&);
+    virtual void deserialize(stringstream&);
 };    
 
 #endif /* PLAYER_H */

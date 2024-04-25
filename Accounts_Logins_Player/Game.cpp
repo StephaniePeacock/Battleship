@@ -74,76 +74,93 @@ void Game::play(){
 }
 
 void Game::serialize() {
-    stringstream p1_buff;
+    stringstream p1_buff, p2_buff;
+    int p1_size = 0, p2_size = 0;
+    short unsigned int type_val;  //DEBUG
+    PlayerType type;  //DEBUG
+    p2->attackCell(1, 1, p1);  //DEBUG  dummy shot to mod. board
+    
     p1_buff.seekp(0L, std::ios_base::end);
-    stringstream p2_buff;
     p2_buff.seekp(0L, std::ios_base::end);
         
-    int p1_size = p1->serialize(p1_buff);
-    int p2_size = p2->serialize(p2_buff);
+    p1->serialize(p1_buff, p1_size);
+    p2->serialize(p2_buff, p2_size);
+    
+    // Read the Player object type
+    p1_buff.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
+    type = static_cast<PlayerType>(type_val);
+    cout << "TYPE: " << static_cast<int>(type) << "\n";  //DEBUG
+    
+    if (type == PlayerType::PLAYER) {  //DEBUG
+        Player* p1 = new Player();
+        p1->deserialize(p1_buff);
+        
+
+    }
+    
     
 }
 
 void Game::deserialize(fstream& file) {
-    /* Assumes that file stream read position is already set.
-     * 
-     * Deserialize each polymorphic type by calling its own
-     * deseralize method. Each one knows how to correctly load
-     * its type's data from file.
-     */
-    
-    short unsigned int type_val;
-    PlayerType type;
-            
-    //// Deserialize p1 (Player 1)
-    
-    // Read the Player object type
-    file.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
-    type = static_cast<PlayerType>(type_val);
-    
-    // First clean up the old allocated memory for this->p1
-    delete this->p1;
-    this->p1 = nullptr;
-
-    // get new p1; Use appropriate serialization method for type
-    switch (type) {
-        case PlayerType::PLAYER: {
-            Player* p1 = new Player();
-            p1->deserialize(file);
-            this->p1 = p1;
-            break;
-        }
-        case PlayerType::COMP: {
-            Comp* p1 = new Comp();
-            p1->deserialize(file);
-            this->p1 = p1;
-            break;
-        }
-    }
-    
-    //// Deserialize p2 (Player 2)
-    
-    // First clean up the old allocated memory for this->p1
-    delete this->p2;
-    this->p2 = nullptr;
-    
-    // Read the Player object type
-    file.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
-    type = static_cast<PlayerType>(type_val);
-    
-    // get new p2; Use appropriate serialization method for type
-    switch (type) {
-        case PlayerType::PLAYER: {
-            Player* p2 = new Player();
-            p1->deserialize(file);
-            this->p2 = p2;
-            break;
-        }
-        case PlayerType::COMP: {
-            Comp* p2 = new Comp();
-            p1->deserialize(file);
-            this->p2 = p2;
-            break;
-        }
-    }
+//    /* Assumes that file stream read position is already set.
+//     * 
+//     * Deserialize each polymorphic type by calling its own
+//     * deseralize method. Each one knows how to correctly load
+//     * its type's data from file.
+//     */
+//    
+//    short unsigned int type_val;
+//    PlayerType type;
+//            
+//    //// Deserialize p1 (Player 1)
+//    
+//    // Read the Player object type
+//    file.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
+//    type = static_cast<PlayerType>(type_val);
+//    
+//    // First clean up the old allocated memory for this->p1
+//    delete this->p1;
+//    this->p1 = nullptr;
+//
+//    // get new p1; Use appropriate serialization method for type
+//    switch (type) {
+//        case PlayerType::PLAYER: {
+//            Player* p1 = new Player();
+//            p1->deserialize(file);
+//            this->p1 = p1;
+//            break;
+//        }
+//        case PlayerType::COMP: {
+//            Comp* p1 = new Comp();
+//            p1->deserialize(file);
+//            this->p1 = p1;
+//            break;
+//        }
+//    }
+//    
+//    //// Deserialize p2 (Player 2)
+//    
+//    // First clean up the old allocated memory for this->p1
+//    delete this->p2;
+//    this->p2 = nullptr;
+//    
+//    // Read the Player object type
+//    file.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
+//    type = static_cast<PlayerType>(type_val);
+//    
+//    // get new p2; Use appropriate serialization method for type
+//    switch (type) {
+//        case PlayerType::PLAYER: {
+//            Player* p2 = new Player();
+//            p1->deserialize(file);
+//            this->p2 = p2;
+//            break;
+//        }
+//        case PlayerType::COMP: {
+//            Comp* p2 = new Comp();
+//            p1->deserialize(file);
+//            this->p2 = p2;
+//            break;
+//        }
+//    }
 }
