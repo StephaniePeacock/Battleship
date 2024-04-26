@@ -16,10 +16,11 @@ Game::Game()
     this->turn = false;
 }
 
-Game::Game(Player *p1, Player *p2)
+Game::Game(Player *p1, Player *p2, string uid)
 {
     this->p1 = p1;
     this->p2 = p2;
+    safeCStrNCpy(this->gameuid, uid, game::MAXSTR);
     this->turn = false;
 }
 
@@ -74,7 +75,7 @@ void Game::play()
 
         cout << "Commence attack. Enter row and col coordinates:" << endl;
         cin >> input;
-        int location = convToInt(input);
+        int location = Player::convToInt(input);
         int row = location / 10;
         int col = location % 10;
         col = letter - 65;
@@ -96,6 +97,8 @@ void Game::serialize()
 
     p1->serialize(p1_buff, p1_size);
     p2->serialize(p2_buff, p2_size);
+    
+    
 
     // Read the Player object type
     p1_buff.read(reinterpret_cast<char *>(&type_val), sizeof(type_val));

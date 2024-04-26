@@ -19,16 +19,16 @@ User::User() {
 }
 
 User::User(const string em, const string pw, const bool adm) {  //for registering a new user
-    safeCStrNCpy(this->email, em, MAXSTR);
-    safeCStrNCpy(this->pword, pw, MAXSTR);
+    safeCStrNCpy(this->email, em, user::MAXSTR);
+    safeCStrNCpy(this->pword, pw, user::MAXSTR);
     this->isadmin = adm;
     this->info = Stats {0, 0};
     //add Game default
 }
 
 User::User(const string em, const string pw, Stats s, const bool adm) {  //for loading an existing user
-    safeCStrNCpy(email, em, MAXSTR);
-    safeCStrNCpy(pword, pw, MAXSTR);
+    safeCStrNCpy(email, em, user::MAXSTR);
+    safeCStrNCpy(pword, pw, user::MAXSTR);
     isadmin = adm;
     info.win = s.win;
     info.loss = s.loss;
@@ -36,7 +36,7 @@ User::User(const string em, const string pw, Stats s, const bool adm) {  //for l
 }
 
 void User::setEmail(const string em) {
-    safeCStrNCpy(this->email, em, MAXSTR);
+    safeCStrNCpy(this->email, em, user::MAXSTR);
 }
 
 const string User::getEmail() {
@@ -44,7 +44,7 @@ const string User::getEmail() {
 }
 
 void User::setPword(const string pw) {
-    safeCStrNCpy(this->pword, pw, MAXSTR);
+    safeCStrNCpy(this->pword, pw, user::MAXSTR);
 }
 
 const string User::getPword() {

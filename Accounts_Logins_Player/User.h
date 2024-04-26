@@ -18,8 +18,9 @@
 
 using namespace std;
 
-
-const int MAXSTR = 81;
+namespace user {
+    const int MAXSTR = 81;
+}
 
 struct Stats {
     int win;
@@ -28,8 +29,8 @@ struct Stats {
 
 class User {
 protected:
-    char email[MAXSTR];     //dynamic char array
-    char pword[MAXSTR];     //dynamic password
+    char email[user::MAXSTR];
+    char pword[user::MAXSTR];
     bool isadmin;
     Stats info;
     

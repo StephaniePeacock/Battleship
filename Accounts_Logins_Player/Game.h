@@ -13,14 +13,18 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "GamesDB.h"
+#include "Generics.h"
 #include "Player.h"
 #include "Comp.h"
 
-class Game
-{
+namespace game {
+    const int MAXSTR = 81;
+}
+
+class Game {
 
 private:
+    char gameuid[game::MAXSTR];
     Player *p1; // Polymorphic: Can be Player or Comp
     Player *p2; // Polymorphic: Can be Player or Comp
     bool turn;
@@ -30,12 +34,11 @@ private:
 
 public:
     Game();
-    Game(Player *p1, Player *p2);
+    Game(Player *p1, Player *p2, string gameuid);
     void play();
     ~Game();
     void serialize();
     void deserialize(fstream &);
-    int convToInt(string);
 };
 
 #endif /* GAME_H */

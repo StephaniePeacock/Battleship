@@ -81,7 +81,7 @@ void Battleship::main() {
         case 'g': {  //FOR DEBUG ONLY, test storing Game object in binary file
             Player p1 = Player();
             Player p2 = Player();
-            Game game = Game(&p1, &p2);
+            Game game = Game(&p1, &p2, "");
             game.serialize();
             break;
             }
@@ -104,7 +104,7 @@ void Battleship::login() {
     cout << "Ready yer Morse code, fer we’re about to transmit our login signal!\n";
     
     cout << "Enter your e-mail address, Captain: ";
-    safeGetLine(e, MAXSTR);
+    safeGetLine(e, user::MAXSTR);
 
     // Find user
     this->accounts.open();
@@ -117,7 +117,7 @@ void Battleship::login() {
     }
     
     cout << "Enter your top secret code: ";
-    safeGetLine(p, MAXSTR);
+    safeGetLine(p, user::MAXSTR);
 
     // Verify
     if (!this->verify(e, p)) {
@@ -176,7 +176,7 @@ bool Battleship::checkEm(string& em) {
     * lastly checks domain for no . at start or end
     * and at least 2 letters after the last . for top level domain
     */
-    safeGetLine(em, MINEMAIL, MAXSTR);
+    safeGetLine(em, MINEMAIL, user::MAXSTR);
     const regex pattern(R"(\b[A-Za-z0-9_][A-Za-z0-9._-]*[A-Za-z0-9]@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*(?:\.[A-Z|a-z]{2,}\b))");
     //now check if the email matches the pattern and return it
     return regex_match(em, pattern);
@@ -190,7 +190,7 @@ bool Battleship::checkPw(string& pw) {
     bool lower = false; 
     bool num   = false;
     //Get password and verify password length
-    safeGetLine(pw, MINPWORD, MAXSTR);
+    safeGetLine(pw, MINPWORD, user::MAXSTR);
     //verify we have upper, lower, and number - check all at once!
     for(char ch : pw){
         if(isupper(ch)){ upper = true; }

@@ -222,7 +222,7 @@ void Player::promptShipPlacement()
             cin >> input;
             cout << "Enter direction (H for horizontal, V for vertical): ";
             cin >> direction;
-            location = convToInt(input);
+            location = Player::convToInt(input);
             int row = location / 10, col = location % 10;
             if (placeShip(row, col, size, direction, shipType))
             {

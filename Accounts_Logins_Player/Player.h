@@ -65,7 +65,7 @@ public:
     int getUnsunk() { return this->unsunk; }
     char getBoard(int, int);
     char getShots(int, int);
-    int convToInt(string);
+    static int convToInt(string);
     virtual void serialize(stringstream &, int &);
     virtual void deserialize(stringstream &);
 };
