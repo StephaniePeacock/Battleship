@@ -24,7 +24,7 @@ namespace game {
 class Game {
 
 private:
-    char gameuid[game::MAXSTR];
+    char uid[game::MAXSTR];
     Player *p1; // Polymorphic: Can be Player or Comp
     Player *p2; // Polymorphic: Can be Player or Comp
     bool turn;
@@ -34,11 +34,11 @@ private:
 
 public:
     Game();
-    Game(Player *p1, Player *p2, string gameuid);
+    Game(Player *p1, Player *p2, string uid);
     void play();
     ~Game();
-    void serialize();
-    void deserialize(fstream &);
+    void serialize(stringstream&);
+    void deserialize(fstream&);
 };
 
 #endif /* GAME_H */

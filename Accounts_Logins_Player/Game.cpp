@@ -20,7 +20,7 @@ Game::Game(Player *p1, Player *p2, string uid)
 {
     this->p1 = p1;
     this->p2 = p2;
-    safeCStrNCpy(this->gameuid, uid, game::MAXSTR);
+    safeCStrNCpy(this->uid, uid, game::MAXSTR);
     this->turn = false;
 }
 
@@ -84,35 +84,46 @@ void Game::play()
     }
 }
 
-void Game::serialize()
+void Game::serialize(stringstream& buffer)
 {
+    /* --Game serialization binary storage structure--
+     * char[MAXSTR]:        Unique identifier (UID) of game
+     * int:                 size (in bytes) of game
+     * Player:              Player 1
+     * Player:              Player 2
+     * bool:                current turn
+     */
     stringstream p1_buff, p2_buff;
-    int p1_size = 0, p2_size = 0;
-    short unsigned int type_val; // DEBUG
-    PlayerType type;             // DEBUG
-    p2->attackCell(1, 1, p1);    // DEBUG  dummy shot to mod. board
-
+    int p1_size = 0, p2_size = 0, game_size = 0;
+    
+    // Serialize each Player object to a buffer
     p1_buff.seekp(0L, std::ios_base::end);
     p2_buff.seekp(0L, std::ios_base::end);
-
+    
     p1->serialize(p1_buff, p1_size);
     p2->serialize(p2_buff, p2_size);
     
+    // Store the unique identifier of the game
+    buffer.write(reinterpret_cast<char*>(&uid), sizeof(uid));
     
+    // Store the size of game (- uid)(used for seeking)
+    game_size = sizeof(bool) + p1_size + p2_size;
+    buffer.write(reinterpret_cast<char*>(&game_size), sizeof(game_size));
+    
+    // Store the current turn
+    buffer.write(reinterpret_cast<char*>(&turn), sizeof(turn));
+    
+    // Store Player 1
+    string p1_str = p1_buff.str();
+    buffer.write(p1_str.c_str(), p1_str.size());
+    // Store Player 2
+    string p2_str = p2_buff.str();
+    buffer.write(p2_str.c_str(), p2_str.size());
 
-    // Read the Player object type
-    p1_buff.read(reinterpret_cast<char *>(&type_val), sizeof(type_val));
-    type = static_cast<PlayerType>(type_val);
-    cout << "TYPE: " << static_cast<int>(type) << "\n"; // DEBUG
-
-    if (type == PlayerType::PLAYER)
-    { // DEBUG
-        Player *p1 = new Player();
-        p1->deserialize(p1_buff);
-    }
+    //TODO: TEST IF THIS ACTUALLY WORKS
 }
 
-void Game::deserialize(fstream &file)
+void Game::deserialize(fstream& file)
 {
     //    /* Assumes that file stream read position is already set.
     //     *

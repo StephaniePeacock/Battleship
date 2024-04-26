@@ -82,7 +82,8 @@ void Battleship::main() {
             Player p1 = Player();
             Player p2 = Player();
             Game game = Game(&p1, &p2, "");
-            game.serialize();
+            stringstream buffer;
+            game.serialize(buffer);
             break;
             }
         case '4':
