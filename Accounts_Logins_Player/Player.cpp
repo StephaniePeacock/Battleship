@@ -264,17 +264,18 @@ void Player::serialize(stringstream &buffer, int &size)
      * int:                 shipCounts map count
      * char & int pars:     first key (char) then value (int)
      *                        for each pair in map
+     * int:                 unsunk integer value
      */
 
     // Store object type to aid in deserialization
     short unsigned int type = static_cast<short unsigned int>(TYPE);
-    buffer.write(reinterpret_cast<char *>(&type), sizeof(type));
+    buffer.write(reinterpret_cast<char*>(&type), sizeof(type));
     size += sizeof(type);
 
     // Store each of the arrays (board, shots)
     // Store size of the board.
     int board_size = BOARD_SIZE;
-    buffer.write(reinterpret_cast<char *>(&board_size), sizeof(board_size));
+    buffer.write(reinterpret_cast<char*>(&board_size), sizeof(board_size));
     // Store board
     for (int r = 0; r < board_size; r++)
     {
@@ -290,15 +291,19 @@ void Player::serialize(stringstream &buffer, int &size)
     // Store unordered_map (shipCounts)
     // Store size of unordered_map
     int map_count = shipCounts.size();
-    buffer.write(reinterpret_cast<char *>(&map_count), sizeof(map_count));
+    buffer.write(reinterpret_cast<char*>(&map_count), sizeof(map_count));
     // Store each key, value pair
     for (const pair<char, int> &kv : shipCounts)
     {
         //        cout << kv.first << " : " << kv.second << "\n";  //DEBUG
-        buffer.write(reinterpret_cast<const char *>(&kv.first), sizeof(kv.first));
-        buffer.write(reinterpret_cast<const char *>(&kv.second), sizeof(kv.second));
+        buffer.write(reinterpret_cast<const char*>(&kv.first), sizeof(kv.first));
+        buffer.write(reinterpret_cast<const char*>(&kv.second), sizeof(kv.second));
     }
     size += map_count * (sizeof(char) + sizeof(int));
+    
+    // Sore unsunk integer value
+    buffer.write(reinterpret_cast<char*>(&unsunk), sizeof(unsunk));
+    size += sizeof(unsunk);
 }
 
 void Player::deserialize(stringstream& buffer) {
@@ -334,4 +339,7 @@ void Player::deserialize(stringstream& buffer) {
         buffer.read(reinterpret_cast<char*>(&val), sizeof(val));
         shipCounts[key] = val;
     }
+    
+    // Read unsunk integer value
+    buffer.read(reinterpret_cast<char*>(&unsunk), sizeof(unsunk));
 }
