@@ -89,9 +89,9 @@ void Game::serialize(stringstream& buffer)
     /* --Game serialization binary storage structure--
      * char[MAXSTR]:        Unique identifier (UID) of game
      * int:                 size (in bytes) of game
+     * bool:                current turn
      * Player:              Player 1
      * Player:              Player 2
-     * bool:                current turn
      */
     stringstream p1_buff, p2_buff;
     int p1_size = 0, p2_size = 0, game_size = 0;
