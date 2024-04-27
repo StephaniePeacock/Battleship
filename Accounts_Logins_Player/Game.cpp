@@ -135,11 +135,9 @@ void Game::deserialize(stringstream& buffer)
     
         short unsigned int type_val;
         PlayerType type;
-    
         
         // Read the current turn
         buffer.read(reinterpret_cast<char*>(&turn), sizeof(turn));
-    
 
         //// Deserialize p1 (Player 1)
         // First free up the old allocated memory for this->p1
