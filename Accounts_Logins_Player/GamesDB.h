@@ -26,7 +26,16 @@ private:
     fstream file;    
 public:
     GamesDB();
-
+    void open();
+    void close();
+    static void createDB();
+    static void deleteDB();
+    int count();
+    long int size();
+    int find(const string& uid);
+    void load(Game& game);
+    void save(Game& game);
+    void del(const string& uid);
 };
 
 #endif /* GAMESDB_H */

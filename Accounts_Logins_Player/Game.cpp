@@ -120,8 +120,6 @@ void Game::serialize(stringstream& buffer)
     // Store Player 2
     string p2_str = p2_buff.str();
     buffer.write(p2_str.c_str(), p2_str.size());
-
-    //TODO: TEST IF THIS ACTUALLY WORKS
 }
 
 void Game::deserialize(stringstream& buffer)
