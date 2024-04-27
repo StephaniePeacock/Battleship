@@ -23,7 +23,7 @@ AccountsDB::AccountsDB(string fname)
 
 void AccountsDB::open()
 {
-    file.open(fname, std::ios::binary | std::ios::in | std::ios::out);
+    file.open(fname, ios::binary | ios::in | ios::out);
     if (file.fail()) {
         cout << "Error opening file: " << fname << "\n";
     }
