@@ -7,33 +7,21 @@
 
 #include "Game.h"
 
-Game::Game()
-{
-    p1 = new Player();
-    p1 = nullptr;
-    p2 = new Player();
-    p2 = nullptr;
-    this->turn = false;
-}
-
 Game::Game(Player *p1, Player *p2, string uid)
 {
     this->p1 = p1;
     this->p2 = p2;
-    safeCStrNCpy(this->uid, uid, game::MAXSTR);
+    safeCStrNCpy(this->uid, uid, game::MAXUID);
     this->turn = false;
+    this->clr = false;
 }
 
 Game::~Game()
 {
     // Sometimes we allocate new memory, conditionally clear it
-    if (p1 == nullptr)
-    {
+    if (clr) {
         delete p1;
         p1 = nullptr;
-    }
-    if (p2 == nullptr)
-    {
         delete p2;
         p2 = nullptr;
     }
@@ -84,10 +72,18 @@ void Game::play()
     }
 }
 
+Player* Game::getPlayer1() {
+    return this->p1;
+}
+Player* Game::getPlayer2() {
+    return this->p2;
+}
+
+
 void Game::serialize(stringstream& buffer)
 {
     /* --Game serialization binary storage structure--
-     * char[MAXSTR]:        Unique identifier (UID) of game
+     * char[MAXUID]:        Unique identifier (UID) of game
      *                      - Used to find game
      * int:                 size (in bytes) of game
      *                      - Used for seeking
@@ -99,9 +95,9 @@ void Game::serialize(stringstream& buffer)
     int p1_size = 0, p2_size = 0, game_size = 0;
     
     // Serialize each Player object to a buffer
-    p1_buff.seekp(0L, std::ios_base::end);
+    p1_buff.seekp(0L, std::ios::end);
     p1->serialize(p1_buff, p1_size);
-    p2_buff.seekp(0L, std::ios_base::end);
+    p2_buff.seekp(0L, std::ios::end);
     p2->serialize(p2_buff, p2_size);
     
     // Store the unique identifier of the game
@@ -109,6 +105,7 @@ void Game::serialize(stringstream& buffer)
     
     // Store the size of game (used for seeking)
     game_size = sizeof(bool) + p1_size + p2_size;
+    cout << "WRITE GAME SIZE: " << game_size << "\n";  //DEBUG
     buffer.write(reinterpret_cast<char*>(&game_size), sizeof(game_size));
     
     // Store the current turn
@@ -136,15 +133,27 @@ void Game::deserialize(stringstream& buffer)
         
         // Read the current turn
         buffer.read(reinterpret_cast<char*>(&turn), sizeof(turn));
+        cout << "READ CURRENT TURN: " << turn << "\n";  //DEBUG
+        
+        // Conditionally clear old allocated memory for this->p1 and this->p2
+        if (clr) {
+            delete this->p1;
+            this->p1 = nullptr;
+            delete this->p2;
+            this->p2 = nullptr;
+            cout << "FREED UP MEMORY\n";  //DEBUG
+        } else {
+            this->clr = true;  // If not already true, set to true (clear next time)
+        }
 
         //// Deserialize p1 (Player 1)
-        // First free up the old allocated memory for this->p1
-        delete this->p1;
-        this->p1 = nullptr;
+        cout << "PROCESSING PLAYER 1...\n";  //DEBUG
         
         // Read the Player object type
         buffer.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
         type = static_cast<PlayerType>(type_val);
+        
+        cout << "TYPE: " << static_cast<int>(type) << "\n";
     
         // get new p1; Use appropriate serialization method for type
         switch (type) {
@@ -161,29 +170,35 @@ void Game::deserialize(stringstream& buffer)
                 break;
             }
         }
+        this->p1->displayBoard();
+        this->p1->displayShots();
+        cout << "FINISHED PROCESSING PLAYER 1\n";  //DEBUG
     
         //// Deserialize p2 (Player 2)
-        // First free up the old allocated memory for this->p2
-        delete this->p2;
-        this->p2 = nullptr;
-    
+        cout << "PROCESSING PLAYER 2...\n";  //DEBUG
+
         // Read the Player object type
         buffer.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
         type = static_cast<PlayerType>(type_val);
+        
+        cout << "TYPE: " << static_cast<int>(type) << "\n";
     
         // get new p2; Use appropriate serialization method for type
         switch (type) {
             case PlayerType::PLAYER: {
                 Player* p2 = new Player();
-                p1->deserialize(buffer);
+                p2->deserialize(buffer);
                 this->p2 = p2;
                 break;
             }
             case PlayerType::COMP: {
                 Comp* p2 = new Comp();
-                p1->deserialize(buffer);
+                p2->deserialize(buffer);
                 this->p2 = p2;
                 break;
             }
         }
+        this->p2->displayBoard();
+        this->p2->displayShots();
+        cout << "FINISHED PROCESSING PLAYER 2\n";  //DEBUG
 }

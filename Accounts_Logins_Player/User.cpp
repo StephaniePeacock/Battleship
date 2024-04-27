@@ -59,6 +59,14 @@ void User::setAdmin (const bool adm) {
     this->isadmin = adm;
 }
 
+string User::newGameUID() {
+    // Get timestamp in milliseconds since epoch
+    uint64_t now = chrono::duration_cast<chrono::milliseconds>(
+        chrono::system_clock::now().time_since_epoch()
+    ).count();
+    return email + (string)"_" + to_string(now);
+}
+
 void User::display() const{
     cout << "Email: " << this->email << "\n";
     cout << "Password: " << this->pword << "\n";
@@ -141,4 +149,8 @@ void User::start(){
                 cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";break;
             } 
     } while (!quit);
+}
+
+void User::saveGame(Game& game) {
+
 }

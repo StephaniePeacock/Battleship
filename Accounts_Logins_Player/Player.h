@@ -45,7 +45,6 @@ private:
         return (row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE);
     }
     bool isValidPlacement(int, int, int, char);
-    bool placeShip(int, int, int, char, char);
 
     bool isCellAlreadyHit(int row, int col)
     {
@@ -60,6 +59,8 @@ public:
     void displayShots();
     void promptShipPlacement();
     void attackCell(int, int, Player *);
+    
+    bool placeShip(int, int, int, char, char);
 
     int getUnsunk() { return this->unsunk; }
     char getBoard(int, int);

@@ -197,7 +197,7 @@ bool Player::placeShip(int row, int col, int size, char direction, char shipType
     }
 
     shipCounts[shipType]--;
-    displayBoard(); // Display the board after each placement
+//    displayBoard(); // Display the board after each placement
     return true;
 }
 
@@ -266,6 +266,8 @@ void Player::serialize(stringstream &buffer, int &size)
      *                        for each pair in map
      * int:                 unsunk integer value
      */
+    
+    cout << "SERIALIZING...\n";  //DEBUG
 
     // Store object type to aid in deserialization
     short unsigned int type = static_cast<short unsigned int>(TYPE);
@@ -308,9 +310,13 @@ void Player::serialize(stringstream &buffer, int &size)
     // Sore unsunk integer value
     buffer.write(reinterpret_cast<char*>(&unsunk), sizeof(unsunk));
     size += sizeof(unsunk);
+    
+    cout << "FINISHED SERIALIZING\n";  //DEBUG
 }
 
 void Player::deserialize(stringstream& buffer) {
+    
+    cout << "DESERIALIZING...\n";  //DEBUG
     
     int board_size, map_count;
     
@@ -326,6 +332,7 @@ void Player::deserialize(stringstream& buffer) {
             buffer.read(reinterpret_cast<char *>(&board[r][c]), sizeof(char));
         }
     }
+    displayBoard();  //DEBUG
     // Read shots
     for (int r = 0; r < board_size; r++) {
         for (int c = 0; c < board_size; c++) {
@@ -347,4 +354,6 @@ void Player::deserialize(stringstream& buffer) {
     
     // Read unsunk integer value
     buffer.read(reinterpret_cast<char*>(&unsunk), sizeof(unsunk));
+    
+    cout << "FINISHED DESERIALIZING\n";  //DEBUG
 }

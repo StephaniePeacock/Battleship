@@ -1,10 +1,11 @@
 build/Debug/Cygwin-Windows/Battleship.o: Battleship.cpp Battleship.h \
- AccountsDB.h User.h Player.h Board.h Generics.h Game.h Comp.h
+ AccountsDB.h User.h GamesDB.h Game.h Generics.h Player.h Board.h Comp.h
 Battleship.h:
 AccountsDB.h:
 User.h:
+GamesDB.h:
+Game.h:
+Generics.h:
 Player.h:
 Board.h:
-Generics.h:
-Game.h:
 Comp.h:

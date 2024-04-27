@@ -81,13 +81,63 @@ void Battleship::main() {
         case 'g': {  //FOR DEBUG ONLY, test storing Game object in binary file
             Player p1 = Player();
             Player p2 = Player();
-            Game game = Game(&p1, &p2, "");
+            User user;
+            this->accounts.open();
+            this->accounts.get(1, &user);
+            this->accounts.close();
+            string uid = user.newGameUID();
+            cout << "GAME UID: " << uid << "\n";
+            
+            // Do some stuff to modify game state
+            p1.placeShip(2, 8, 5, 'V', 'C');
+            p1.placeShip(5, 3, 3, 'H', 'S');
+            p2.attackCell(3, 3, &p1);
+            p2.attackCell(5, 3, &p1);
+            cout << "PLAYER 1 BOARD:\n";
+            p1.displayBoard();
+            cout << "PLAYER 1 SHOTS:\n";
+            p1.displayShots();
+            cout << "PLAYER 2 BOARD:\n";
+            p2.displayBoard();
+            cout << "PLAYER 2 SHOTS:\n";
+            p2.displayShots();
+            
+            Game game = Game(&p1, &p2, uid);
+            
             stringstream buffer;
+            buffer.seekp(0L, ios::end);
+            cout << "SEREALIZING GAME...\n";
             game.serialize(buffer);
+            cout << "SUCCESSFULLY SERIALIZED GAME!\n";
+            buffer.seekg(0L, ios::beg);
+            cout << "SET CURSOR TO BEGINNING\n";
+            
+            char c_uid[102];
+            buffer.read(reinterpret_cast<char*>(c_uid), sizeof(c_uid));
+            cout << "READ GAME UID: " << c_uid << "\n";
+            
+            int gsize = 0;
+            buffer.read(reinterpret_cast<char*>(&gsize), sizeof(gsize));
+            cout << "READ GAME SIZE: " << gsize << "\n";
+            
+            cout << "DESEREALIZING GAME...\n";
+            game.deserialize(buffer);            
+            cout << "SUCCESSFULLY DESERIALIZED!\n";
+            
+            cout << "PLAYER 1\n";
+            Player* p1n = game.getPlayer1();
+            p1n->displayBoard();
+            p1n->displayShots();
+            
+            cout << "PLAYER 2\n";
+            Player* p2n = game.getPlayer2();
+            p2n->displayBoard();
+            p2n->displayShots();
+            
             break;
             }
         case '4':
-            quit = true; break;    
+            quit = true; break;
         default:
             cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";break;
         } 

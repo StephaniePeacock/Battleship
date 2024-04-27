@@ -18,27 +18,29 @@
 #include "Comp.h"
 
 namespace game {
-    const int MAXSTR = 81;
+    const int MAXUID = 102;  // MAXSTR + 1 (for "_") + 20 (largest 64-bit int is 20 chars wide)
 }
 
 class Game {
 
 private:
-    char uid[game::MAXSTR];
+    char uid[game::MAXUID];
     Player *p1; // Polymorphic: Can be Player or Comp
     Player *p2; // Polymorphic: Can be Player or Comp
     bool turn;
+    bool clr;  // Flag set when memory dynamically allocated
 
     // Methods
     void doTurn();
 
 public:
-    Game();
     Game(Player *p1, Player *p2, string uid);
     void play();
     ~Game();
     void serialize(stringstream&);
     void deserialize(stringstream&);
+    Player* getPlayer1();  //DEBUG
+    Player* getPlayer2();  //DEBUG
 };
 
 #endif /* GAME_H */

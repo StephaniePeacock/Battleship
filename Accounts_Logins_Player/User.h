@@ -15,8 +15,11 @@
 
 #include <iostream>
 #include <cstring>
+#include <chrono>
 
 using namespace std;
+
+#include "GamesDB.h"
 
 namespace user {
     const int MAXSTR = 81;
@@ -34,7 +37,8 @@ protected:
     bool isadmin;
     Stats info;
     
-    //add Game info
+    //Other functions
+    
 public:
     User();                                                 //default
     User(const string, const string, const bool);           //register new
@@ -53,7 +57,10 @@ public:
     //Other Functions
     void main();
     void display() const;
-    void save();
+    string newGameUID();
+    void saveGame(Game&);
+    void loadGame(Game&);
+    void newGame(Game&);
     void acctMenu();
     void start();
     // User operator=(User &); //override = so we can move account to admin type object
