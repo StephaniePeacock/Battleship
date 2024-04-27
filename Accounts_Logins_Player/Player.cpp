@@ -272,10 +272,12 @@ void Player::serialize(stringstream &buffer, int &size)
     buffer.write(reinterpret_cast<char*>(&type), sizeof(type));
     size += sizeof(type);
 
-    // Store each of the arrays (board, shots)
+    //// Store each of the arrays (board, shots)
+    
     // Store size of the board.
     int board_size = BOARD_SIZE;
     buffer.write(reinterpret_cast<char*>(&board_size), sizeof(board_size));
+    
     // Store board
     for (int r = 0; r < board_size; r++)
     {
@@ -288,10 +290,12 @@ void Player::serialize(stringstream &buffer, int &size)
     }
     size += board_size * board_size * sizeof(char) * 2;
 
-    // Store unordered_map (shipCounts)
+    //// Store unordered_map (shipCounts)
+    
     // Store size of unordered_map
     int map_count = shipCounts.size();
     buffer.write(reinterpret_cast<char*>(&map_count), sizeof(map_count));
+    
     // Store each key, value pair
     for (const pair<char, int> &kv : shipCounts)
     {
@@ -310,10 +314,10 @@ void Player::deserialize(stringstream& buffer) {
     
     int board_size, map_count;
     
-    // Read each of the arrays (board, shots)
+    //// Read each of the arrays (board, shots)
+
     // Read size of the board.
     buffer.read(reinterpret_cast<char*>(&board_size), sizeof(board_size));
-    cout << "BOARD_SIZE: " << board_size << "\n";
     // Read board
     for (int r = 0; r < board_size; r++)
     {
@@ -322,13 +326,14 @@ void Player::deserialize(stringstream& buffer) {
             buffer.read(reinterpret_cast<char *>(&board[r][c]), sizeof(char));
         }
     }
+    // Read shots
     for (int r = 0; r < board_size; r++) {
         for (int c = 0; c < board_size; c++) {
             buffer.read(reinterpret_cast<char*>(&shots[r][c]), sizeof(char));
         }
     }
     
-    // Read unordered_map (shipCounts)
+    //// Read unordered_map (shipCounts)
     // Read size of unordered_map
     buffer.read(reinterpret_cast<char*>(&map_count), sizeof(map_count));
     // Read each key, value pair

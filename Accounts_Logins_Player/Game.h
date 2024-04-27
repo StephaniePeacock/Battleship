@@ -38,7 +38,7 @@ public:
     void play();
     ~Game();
     void serialize(stringstream&);
-    void deserialize(fstream&);
+    void deserialize(stringstream&);
 };
 
 #endif /* GAME_H */
