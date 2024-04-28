@@ -23,7 +23,7 @@ GamesDB::GamesDB(string fname)
 
 void GamesDB::open()
 {
-    cout << "OPENING " << fname << "...\n";
+//    cout << "OPENING " << fname << "...\n";
     file.open(fname, ios::binary | ios::in | ios::out);
     if (file.fail()) {
         cout << "Error opening file: " << fname << "\n";
@@ -32,7 +32,7 @@ void GamesDB::open()
 
 void GamesDB::close()
 {
-    cout << "CLOSING " << fname << "...\n";
+//    cout << "CLOSING " << fname << "...\n";
     file.close();
     if (file.fail()) {
         cout << "Error closing file: " << fname << "\n";
@@ -81,57 +81,38 @@ int GamesDB::find(const string& uid, int& cur) {
     int pos = -1, game_size = 0;
     char seek_uid[game::MAXUID];
     
-//    cout << "SEEKING: " << uid << "\n";
-    
     int i = 0;
     file.seekg(cur, ios::beg);
     while (true) {
-//        cout << "i: " << i << "\n";  //DEBUG
-//        cout << "-BEGINNING POS\n";  //DEBUG
-//        cout << " CURS SEEK POS: " << cur << "\n";  //DEBUG
-//        cout << " TRUE SEEK POS: " << file.tellg() << "\n";  //DEBUG
-        // try to read the uid
-        
+
+        // check if there is any data ahead
         if (file.peek() == EOF) {
-            cout << "Reached the end\n";
-            break;
+            break;  // reached the end of the file
         }
         
+        // try to read the uid
         file.read(reinterpret_cast<char*>(&seek_uid), sizeof(seek_uid));
         if (file.fail()) {  //game not found;
-            if (!file.eof()) {
-                cout << "Error reading UID\n";
-            } 
+            cout << "Unexpected error reading game " << seek_uid << "\n";
             break;
         }
-//        cout << "UID: " << seek_uid << "\n";  //DEBUG
-//        cout << "-POS AFTER UID\n";  //DEBUG
-//        cout << "CURS SEEK POS: " << cur << "\n";  //DEBUG
-//        cout << "TRUE SEEK POS: " << file.tellg() << "\n";  //DEBUG
         
         if (strcmp(uid.c_str(), seek_uid) == 0) {  //account found
             pos = i;
             break; 
         }
  
-        game_size = 0;  // reset game size for next read
+        // read game size
+        game_size = 0;  // first reset previously read game size
         file.read(reinterpret_cast<char*>(&game_size), sizeof(game_size));
-//        cout << "-POS AFTER GAME SIZE\n";  //DEBUG
-//        cout << "CURS SEEK POS: " << cur << "\n";  //DEBUG
-//        cout << "TRUE SEEK POS: " << file.tellg() << "\n";  //DEBUG
 
-        file.seekg(game_size, ios::cur);  // skip the game object; go to next
-//        cout << "-POS AFTER SKIP GAME\n";  //DEBUG
-//        cout << "CURS SEEK POS: " << cur << "\n";  //DEBUG
-//        cout << "TRUE SEEK POS: " << file.tellg() << "\n";  //DEBUG
+        // skip the game object; go to next
+        file.seekg(game_size, ios::cur);  
     
+        // update cursor and index position
         cur += sizeof(seek_uid);
         cur += sizeof(game_size);
         cur += game_size;
-        
-//        cout << "-POS FINAL\n";  //DEBUG
-//        cout << "CURS SEEK POS: " << cur << "\n";  //DEBUG
-//        cout << "TRUE SEEK POS: " << file.tellg() << "\n";  //DEBUG
         
         i++;
     }
@@ -151,16 +132,14 @@ void GamesDB::save(Game& game) {
     // Look for saved game (if exists)
     pos = find(game.getUID(), cur);
     
-//    cout << "SAVE TO SEEK POS: " << cur << "\n";
-    
     string buffer_str = buffer.str();
     if (pos > -1) {  // existing game found; overwrite existing game
         file.seekp(cur, ios::beg);
-        cout << "WRITING EXISTING " << game.getUID() << " TO " << cur << "\n";  //DEBUG
+//        cout << "WRITING EXISTING " << game.getUID() << " TO " << cur << "\n";  //DEBUG
         file.write(buffer_str.c_str(), buffer_str.size());
     } else {  // write new game
         file.seekp(0L, ios::end);
-        cout << "WRITING NEW GAME " << game.getUID() << " TO " << file.tellp() << "\n";  //DEBUG
+//        cout << "WRITING NEW GAME " << game.getUID() << " TO " << file.tellp() << "\n";  //DEBUG
         file.write(buffer_str.c_str(), buffer_str.size());
     }
     file.flush();
@@ -178,7 +157,7 @@ void GamesDB::load(Game& game) {
         return;
     } 
 
-    cout << "LOADING GAME " << game.getUID() << " AT " << cur << "\n";
+//    cout << "LOADING GAME " << game.getUID() << " AT " << cur << "\n";  //DEBUG
     // Get existing game
     file.seekp(cur, ios::beg);
     game.deserialize(file);
@@ -190,14 +169,17 @@ void GamesDB::list() {
     
     int i = 0;
     file.seekg(cur, ios::beg);
-    while (!file.fail()) {
+    while (true) {
+        
+        // check if there is any data ahead
+        if (file.peek() == EOF) {
+            break;  // reached the end of the file
+        }
+        
         // try to read the uid
         file.read(reinterpret_cast<char*>(&uid), sizeof(uid));
         if (file.fail()) {  //game not found;
-            if (!file.eof()) {
-                cout << "Error reading UID\n";
-            } 
-            file.clear();
+            cout << "Unexpected error reading game " << uid << "\n";
             break;
         }
         
@@ -211,8 +193,8 @@ void GamesDB::list() {
         cur += sizeof(game_size);
         cur += game_size;
         file.seekg(cur, ios::beg);  // skip the game object; go to next
-        i++;
-        
+        i++;       
     }
+    file.clear();
 }
 
