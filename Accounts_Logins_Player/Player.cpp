@@ -307,7 +307,7 @@ void Player::serialize(stringstream &buffer, int &size)
     }
     size += map_count * (sizeof(char) + sizeof(int));
     
-    // Sore unsunk integer value
+    // Store unsunk integer value
     buffer.write(reinterpret_cast<char*>(&unsunk), sizeof(unsunk));
     size += sizeof(unsunk);
 }

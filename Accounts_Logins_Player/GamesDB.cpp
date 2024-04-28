@@ -156,11 +156,11 @@ void GamesDB::save(Game& game) {
     string buffer_str = buffer.str();
     if (pos > -1) {  // existing game found; overwrite existing game
         file.seekp(cur, ios::beg);
-        cout << "WRITING EXISTING " << game.getUID() << " TO " << cur << "\n";
+        cout << "WRITING EXISTING " << game.getUID() << " TO " << cur << "\n";  //DEBUG
         file.write(buffer_str.c_str(), buffer_str.size());
     } else {  // write new game
         file.seekp(0L, ios::end);
-        cout << "WRITING NEW GAME " << game.getUID() << " TO " << file.tellp() << "\n";
+        cout << "WRITING NEW GAME " << game.getUID() << " TO " << file.tellp() << "\n";  //DEBUG
         file.write(buffer_str.c_str(), buffer_str.size());
     }
     file.flush();
@@ -174,7 +174,7 @@ void GamesDB::load(Game& game) {
     pos = find(game.getUID(), cur);
     
     if (pos < 0) {  // existing game not found
-        cout << "Game " << game.getUID() << " not found\n";
+        cout << "Game " << game.getUID() << " not found\n";  //DEBUG
         return;
     } 
 

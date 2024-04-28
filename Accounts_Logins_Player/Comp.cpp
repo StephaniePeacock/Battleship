@@ -20,12 +20,42 @@ Comp::Comp(bool smart) : Player() {
 }
 
 
-void Comp::serialize(stringstream& buffer, int&) {
-    //TODO
+void Comp::serialize(stringstream& buffer, int& size) {
+    /* --Comp serialization binary storage structure--
+     * --Everything in Player
+     * short unsigned int:  type of object (Player=0, Comp=1)
+     * int:                 size of board
+     * char[board size]:    char for each item in board array
+     * char[board size]:    char for each item in shots array
+     * int:                 shipCounts map count
+     * char & int pars:     first key (char) then value (int)
+     *                        for each pair in map
+     * int:                 unsunk integer value
+     * --Plus the following unique to Comp
+     * bool:                smart or dumb AI
+     */
+    
+    //// Serialize base class (Player) data
+    
+    Player::serialize(buffer, size);
+    
+    //// Serialize additional instance members unique to Comp
+    
+    // Store smart integer value
+    buffer.write(reinterpret_cast<char*>(&smart), sizeof(smart));
+    size += sizeof(smart);
 }
 
 void Comp::deserialize(fstream& file) {
-    //TODO
+    
+    //// Deserialize base class (Player) data
+    
+    Player::deserialize(file);
+    
+    //// Deserialize additional instance members unique to Comp
+    
+    // Store smart integer value
+    file.read(reinterpret_cast<char*>(&smart), sizeof(smart));
 }
 
 
