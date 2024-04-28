@@ -41,7 +41,7 @@ void Comp::serialize(stringstream& buffer, int& size) {
     
     //// Serialize additional instance members unique to Comp
     
-    // Store smart integer value
+    // Store smart boolean value
     buffer.write(reinterpret_cast<char*>(&smart), sizeof(smart));
     size += sizeof(smart);
 }
@@ -54,7 +54,7 @@ void Comp::deserialize(fstream& file) {
     
     //// Deserialize additional instance members unique to Comp
     
-    // Store smart integer value
+    // Read smart boolean value
     file.read(reinterpret_cast<char*>(&smart), sizeof(smart));
 }
 
