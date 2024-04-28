@@ -23,6 +23,7 @@ using namespace std;
 
 namespace user {
     const int MAXSTR = 81;
+    const string GAMESDBPATH = "data/games.bin";
 }
 
 struct Stats {
@@ -37,7 +38,8 @@ protected:
     bool isadmin;
     Stats info;
     
-    //Other functions
+    //static members
+    static GamesDB gamesdb;
     
 public:
     User();                                                 //default
@@ -60,7 +62,7 @@ public:
     string newGameUID();
     void saveGame(Game&);
     void loadGame(Game&);
-    void newGame(Game&);
+    void newGame();
     void acctMenu();
     void start();
     // User operator=(User &); //override = so we can move account to admin type object

@@ -11,8 +11,8 @@
 //using namespace std;
 
 Battleship::Battleship(){
-    AccountsDB::createDB(DBPATH);
-    this->accounts = AccountsDB(DBPATH);
+    AccountsDB::createDB(USERSDBPATH);
+    this->accounts = AccountsDB(USERSDBPATH);
 }
 void Battleship::loading(){
     //Constructing battleship game and thread - duration function for 3 seconds, with terminal clear
@@ -125,12 +125,12 @@ void Battleship::main() {
             cout << "SUCCESSFULLY DESERIALIZED!\n";
             
             cout << "PLAYER 1\n";
-            Player* p1n = game.getPlayer1();
+            Player* p1n = game.getP1();
             p1n->displayBoard();
             p1n->displayShots();
             
             cout << "PLAYER 2\n";
-            Player* p2n = game.getPlayer2();
+            Player* p2n = game.getP2();
             p2n->displayBoard();
             p2n->displayShots();
             

@@ -35,6 +35,11 @@ User::User(const string em, const string pw, Stats s, const bool adm) {  //for l
     //add Game object
 }
 
+// Static memebers
+GamesDB User::gamesdb = GamesDB(user::GAMESDBPATH);
+
+
+// Accessors & Mutators
 void User::setEmail(const string em) {
     safeCStrNCpy(this->email, em, user::MAXSTR);
 }
@@ -58,6 +63,8 @@ const bool User::isAsmin() {
 void User::setAdmin (const bool adm) {
     this->isadmin = adm;
 }
+
+// Other Functions
 
 string User::newGameUID() {
     // Get timestamp in milliseconds since epoch
@@ -151,6 +158,17 @@ void User::start(){
     } while (!quit);
 }
 
-void User::saveGame(Game& game) {
+void User::newGame() {
+    
+    // Select player 1
+    Player p1 = Player();
+    
+    // Select player 2
+    Player p2 = Player();
 
+    // Create game instance
+    Game game = Game(&p1, &p2, User::newGameUID());
+    game.play();
+    
+    
 }

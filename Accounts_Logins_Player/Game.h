@@ -34,13 +34,21 @@ private:
     void doTurn();
 
 public:
+    Game(string uid);
     Game(Player *p1, Player *p2, string uid);
     void play();
     ~Game();
+    
+    
+    //Accessors
+    string getUID();
+    Player* getP1();  //DEBUG
+    Player* getP2();  //DEBUG
+    
+    //Serialization
     void serialize(stringstream&);
     void deserialize(stringstream&);
-    Player* getPlayer1();  //DEBUG
-    Player* getPlayer2();  //DEBUG
+
 };
 
 #endif /* GAME_H */
