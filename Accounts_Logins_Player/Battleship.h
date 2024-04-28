@@ -16,7 +16,7 @@ using namespace std;
 
 const int MINEMAIL = 6;
 const int MINPWORD = 7;
-const string DBPATH = "data/users.bin";
+const string USERSDBPATH = "data/users.bin";
 
 class Battleship {
 private:

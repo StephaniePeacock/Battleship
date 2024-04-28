@@ -23,16 +23,17 @@ class GamesDB {
 private:
     // Member variables
     string fname;
-    fstream file;    
+    fstream file;
 public:
     GamesDB();
+    GamesDB(string);
     void open();
     void close();
-    static void createDB();
-    static void deleteDB();
+    static void createDB(string);
+    static void deleteDB(string);
     int count();
     long int size();
-    int find(const string& uid);
+    int find(const string& uid, int& curr);
     void load(Game& game);
     void save(Game& game);
     void del(const string& uid);

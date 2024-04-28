@@ -7,6 +7,11 @@
 
 #include "Game.h"
 
+Game::Game(string uid) {
+    safeCStrNCpy(this->uid, uid, game::MAXUID);
+    this->turn = false;
+    this->clr = false;
+}
 Game::Game(Player *p1, Player *p2, string uid)
 {
     this->p1 = p1;
@@ -25,6 +30,18 @@ Game::~Game()
         delete p2;
         p2 = nullptr;
     }
+}
+
+string Game::getUID() {
+    return this->uid;
+}
+
+Player* Game::getP1() {
+    return this->p1;
+}
+
+Player* Game::getP2() {
+    return this->p2;
 }
 
 /// @brief Update whose turn it is
@@ -72,14 +89,6 @@ void Game::play()
     }
 }
 
-Player* Game::getPlayer1() {
-    return this->p1;
-}
-Player* Game::getPlayer2() {
-    return this->p2;
-}
-
-
 void Game::serialize(stringstream& buffer)
 {
     /* --Game serialization binary storage structure--
@@ -93,23 +102,22 @@ void Game::serialize(stringstream& buffer)
      */
     stringstream p1_buff, p2_buff;
     int p1_size = 0, p2_size = 0, game_size = 0;
+        
+    // Store the unique identifier of the game
+    buffer.write(reinterpret_cast<char*>(&uid), sizeof(uid));
+    
+    // Store the size of game (used for seeking)
+    game_size = sizeof(bool) + p1_size + p2_size;
+    buffer.write(reinterpret_cast<char*>(&game_size), sizeof(game_size));
+    
+    // Store the current turn
+    buffer.write(reinterpret_cast<char*>(&turn), sizeof(turn));
     
     // Serialize each Player object to a buffer
     p1_buff.seekp(0L, std::ios::end);
     p1->serialize(p1_buff, p1_size);
     p2_buff.seekp(0L, std::ios::end);
     p2->serialize(p2_buff, p2_size);
-    
-    // Store the unique identifier of the game
-    buffer.write(reinterpret_cast<char*>(&uid), sizeof(uid));
-    
-    // Store the size of game (used for seeking)
-    game_size = sizeof(bool) + p1_size + p2_size;
-    cout << "WRITE GAME SIZE: " << game_size << "\n";  //DEBUG
-    buffer.write(reinterpret_cast<char*>(&game_size), sizeof(game_size));
-    
-    // Store the current turn
-    buffer.write(reinterpret_cast<char*>(&turn), sizeof(turn));
     
     // Store Player 1
     string p1_str = p1_buff.str();
@@ -133,7 +141,6 @@ void Game::deserialize(stringstream& buffer)
         
         // Read the current turn
         buffer.read(reinterpret_cast<char*>(&turn), sizeof(turn));
-        cout << "READ CURRENT TURN: " << turn << "\n";  //DEBUG
         
         // Conditionally clear old allocated memory for this->p1 and this->p2
         if (clr) {
@@ -141,20 +148,16 @@ void Game::deserialize(stringstream& buffer)
             this->p1 = nullptr;
             delete this->p2;
             this->p2 = nullptr;
-            cout << "FREED UP MEMORY\n";  //DEBUG
         } else {
             this->clr = true;  // If not already true, set to true (clear next time)
         }
 
         //// Deserialize p1 (Player 1)
-        cout << "PROCESSING PLAYER 1...\n";  //DEBUG
         
         // Read the Player object type
         buffer.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
         type = static_cast<PlayerType>(type_val);
         
-        cout << "TYPE: " << static_cast<int>(type) << "\n";
-    
         // get new p1; Use appropriate serialization method for type
         switch (type) {
             case PlayerType::PLAYER: {
@@ -170,19 +173,13 @@ void Game::deserialize(stringstream& buffer)
                 break;
             }
         }
-        this->p1->displayBoard();
-        this->p1->displayShots();
-        cout << "FINISHED PROCESSING PLAYER 1\n";  //DEBUG
     
         //// Deserialize p2 (Player 2)
-        cout << "PROCESSING PLAYER 2...\n";  //DEBUG
 
         // Read the Player object type
         buffer.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
         type = static_cast<PlayerType>(type_val);
         
-        cout << "TYPE: " << static_cast<int>(type) << "\n";
-    
         // get new p2; Use appropriate serialization method for type
         switch (type) {
             case PlayerType::PLAYER: {
@@ -198,7 +195,4 @@ void Game::deserialize(stringstream& buffer)
                 break;
             }
         }
-        this->p2->displayBoard();
-        this->p2->displayShots();
-        cout << "FINISHED PROCESSING PLAYER 2\n";  //DEBUG
 }
