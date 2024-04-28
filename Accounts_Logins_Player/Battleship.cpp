@@ -135,6 +135,10 @@ void Battleship::main() {
             Game game_load = Game(uid);
             gamesdb.open();
             gamesdb.load(game_load);
+            gamesdb.del("hannes@mail.com_1714321083709");
+            gamesdb.del("hannes@mail.com_1714321083707");
+            gamesdb.del("hannes@mail.com_1714321083727");
+            gamesdb.list();
             gamesdb.close();
             
 //            stringstream buffer;
@@ -157,15 +161,15 @@ void Battleship::main() {
 //            game.deserialize(buffer);            
 //            cout << "SUCCESSFULLY DESERIALIZED!\n";
 //            
-            cout << "PLAYER 1\n";
-            Player* p1n = game.getP1();
-            p1n->displayBoard();
-            p1n->displayShots();
-            
-            cout << "PLAYER 2\n";
-            Player* p2n = game.getP2();
-            p2n->displayBoard();
-            p2n->displayShots();
+//            cout << "PLAYER 1\n";
+//            Player* p1n = game.getP1();
+//            p1n->displayBoard();
+//            p1n->displayShots();
+//            
+//            cout << "PLAYER 2\n";
+//            Player* p2n = game.getP2();
+//            p2n->displayBoard();
+//            p2n->displayShots();
             
             break;
             }

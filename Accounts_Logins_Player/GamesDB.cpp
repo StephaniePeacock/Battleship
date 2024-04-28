@@ -67,6 +67,11 @@ void GamesDB::createDB(string fname)
     file.close();
 }
 
+int GamesDB::size() {
+    file.seekg(0L, ios::end);
+    return file.tellg();
+}
+
 void GamesDB::deleteDB(string fname) {
     if (remove(fname.c_str()) != 0) {
         cout << "   Failed to delete file \"" << fname << "\".\n";
@@ -158,9 +163,62 @@ void GamesDB::load(Game& game) {
     } 
 
 //    cout << "LOADING GAME " << game.getUID() << " AT " << cur << "\n";  //DEBUG
-    // Get existing game
+    // Load existing game
     file.seekp(cur, ios::beg);
     game.deserialize(file);
+}
+
+void GamesDB::del(const string& uid) {
+    int chk_del = 0;  // Seek position of game to delete
+    int chk_beg = 0;  // Seek position of chunk to shift left
+    int chk_end = size();  // Size of DB
+    int chk_sz = 0; // size of chunk to shift left
+    int pos = 0;
+    
+    // Look for saved game (if exists)
+    pos = find(uid, chk_del);
+    
+    if (pos < 0) {  // existing game not found
+        cout << "Game " << uid << " not found\n";  //DEBUG
+        return;
+    }
+    
+    // Seek to found saved game location
+    file.seekg(chk_del, ios::beg);
+    
+    // read to the end of this saved game (start of next or eof)
+    skip();
+    chk_beg = file.tellg();  // Get start of chunk to shift left
+//    cout  << "CURSOR POS: " << chk_beg << "\n";  //DEBUG
+
+    // get size of chunk to shift left
+    chk_sz = chk_end - chk_beg;
+
+    char buffer_a[chk_beg];
+    char buffer_b[chk_sz];
+    // Read the chunk of bytes up to record to be deleted into buffer
+    file.seekg(0L, ios::beg);
+    file.read(buffer_a, chk_del);
+    // Read the chunk of bytes after record to be deleted into the buffer
+    file.seekg(chk_beg, ios::beg);
+    file.read(buffer_b, chk_sz);
+    
+    // Clear file contents;
+    delAll();
+    
+    // Reconstruct file contents (without deleted record)
+    file.seekp(0L, ios::end);
+    file.write(buffer_a, chk_del);
+    file.write(buffer_b, chk_sz);
+    
+    file.flush();   
+}
+
+void GamesDB::skip() {
+    int game_size = 0;
+    file.seekg(sizeof(char [game::MAXUID]), ios::cur);
+    file.read(reinterpret_cast<char*>(&game_size), sizeof(game_size));
+    file.seekg(game_size, ios::cur);
 }
 
 void GamesDB::list() {
@@ -171,12 +229,12 @@ void GamesDB::list() {
     file.seekg(cur, ios::beg);
     while (true) {
         
-        // check if there is any data ahead
+        // Check if there is any data ahead
         if (file.peek() == EOF) {
             break;  // reached the end of the file
         }
         
-        // try to read the uid
+        // Try to read the uid
         file.read(reinterpret_cast<char*>(&uid), sizeof(uid));
         if (file.fail()) {  //game not found;
             cout << "Unexpected error reading game " << uid << "\n";
@@ -196,5 +254,24 @@ void GamesDB::list() {
         i++;       
     }
     file.clear();
+}
+
+void GamesDB::delAll(){
+    
+    // Check if stream is open, close if open, remember initial state
+    bool opn = false;
+    if (file.is_open()){
+        opn = true;
+        close();
+    }
+    
+    // Clear all contents from file
+    file.open(fname, ios::binary | ios::out | ios::trunc);
+    close();
+
+    // If initial state was open, reopen.
+    if (opn) {
+        open();
+    }
 }
 

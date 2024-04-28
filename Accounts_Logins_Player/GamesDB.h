@@ -27,6 +27,7 @@ private:
     
     // Private methods
 //    void checkState();  //DEBUG
+    void skip();
 public:
     GamesDB();
     GamesDB(string);
@@ -34,13 +35,14 @@ public:
     void close();
     static void createDB(string);
     static void deleteDB(string);
-    int count();
-    long int size();
-    int find(const string& uid, int& curr);
+//    int count();
+    int size();
+    int find(const string& uid, int& cur);
     void load(Game& game);
     void save(Game& game);
     void del(const string& uid);
     void list();
+    void delAll();
 };
 
 #endif /* GAMESDB_H */
