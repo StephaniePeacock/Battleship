@@ -47,7 +47,7 @@ public:
     
     //Serialization
     void serialize(stringstream&);
-    void deserialize(stringstream&);
+    void deserialize(fstream&);
 
 };
 

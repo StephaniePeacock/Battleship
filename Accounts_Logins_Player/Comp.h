@@ -23,7 +23,7 @@ public:
     Comp();
     Comp(bool smart);
     void serialize(stringstream&, int&) override;
-    void deserialize(stringstream&) override;
+    void deserialize(fstream&) override;
 };
 
 #endif /* COMP_H */

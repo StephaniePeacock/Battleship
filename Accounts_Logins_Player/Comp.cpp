@@ -24,7 +24,7 @@ void Comp::serialize(stringstream& buffer, int&) {
     //TODO
 }
 
-void Comp::deserialize(stringstream& file) {
+void Comp::deserialize(fstream& file) {
     //TODO
 }
 

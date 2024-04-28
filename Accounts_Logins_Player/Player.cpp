@@ -277,6 +277,7 @@ void Player::serialize(stringstream &buffer, int &size)
     // Store size of the board.
     int board_size = BOARD_SIZE;
     buffer.write(reinterpret_cast<char*>(&board_size), sizeof(board_size));
+    size += sizeof(board_size);
     
     // Store board
     for (int r = 0; r < board_size; r++)
@@ -295,6 +296,7 @@ void Player::serialize(stringstream &buffer, int &size)
     // Store size of unordered_map
     int map_count = shipCounts.size();
     buffer.write(reinterpret_cast<char*>(&map_count), sizeof(map_count));
+    size += sizeof(map_count);
     
     // Store each key, value pair
     for (const pair<char, int> &kv : shipCounts)
@@ -310,42 +312,41 @@ void Player::serialize(stringstream &buffer, int &size)
     size += sizeof(unsunk);
 }
 
-void Player::deserialize(stringstream& buffer) {
+void Player::deserialize(fstream& file) {
     
     int board_size, map_count;
     
     //// Read each of the arrays (board, shots)
 
     // Read size of the board.
-    buffer.read(reinterpret_cast<char*>(&board_size), sizeof(board_size));
+    file.read(reinterpret_cast<char*>(&board_size), sizeof(board_size));
     // Read board
     for (int r = 0; r < board_size; r++)
     {
         for (int c = 0; c < board_size; c++)
         {
-            buffer.read(reinterpret_cast<char *>(&board[r][c]), sizeof(char));
+            file.read(reinterpret_cast<char *>(&board[r][c]), sizeof(char));
         }
     }
-    displayBoard();  //DEBUG
     // Read shots
     for (int r = 0; r < board_size; r++) {
         for (int c = 0; c < board_size; c++) {
-            buffer.read(reinterpret_cast<char*>(&shots[r][c]), sizeof(char));
+            file.read(reinterpret_cast<char*>(&shots[r][c]), sizeof(char));
         }
     }
     
     //// Read unordered_map (shipCounts)
     // Read size of unordered_map
-    buffer.read(reinterpret_cast<char*>(&map_count), sizeof(map_count));
+    file.read(reinterpret_cast<char*>(&map_count), sizeof(map_count));
     // Read each key, value pair
     char key;
     int val;
     for (int i = 0; i < map_count; i++) {
-        buffer.read(reinterpret_cast<char*>(&key), sizeof(key));
-        buffer.read(reinterpret_cast<char*>(&val), sizeof(val));
+        file.read(reinterpret_cast<char*>(&key), sizeof(key));
+        file.read(reinterpret_cast<char*>(&val), sizeof(val));
         shipCounts[key] = val;
     }
     
     // Read unsunk integer value
-    buffer.read(reinterpret_cast<char*>(&unsunk), sizeof(unsunk));
+    file.read(reinterpret_cast<char*>(&unsunk), sizeof(unsunk));
 }

@@ -24,6 +24,9 @@ private:
     // Member variables
     string fname;
     fstream file;
+    
+    // Private methods
+//    void checkState();  //DEBUG
 public:
     GamesDB();
     GamesDB(string);
@@ -37,6 +40,7 @@ public:
     void load(Game& game);
     void save(Game& game);
     void del(const string& uid);
+    void list();
 };
 
 #endif /* GAMESDB_H */

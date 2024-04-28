@@ -16,6 +16,7 @@
 #include "Board.h"
 
 #include <sstream>
+#include <fstream>
 #include <iostream>
 #include <unordered_map>
 
@@ -67,7 +68,7 @@ public:
     char getShots(int, int);
     static int convToInt(string);
     virtual void serialize(stringstream &, int &);
-    virtual void deserialize(stringstream &);
+    virtual void deserialize(fstream &);
 };
 
 #endif /* PLAYER_H */

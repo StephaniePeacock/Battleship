@@ -85,7 +85,12 @@ void Battleship::main() {
             this->accounts.open();
             this->accounts.get(1, &user);
             this->accounts.close();
-            string uid = user.newGameUID();
+            string uid = "hannes@mail.com_1714321083707";
+            
+            // Create GamesDB if it doesn't already exist
+            GamesDB::createDB(user::GAMESDBPATH);
+            GamesDB gamesdb = GamesDB(user::GAMESDBPATH);
+            
             cout << "GAME UID: " << uid << "\n";
             
             // Do some stuff to modify game state
@@ -104,26 +109,38 @@ void Battleship::main() {
             
             Game game = Game(&p1, &p2, uid);
             
-            stringstream buffer;
-            buffer.seekp(0L, ios::end);
-            cout << "SEREALIZING GAME...\n";
-            game.serialize(buffer);
-            cout << "SUCCESSFULLY SERIALIZED GAME!\n";
-            buffer.seekg(0L, ios::beg);
-            cout << "SET CURSOR TO BEGINNING\n";
+            // Save a game
+            gamesdb.open();
+            gamesdb.save(game);
+            gamesdb.list();
+            gamesdb.close();
             
-            char c_uid[102];
-            buffer.read(reinterpret_cast<char*>(c_uid), sizeof(c_uid));
-            cout << "READ GAME UID: " << c_uid << "\n";
+            // Load a game
+            Game game_load = Game(uid);
+            gamesdb.open();
+            gamesdb.load(game_load);
+            gamesdb.close();
             
-            int gsize = 0;
-            buffer.read(reinterpret_cast<char*>(&gsize), sizeof(gsize));
-            cout << "READ GAME SIZE: " << gsize << "\n";
-            
-            cout << "DESEREALIZING GAME...\n";
-            game.deserialize(buffer);            
-            cout << "SUCCESSFULLY DESERIALIZED!\n";
-            
+//            stringstream buffer;
+//            buffer.seekp(0L, ios::end);
+//            cout << "SEREALIZING GAME...\n";
+//            game.serialize(buffer);
+//            cout << "SUCCESSFULLY SERIALIZED GAME!\n";
+//            buffer.seekg(0L, ios::beg);
+//            cout << "SET CURSOR TO BEGINNING\n";
+//            
+//            char c_uid[102];
+//            buffer.read(reinterpret_cast<char*>(c_uid), sizeof(c_uid));
+//            cout << "READ GAME UID: " << c_uid << "\n";
+//            
+//            int gsize = 0;
+//            buffer.read(reinterpret_cast<char*>(&gsize), sizeof(gsize));
+//            cout << "READ GAME SIZE: " << gsize << "\n";
+//            
+//            cout << "DESEREALIZING GAME...\n";
+//            game.deserialize(buffer);            
+//            cout << "SUCCESSFULLY DESERIALIZED!\n";
+//            
             cout << "PLAYER 1\n";
             Player* p1n = game.getP1();
             p1n->displayBoard();

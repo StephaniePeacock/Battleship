@@ -147,7 +147,9 @@ void User::start(){
             switch (choice)
             {
             case 1:
-                cout << "Launching a new game";break;
+                cout << "Launching a new game";
+                newGame();
+                break;
             case 2: 
                 cout << "Recovering pervious game";break;
             case 3:
@@ -160,15 +162,14 @@ void User::start(){
 
 void User::newGame() {
     
-    // Select player 1
+    // Player 1 is the human player
     Player p1 = Player();
     
-    // Select player 2
+    // Select player 2 (Human or AI)
+    // TODO: Selection player type prompt
     Player p2 = Player();
 
     // Create game instance
     Game game = Game(&p1, &p2, User::newGameUID());
     game.play();
-    
-    
 }
