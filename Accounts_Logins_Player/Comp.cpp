@@ -19,7 +19,6 @@ Comp::Comp(bool smart) : Player() {
     this->smart = smart;
 }
 
-
 void Comp::serialize(stringstream& buffer, int& size) {
     /* --Comp serialization binary storage structure--
      * --Everything in Player
@@ -57,5 +56,3 @@ void Comp::deserialize(fstream& file) {
     // Read smart boolean value
     file.read(reinterpret_cast<char*>(&smart), sizeof(smart));
 }
-
-

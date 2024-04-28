@@ -107,11 +107,27 @@ void Battleship::main() {
             cout << "PLAYER 2 SHOTS:\n";
             p2.displayShots();
             
-            Game game = Game(&p1, &p2, uid);
+            Game game = Game(&p1, &p2, uid);           
             
-            // Save a game
+            // Add some more games for testing
+            Player pa1 = Player();
+            Comp pa2 = Comp();
+            Game ga = Game(&pa1, &pa2, "hannes@mail.com_1714321083709");
+            
+            Comp pb1 = Comp();
+            Comp pb2 = Comp();
+            Game gb = Game(&pb1, &pb2, "hannes@mail.com_1714321083712");
+            
+            Comp pc1 = Comp();
+            Player pc2 = Player();
+            Game gc = Game(&pc1, &pc2, "hannes@mail.com_1714321083727");
+            
+            // Save a games
             gamesdb.open();
+            gamesdb.save(ga);
+            gamesdb.save(gb);
             gamesdb.save(game);
+            gamesdb.save(gc);
             gamesdb.list();
             gamesdb.close();
             
