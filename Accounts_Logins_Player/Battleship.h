@@ -25,13 +25,14 @@ public:
     Battleship();
     //Other Functions
     void main();
-    void loading();
+    void menu();
+    void gameStudio();
     void login();
     void reg();
     bool checkEm(string&);
     bool checkPw(string&);
     bool verify(string, string);
-    bool Rules();
+    void Rules();
     void Quit();
 };
 

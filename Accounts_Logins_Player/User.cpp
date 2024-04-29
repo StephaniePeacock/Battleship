@@ -74,11 +74,13 @@ string User::newGameUID() {
     return email + (string)"_" + to_string(now);
 }
 
-void User::display() const{
+void User::viewStats() const{
     cout << "Email: " << this->email << "\n";
     cout << "Password: " << this->pword << "\n";
     cout << "Wins: " << this->info.win << "\n";
     cout << "Losses: " << this->info.loss << "\n";
+    cout << endl << "Press enter to return to menu ";
+    cin.get();
 }
    //Menu options for the non-administrative player
 void User::main(){
@@ -93,11 +95,11 @@ void User::main(){
             switch (choice)
             {
             case 1:
-                display();break;
+                viewStats();break;
             case 2: 
                 acctMenu();break;
             case 3:
-                start();break;
+                gameMenu();break;
                break;
             case 4:
                 quit = true;break;    
@@ -135,7 +137,7 @@ void User::acctMenu(){
     //returning to user menu
     system("cls");
 }
-void User::start(){
+void User::gameMenu(){
     //Declare all Variables Here
     int choice;
     bool quit = false;
@@ -147,7 +149,7 @@ void User::start(){
             switch (choice)
             {
             case 1:
-                cout << "Launching a new game";
+                cout << "Launching a new game" << endl;
                 newGame();
                 break;
             case 2: 
