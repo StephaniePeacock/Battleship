@@ -15,13 +15,29 @@
 
 #include "Player.h"
 
+struct Point {
+    int x, y;
+};
 class Comp : public Player {
 private:
     bool smart;
+    Point lastHit;
+    bool hasLastHit = false;
+
+    void linsearch(char board[10][10], int& row, int& col);
+    void cardinalSearch(char board[10][10], int& row, int& col);
+
 public:
     const static PlayerType TYPE = PlayerType::COMP;
+
     Comp();
     Comp(bool smart);
+
+    // These functions are virtual so that they can be overridden in the derived class
+    void generateMove(int&, int&);
+    void promptShipPlacement(char board[10][10]);
+    void attackCell(int, int, Player *);
+    // 
     void serialize(stringstream&, int&) override;
     void deserialize(fstream&) override;
 };
