@@ -33,7 +33,11 @@ private:
     // Methods
     void doTurn();
 
+    
+
 public:
+    void testPlay();  // DEBUG
+
     Game(string uid);
     Game(Player *p1, Player *p2, string uid);
     void play();
