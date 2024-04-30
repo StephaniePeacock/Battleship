@@ -18,14 +18,15 @@
 struct Point {
     int x, y;
 };
+
 class Comp : public Player {
 private:
     bool smart;
     Point lastHit;
     bool hasLastHit = false;
 
-    void linsearch(char board[10][10], int& row, int& col);
-    void cardinalSearch(char board[10][10], int& row, int& col);
+    void linsearch(char board[BOARD_SIZE][BOARD_SIZE], int& row, int& col);
+    void cardinalSearch(char board[BOARD_SIZE][BOARD_SIZE], int& row, int& col);
 
 public:
     const static PlayerType TYPE = PlayerType::COMP;
@@ -36,7 +37,10 @@ public:
     // These functions are virtual so that they can be overridden in the derived class
     void generateMove(int&, int&);
     void promptShipPlacement(char board[10][10]);
-    void attackCell(int, int, Player *);
+    void attackCell(int, int, Player*);
+    void smartAI(int row, int col, Player* opponent);
+    void dumbAI(int row, int col, Player* opponent);
+
     // 
     void serialize(stringstream&, int&) override;
     void deserialize(fstream&) override;

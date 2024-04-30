@@ -8,7 +8,7 @@
 #include <regex>
 #include <chrono>
 #include <thread>
-#include <Windows.h>
+//#include <Windows.h>
 //using namespace std;
 
 Battleship::Battleship(){
@@ -33,13 +33,13 @@ void Battleship::gameStudio() {
     cout << " +-+-++ - +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ - +-+-+-+-+" << endl;
     cout << " | C | D| |P | r | o | j | e | c | t| |B | l | u | e |"<< endl;
     cout << " +-+-++ - +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"  << endl;
-    Sleep(3000);
+//    Sleep(3000);
     system("cls");
     cout << "Not" << endl;
     cout << " +-+-++ - +-+-+-+-+-+-+-+-+- +-+-+-+-+-+ - +-+-+-+-+-+-+-+-+-+-+" << endl;
     cout << " | P| O | W | E | R | E | D|  | b | y | | U | n | r | e | a | l |" << endl;
     cout << " +-+-++ - +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+" << endl;
-    Sleep(3000);
+//    Sleep(3000);
     system("cls");
 }
 void Battleship::main() {
@@ -48,7 +48,7 @@ void Battleship::main() {
     bool quit = false;
     //Switch case within do-while loop to start the game
      cout << "Loading game please wait...";
-    Sleep(3000);
+//    Sleep(3000);
     system("cls");
     gameStudio();
     do {
@@ -62,7 +62,7 @@ void Battleship::main() {
         case '2':
             reg();break;
         case '3':
-           quit = Rules(); break;
+           Rules(); break;
         case 'a':  //FOR DEBUG ONLY, display all users
             this->accounts.open();
             this->accounts.display();
@@ -393,5 +393,5 @@ void Battleship::Quit() {
     //making the user wait specific time before quit program for added realism
     cout << endl << "Exiting Battleship. Farewell Sailor!" << endl;
     //sleep - duration function for 3 seconds
-    Sleep(3);
+//    Sleep(3);
 }

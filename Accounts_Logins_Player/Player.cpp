@@ -39,9 +39,31 @@ void Player::setBoard(int row, int col, const char c)
     board[row][col] = c;
 }
 
+char Player::getBoard(int row, int col) {
+    return board[row][col];
+}
+
+void getBoardArray(char board[BOARD_SIZE][BORD_SIZE]) {
+    for (int i = 0; i < BOARD_SIZE; ++i)
+    {
+        for (int j = 0; j < BOARD_SIZE; ++j)
+        {
+            board[i][j] = this-board[i][j];
+        }
+    }
+}
+
 void Player::setShots(int row, int col, const char c)
 {
     shots[row][col] = c;
+}
+
+char Player::getShots(int row, int col) {
+    return shots[row][col];
+}
+
+char* Player::getShotsArray() {
+    return shots;
 }
 
 int Player::convToInt(string input) // done
