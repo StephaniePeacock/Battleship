@@ -40,6 +40,8 @@ public:
     void attackCell(int, int, Player*);
     void smartAI(int row, int col, Player* opponent);
     void dumbAI(int row, int col, Player* opponent);
+    
+    void mockupFunc();
 
     // 
     void serialize(stringstream&, int&) override;
