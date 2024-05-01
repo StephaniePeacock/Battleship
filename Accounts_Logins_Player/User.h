@@ -58,13 +58,13 @@ public:
     
     //Other Functions
     void main();
-    void viewStats() const;
+    void display() const;
     string newGameUID();
     void saveGame(Game&);
     void loadGame(Game&);
     void newGame();
     void acctMenu();
-    void gameMenu();
+    void start();
     // User operator=(User &); //override = so we can move account to admin type object
 };
 

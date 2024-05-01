@@ -8,15 +8,23 @@
 #include <regex>
 #include <chrono>
 #include <thread>
-#include <Windows.h>
 //using namespace std;
 
 Battleship::Battleship(){
     AccountsDB::createDB(USERSDBPATH);
     this->accounts = AccountsDB(USERSDBPATH);
 }
-void Battleship::menu(){
+void Battleship::loading(){
     //Constructing battleship game and thread - duration function for 3 seconds, with terminal clear
+    cout << "Loading please wait...";
+//    chrono::seconds duration(3);
+    /*
+     * if you reached this error then netbeans does not support this_thread function from thread library.
+     * function would pause game for as long as we want, perfect for loading games, simulation connecting to and online server etc..
+     * can comment out and I will try to find a work around
+     */
+//    this_thread::sleep_for(duration);
+//    system("cls");
     cout << "8 8888888o          .8.    88888 88888   88888 88888   8 88        8 888888     d888888o.   8 88      8  8 88 8 88888888o" <<endl;  
     cout << "8 88    `88.       .88.        8 88         8 88       8 88        8 88         .`88:' `88. 8 88      8  8 88 8 888    `88." <<endl; 
     cout << "8 88     `88      :888.        8 88         8 88       8 88        8 88         8.`88.   Y8 8 88      8  8 88 8 888     `88" <<endl; 
@@ -28,29 +36,12 @@ void Battleship::menu(){
     cout << "8 88    ,88'.888888888. `888.  8 88         8 88       8 88        8 88        `8b.  ;8.`88 8 88      8  8 88 8 888" <<endl;         
     cout << "8 8888888P .8'       `8. `888. 8 88         8 88       8 8888888   8 8888888    `Y88P ,88P' 8 88      8  8 88 8 888" <<endl;   
 }
-void Battleship::gameStudio() {
-    cout << "From:" << endl;
-    cout << " +-+-++ - +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ - +-+-+-+-+" << endl;
-    cout << " | C | D| |P | r | o | j | e | c | t| |B | l | u | e |"<< endl;
-    cout << " +-+-++ - +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"  << endl;
-    Sleep(3000);
-    system("cls");
-    cout << "Not" << endl;
-    cout << " +-+-++ - +-+-+-+-+-+-+-+-+- +-+-+-+-+-+ - +-+-+-+-+-+-+-+-+-+-+" << endl;
-    cout << " | P| O | W | E | R | E | D|  | b | y | | U | n | r | e | a | l |" << endl;
-    cout << " +-+-++ - +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+" << endl;
-    Sleep(3000);
-    system("cls");
-}
 void Battleship::main() {
     //Declare all Variables Here
     char choice;
     bool quit = false;
     //Switch case within do-while loop to start the game
-     cout << "Loading game please wait...";
-    Sleep(3000);
-    system("cls");
-    gameStudio();
+    loading();
     do {
         cout << endl << "Main Menu" << endl;
         cout << "[1] Login\n[2] Register\n[3] Rules\n[4] Exit\n" << ">> ";
@@ -75,7 +66,7 @@ void Battleship::main() {
             this->accounts.get(0, &user);
             this->accounts.close();
             cout << "LOGGING IN AS \n";
-            user.viewStats();  //DEBUG
+            user.display();  //DEBUG
             cout << "\n";
             user.main();
             break;
@@ -229,14 +220,7 @@ void Battleship::login() {
     
     //user.display();  //DEBUG
     
-     //user.display();  //DEBUG
-    if (!user.isAsmin()) {
-         //admin menu
-    }
-    else {
-         //non-admin menu
-     user.main();
-     }
+    user.main();
     
     //return to main menu
 }
@@ -334,7 +318,7 @@ bool Battleship::verify(string em, string pw) {
     
     return valid;
 }
-void Battleship::Rules(){
+bool Battleship::Rules(){
      //Declaring variables
     fstream txt;
     char c = ' ';
@@ -348,8 +332,19 @@ void Battleship::Rules(){
     //closing file
     txt.close();
     //Prompting User to return to main menu or exit game
-    cout << endl << endl << "Press enter to return to Main Menu ";
-    cin.get();
+    cout << endl << endl << "Would you like to quit or return to main menu" << endl;
+    cout << endl << "1 = Quit Game" << endl << "2 = Main Menu " << endl << "Choose: ";
+    cin >> c;
+    if (toupper(c) == '1') {
+        return true;
+    }
+    //returning to main menu and clear terminal
+    else if (toupper(c) == '2') {
+        system("cls"); return false; 
+    }
+    else {
+        return false;
+    }
 }
 
 // TODO: --> MOVE THIS TO Game.cpp
@@ -392,6 +387,7 @@ void Battleship::Rules(){
 void Battleship::Quit() {
     //making the user wait specific time before quit program for added realism
     cout << endl << "Exiting Battleship. Farewell Sailor!" << endl;
-    //sleep - duration function for 3 seconds
-    Sleep(3);
+    //thread - duration function for 3 seconds
+    chrono::seconds duration(3);
+    //this_thread::sleep_for(duration);
 }
