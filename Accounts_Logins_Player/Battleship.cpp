@@ -16,7 +16,7 @@ Battleship::Battleship(){
 }
 void Battleship::loading(){
     //Constructing battleship game and thread - duration function for 3 seconds, with terminal clear
-    cout << "Loading please wait...";
+//    cout << "Loading please wait...";
 //    chrono::seconds duration(3);
     /*
      * if you reached this error then netbeans does not support this_thread function from thread library.
@@ -25,16 +25,16 @@ void Battleship::loading(){
      */
 //    this_thread::sleep_for(duration);
 //    system("cls");
-    cout << "8 8888888o          .8.    88888 88888   88888 88888   8 88        8 888888     d888888o.   8 88      8  8 88 8 88888888o" <<endl;  
-    cout << "8 88    `88.       .88.        8 88         8 88       8 88        8 88         .`88:' `88. 8 88      8  8 88 8 888    `88." <<endl; 
-    cout << "8 88     `88      :888.        8 88         8 88       8 88        8 88         8.`88.   Y8 8 88      8  8 88 8 888     `88" <<endl; 
-    cout << "8 88     ,88     . `888.       8 88         8 88       8 88        8 88         `8.`88.     8 88      8  8 88 8 888     ,88" <<endl; 
-    cout << "8 88.   ,88'    .8. `888.      8 88         8 88       8 88        8 888888      `8.`88.    8 88      8  8 88 8 888.   ,88'" <<endl; 
-    cout << "8 88888888     .8`8. `888.     8 88         8 88       8 88        8 88           `8.`88.   8 88      8  8 88 8 88888888P'" <<endl;  
-    cout << "8 88    `88.  .8' `8. `888.    8 88         8 88       8 88        8 88            `8.`88.  8 888888888  8 88 8 888" <<endl;         
-    cout << "8 88      88 .8'   `8. `888.   8 88         8 88       8 88        8 88        8b   `8.`88. 8 88      8  8 88 8 888" <<endl;         
-    cout << "8 88    ,88'.888888888. `888.  8 88         8 88       8 88        8 88        `8b.  ;8.`88 8 88      8  8 88 8 888" <<endl;         
-    cout << "8 8888888P .8'       `8. `888. 8 88         8 88       8 8888888   8 8888888    `Y88P ,88P' 8 88      8  8 88 8 888" <<endl;   
+    cout << "8 8888888o        .8.      88888 88888  88888 88888  8 88       8 888888   d888888o.   8 88      88  8 88  8 88888888o" << endl;
+    cout << "8 88    `88.      .88.         8 88        8 88      8 88       8 88      .`88:' `88.  8 88      88  8 88  8 888    `88." << endl;
+    cout << "8 88     `88      :888.        8 88        8 88      8 88       8 88      8.`88.   Y8  8 88      88  8 88  8 888     `88" << endl;
+    cout << "8 88     ,88     . `888.       8 88        8 88      8 88       8 88      `8.`88.      8 88      88  8 88  8 888     ,88" << endl;
+    cout << "8 88.   ,88'    .8. `888.      8 88        8 88      8 88       8 888888   `8.`88.     8 88      88  8 88  8 888.   ,88'" << endl;
+    cout << "8 88888888     .8`8. `888.     8 88        8 88      8 88       8 88        `8.`88.    8 88      88  8 88  8 88888888P'" << endl;
+    cout << "8 88    `88.  .8' `8. `888.    8 88        8 88      8 88       8 88         `8.`88.   8 8888888888  8 88  8 888" << endl;
+    cout << "8 88      88 .8'   `8. `888.   8 88        8 88      8 88       8 88     8b   `8.`88.  8 88      88  8 88  8 888" << endl;
+    cout << "8 88    ,88'.888888888. `888.  8 88        8 88      8 88       8 88     `8b.  ;8.`88  8 88      88  8 88  8 888" << endl;
+    cout << "8 8888888P .8'       `8. `888. 8 88        8 88      8 8888888  8 8888888 `Y88P ,88P'  8 88      88  8 88  8 888" << endl;
 }
 void Battleship::main() {
     //Declare all Variables Here
@@ -44,7 +44,10 @@ void Battleship::main() {
     loading();
     do {
         cout << endl << "Main Menu" << endl;
-        cout << "[1] Login\n[2] Register\n[3] Rules\n[4] Exit\n" << ">> ";
+        cout << "[1] Login\n"
+                "[2] Register\n"
+                "[3] Rules\n"
+                "[4] Exit\n" << ">> ";
         choice = getSingleChar();  // Get char safely
         switch (choice)
         {
@@ -53,18 +56,14 @@ void Battleship::main() {
         case '2':
             reg();break;
         case '3':
-           quit = Rules(); break;
+           quit = rules(); break;
         case 'a':  //FOR DEBUG ONLY, display all users
-            this->accounts.open();
             this->accounts.display();
-            this->accounts.close();
             break;
         case 'l':  //FOR DEBUG ONLY, quickly login to test user account and play game
         {   
             User user;
-            this->accounts.open();
             this->accounts.get(0, &user);
-            this->accounts.close();
             cout << "LOGGING IN AS \n";
             user.display();  //DEBUG
             cout << "\n";
@@ -73,18 +72,14 @@ void Battleship::main() {
         }
 //        case 'm': { //FOR DEBUG ONLY, make an admin user lol
 //            User user = User("admin@org.com", "AdminUser1", true);
-//            this->accounts.open();
 //            this->accounts.add(&user);
-//            this->accounts.close();
 //            break;
 //        }
         case 'g': {  //FOR DEBUG ONLY, test storing Game object in binary file
             Player p1 = Player();
             Player p2 = Player();
             User user;
-            this->accounts.open();
             this->accounts.get(1, &user);
-            this->accounts.close();
             string uid = "hannes@mail.com_1714321083707";
             
             // Create GamesDB if it doesn't already exist
@@ -195,9 +190,7 @@ void Battleship::login() {
     safeGetLine(e, user::MAXSTR);
 
     // Find user
-    this->accounts.open();
     pos = this->accounts.find(e);
-    this->accounts.close();
     if (pos < 0) {
         cout << "\nAre ye reporting to the wrong fleet, Captain!?\n";
         cout << "That e-mail is not listed in our logbook.\n";
@@ -214,13 +207,33 @@ void Battleship::login() {
     }
     
     // Get user
-    this->accounts.open();
     this->accounts.get(pos, &user);
-    this->accounts.close();
     
-    //user.display();  //DEBUG
-    
-    user.main();
+    //Give admin the admin menu first, users go right to user menu
+        if(!user.isAdmin()){
+        userMenu(user);
+    } else {
+        int choice;
+        bool quit = false;
+        do{
+            cout << "[1] Admin Menu\n"
+                    "[2] User  Menu\n"
+                    "[3] Logout.";
+            getNumeric<int>(choice);
+            switch(choice){
+                case 1:
+                    adminMenu(user);
+                    break;
+                case 2: 
+                    userMenu(user);
+                    break;
+                default: quit = true;
+                break;
+            }
+        } while (!quit);
+        
+        
+    }
     
     //return to main menu
 }
@@ -245,9 +258,7 @@ void Battleship::reg() {
     User usr(em, pw, false);
     
     // Store new account in database
-    this->accounts.open();
     this->accounts.add(&usr);
-    this->accounts.close();
     
     cout << "Arr! Yer registered with the fleet!\n";
     //returning to main menu after 2 second delay and clearing terminal
@@ -299,11 +310,7 @@ bool Battleship::verify(string em, string pw) {
     
     bool valid = false;
     int pos = -1;
-
-    //open the database file
-    this->accounts.open();
-
-    //check all records for em
+    //check all records for em - opens inside find
     pos = this->accounts.find(em);
     if (pos > -1) {
         //user found - check if password matches
@@ -313,12 +320,10 @@ bool Battleship::verify(string em, string pw) {
             valid = true;
         }
     }
-
-    this->accounts.close();
-    
     return valid;
 }
-bool Battleship::Rules(){
+
+bool Battleship::rules(){
      //Declaring variables
     fstream txt;
     char c = ' ';
@@ -347,47 +352,189 @@ bool Battleship::Rules(){
     }
 }
 
-// TODO: --> MOVE THIS TO Game.cpp
-//void Battleship::play(){
-//    // Create two game boards, one for each player
-//    Player* p1;
-//    Player* p2;
-//    int row, col;
-//    char letter;
-//
-//    // Display player 1's board after ship placement
-//    cout << "Player 1's Board before ship placement:" << endl;
-//    p1.displayBoard();
-//    
-//    // Prompt player 1 to place ships on the board
-//    cout << "Player 1, please place your ships:" << endl;
-//    p1.promptShipPlacement();
-//
-//    // Display player 1's board after ship placement
-//    cout << "Player 1's Board after ship placement:" << endl;
-//    p1.displayBoard();
-//    
-//    // Prompt player 2 to place ships on the board
-//    cout << "Player 2, please place your ships:" << endl;
-//    p2.promptShipPlacement();
-//
-//    // Display player 2's board after ship placement
-//   cout << "Player 2's Board after ship placement:" << endl;
-//    p2.displayBoard();
-//
-//    while(p2.getUnsunk() > 0 || p1.getUnsunk() > 0){
-//        
-//        cout << "Commence attack. Enter row and col coordinates:" << endl;
-//        cin >> letter >> row;
-//        col = letter - 65;
-//        p1.attackCell(row, col, p2);
-//        p1.displayShots();
-//    }
-//}
 void Battleship::Quit() {
     //making the user wait specific time before quit program for added realism
     cout << endl << "Exiting Battleship. Farewell Sailor!" << endl;
     //thread - duration function for 3 seconds
     chrono::seconds duration(3);
     //this_thread::sleep_for(duration);
+}
+
+void Battleship::userMenu(User& user) {
+    //Declare all Variables Here
+    int choice;
+    bool quit = false;
+    //Switch case within do-while loop for user options
+//    system("cls");
+    do {
+        cout << "[1] Account Info\n[2] Play Game\n[3] Update Account\n[4] Logout\n";
+        getNumeric<int>(choice);
+        switch (choice) {
+            case 1:
+                user.display();
+                break;
+            case 2:
+                gameMenu(user);
+                
+                break;
+            case 3:
+                if(!acctMenu(user)){
+                    quit = true;
+                }
+                break;
+            case 4:
+                quit = true;
+                break;
+            default:
+                cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";
+                break;
+        }
+    } while (!quit);
+    //returning to main menu and clearing the terminal
+    cout << "Logging out...bye world" << endl;
+//    system("cls");
+}
+
+bool Battleship::acctMenu(User& user) {
+    //Declare all Variables Here
+    int choice, sure;
+    string e, p;
+    bool quit = false;
+    string email(user.getEmail());
+    int pos = this->accounts.find(email);  //for overwriting the user data
+
+    do {
+        cout << "[1] Change email\n"
+                "[2] Update Password\n"
+                "[3] Delete Account\n"
+                "[4] Go Back\n";
+        getNumeric<int>(choice);
+        switch (choice) {
+            case 1: {
+                // Get validated e-mail
+                cout << "Enter your email address: "; 
+                while (!checkEm(e)) {
+                    cout << "Invalid email, please re-enter: ";
+                }
+                const char* em = e.c_str();
+                user.setEmail(em);
+                // Store updated account in database
+                this->accounts.set(pos,user);
+                cout << "Email has been updated." << endl; 
+                break; }
+            case 2: {
+                cout << "Enter yer top secret code: ";
+                while (!checkPw(p)) {
+                    cout << "This ain't no Sunday sail, Captain! Make your code more secure!!: ";
+                }
+                const char* pw = p.c_str();
+                user.setPword(pw);
+                // Store updated account in database
+                this->accounts.set(pos,user);
+                cout << "Password has been updated." << endl; 
+            
+                break;}
+            case 3: {
+                //doublecheck
+                cout << "Are ye sure? There's no escape from this whirlpool!\n"
+                        "Enter 1 to continue, 2 to cancel.";
+                getNumeric<int>(sure);
+                if(sure == 1){
+                    // Store updated account in database
+                    this->accounts.del(pos);
+                    cout << "Yer fleet has been removed!/n";
+                    //go back to the main menu
+                    return false;
+                } else {
+                    cout << "Wise choice, let's go back!" << endl;
+                }
+                
+                break;}
+            case 4:
+                quit = true;
+                break;
+            default:
+                cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";
+                break;
+        }
+    } while (!quit);
+    //account exists so
+    return true;
+}
+
+void Battleship::gameMenu(User user) {
+    //Declare all Variables Here
+    int choice;
+    bool quit = false;
+    //Switch case within do-while loop for Game menu
+//    system("cls");
+    do {
+        cout << "[1] New Campaign\n"
+                "[2] Load Campaign\n"
+                "[3] Go Back\n";
+        getNumeric<int>(choice);
+        switch (choice) {
+            case 1:
+                cout << "Launching a new game";
+                break;
+            case 2:
+                cout << "Recovering previous game";
+                break;
+            case 3:
+                quit = true;
+                break;
+            default:
+                cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";
+                break;
+        }
+    } while (!quit);
+}
+
+void Battleship::adminMenu(const User admin){ //pass admin as const so we cant delete by accident!
+        int choice;
+        bool quit = false;
+        do{
+            cout << "[1] View All Users\n"
+                    "[2] Add User\n"
+                    "[3] Delete User\n"
+                    "[4] Modify User\n"
+                    "[5] Exit Menu\n";
+            getNumeric<int>(choice);
+            switch(choice){
+                case 1:
+                    this->accounts.display();
+                    break;
+                case 2: 
+                    this->reg();
+                    break;
+                case 3: 
+                    this->delUser(admin);
+                    break;
+                case 4: 
+                    cout << "Modify User\n";
+                    break;
+                case 5: 
+                    quit = true;
+                    break;
+                default: cout << "Invalid option entered." << endl;
+                break;
+            }
+        } while (!quit);
+}
+
+void Battleship::delUser(const User admin){
+    //find the position
+    cout << "Enter the Captain's e-mail address: ";
+    string e;
+    safeGetLine(e, user::MAXSTR);
+    if(e != admin.getEmail()){
+        int pos = this->accounts.find(e);
+        if(pos >= 0){
+            //remove the user
+        this->accounts.del(pos);
+        cout << "User removed. Updated database:\n";
+        this->accounts.display();
+        }
+        else {cout << "User does not exist\n";}
+    } else { cout << "You cannot delete your own account.\n"; }
 }

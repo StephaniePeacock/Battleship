@@ -1,8 +1,9 @@
 /* 
  * File:   Battleship.h
  * Authors: Anthony Bliss, Steven Contreres, Leoncio Hermosillo, 
- *          Isaiah Lopez, Carlos Moreno, Stephanie Peacock, Marco Reyes,  
- *          Matthew Rodriguez, Michael Hawara, Allen Yang, Hannes Ziegler 
+ *          Isaiah Lopez, Stephanie Peacock, Marco Reyes,  
+ *          Matthew Rodriguez, Michael Hawara, Allen Yang, 
+ *          Hannes Ziegler 
  *
  * Created on April 14, 2024, 11:13 AM
  */

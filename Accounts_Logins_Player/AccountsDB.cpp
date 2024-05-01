@@ -83,6 +83,8 @@ long int AccountsDB::size() {
 
 int AccountsDB::find(string email)
 {
+    //open file
+    this->open();
     int i = 0;
     int pos = -1;
     int end = count();
@@ -99,21 +101,27 @@ int AccountsDB::find(string email)
         }
         i++;
     }
+    //close file
+    this->close();
     return pos;
 }
 
 void AccountsDB::add(const User* user)
 {
+    this->open();
     file.seekp(0L, ios::end);
     file.write(reinterpret_cast<const char*>(user), sizeof(User));
     file.flush();
+    this->close();
 }
 
 void AccountsDB::get(int pos, User* user)
 {
+    this->open();
     long int cur = pos * sizeof(User);
     file.seekg(cur, ios::beg);
     file.read(reinterpret_cast<char*>(user), sizeof(User));
+    this->close();
 }
 
 void AccountsDB::getAll(User* users)
@@ -125,12 +133,14 @@ void AccountsDB::getAll(User* users)
     }
 }
 
-void AccountsDB::set(int pos, const User* user)
+void AccountsDB::set(int pos, const User& user)
 {
+    this->open();
     long int cur = pos * sizeof(User);
     file.seekp(cur, ios::beg);
-    file.write(reinterpret_cast<const char*>(user), sizeof(User));
+    file.write(reinterpret_cast<const char*>(&user), sizeof(User));
     file.flush();
+    this->close();
 }
 
 void AccountsDB::setAll(User* records, int cnt) {
@@ -146,6 +156,7 @@ void AccountsDB::setAll(User* records, int cnt) {
 
 void AccountsDB::del(int pos)
 {
+    this->open();
     // Start position of chunk
     long int sbytes = pos * sizeof(User);  //Start byte of record to del.
     long int ebytes = size();  //Size (bytes) of file
@@ -169,7 +180,8 @@ void AccountsDB::del(int pos)
     file.write(buffer_a, sbytes);
     file.write(buffer_b, cbytes);
     
-    file.flush();    
+    file.flush();  
+    this->close();
 }
 // FAILED ATTEMPT: This leaves the file the same size it was before...
 // NOTE: Keeping this around in case I have time to attempt to make this work later...
@@ -215,6 +227,7 @@ void AccountsDB::delAll(){
 }
 
 void AccountsDB::display() {
+    this->open();
     int cnt = count();
 //    cout << "COUNT: " << cnt << "\n\n";  //DEBUG
     if (cnt > 0){
@@ -227,6 +240,5 @@ void AccountsDB::display() {
     } else {
         cout << "There are no users in the database\n";
     }
-    
-    
+    this->close();    
 }
