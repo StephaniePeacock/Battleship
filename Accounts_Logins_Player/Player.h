@@ -18,12 +18,6 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
-#include <vector>
-#include <ctime>
-#include <algorithm>
-#include <numeric>
-#include <cstdlib>
-#include <random>
 #include <unordered_map>
 
 // A flag to aid in reconstructing Player objects from binary
@@ -38,9 +32,9 @@ using namespace std;
 class Player
 {
 private:
-    char board[BOARD_SIZE][BOARD_SIZE];         // Copied over to Comp
-    char shots[BOARD_SIZE][BOARD_SIZE];         // Copied over to Comp
-    unordered_map<char, int> shipCounts;        // Copied over to Comp
+    char board[BOARD_SIZE][BOARD_SIZE];
+    char shots[BOARD_SIZE][BOARD_SIZE];
+    unordered_map<char, int> shipCounts;
     int unsunk;
     // mutators
     //    void setUnsunk();
@@ -65,7 +59,7 @@ public:
     void displayBoard(); // print current board
     void displayShots();
     void promptShipPlacement();
-    virtual void attackCell(int, int, Player *);        // Set this to virtual so that it can be overridden in the derived class
+    void attackCell(int, int, Player *);
     
     bool placeShip(int, int, int, char, char);
 
