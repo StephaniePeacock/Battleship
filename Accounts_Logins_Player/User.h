@@ -52,9 +52,9 @@ public:
     void setAdmin (const bool);
     
     //Accessors
-    const string getEmail();
+    const string getEmail() const;
     const string getPword();
-    const bool isAsmin();
+    const bool isAdmin();
     
     //Other Functions
     void main();

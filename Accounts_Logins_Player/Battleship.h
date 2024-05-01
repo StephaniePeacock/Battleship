@@ -1,8 +1,13 @@
 /* 
  * File:   Battleship.h
- * Author: hanne
+ * Authors: Anthony Bliss, Steven Contreres, Leoncio Hermosillo, 
+ *          Isaiah Lopez, Stephanie Peacock, Marco Reyes,  
+ *          Matthew Rodriguez, Michael Hawara, Allen Yang, 
+ *          Hannes Ziegler 
  *
  * Created on April 14, 2024, 11:13 AM
+ * 
+ * Purpose: Battleship Class Implementation
  */
 
 #ifndef BATTLESHIP_H
@@ -31,8 +36,13 @@ public:
     bool checkEm(string&);
     bool checkPw(string&);
     bool verify(string, string);
-    bool Rules();
+    bool rules();
     void Quit();
+    void userMenu(User&);
+    bool acctMenu(User&);
+    void gameMenu(User);
+    void adminMenu(const User);
+    void delUser(const User);
 };
 
 

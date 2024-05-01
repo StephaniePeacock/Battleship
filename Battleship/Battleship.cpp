@@ -1208,6 +1208,7 @@ void Battleship::Quit() {
     //chrono::seconds duration(3);
     //this_thread::sleep_for(duration);
 }
+
 void Battleship::userMenu(User& user) {
     //Declare all Variables Here
     int choice;

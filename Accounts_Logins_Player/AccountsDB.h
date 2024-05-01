@@ -76,7 +76,7 @@ class AccountsDB {
         /// @brief Set the given record at the given index in the database.
         /// @param  pos The index position of the record to set.
         /// @param  user The user record to set.void set(int, const User*);
-        void set(int, const User*);
+        void set(int, const User&);
 
         /// @brief Set all records in the database at once.
         /// @param  users The array of users to write to the database.

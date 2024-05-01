@@ -44,7 +44,7 @@ void User::setEmail(const string em) {
     safeCStrNCpy(this->email, em, user::MAXSTR);
 }
 
-const string User::getEmail() {
+const string User::getEmail() const{
     return this->email;
 }
 
@@ -56,7 +56,7 @@ const string User::getPword() {
     return this->pword;
 }
 
-const bool User::isAsmin() {
+const bool User::isAdmin() {
     return this->isadmin;
 }
 
