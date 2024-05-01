@@ -37,7 +37,6 @@ using namespace std;
 
 class Player
 {
-
 private:
     char board[BOARD_SIZE][BOARD_SIZE];         // Copied over to Comp
     char shots[BOARD_SIZE][BOARD_SIZE];         // Copied over to Comp
@@ -45,42 +44,34 @@ private:
     int unsunk;
     // mutators
     //    void setUnsunk();
-
-
-
-
-
-    
-protected:
-    
-    
-public:
-    const static PlayerType TYPE = PlayerType::PLAYER;
-    Player();            // constructor
-    ~Player();           // destructor
-    void promptShipPlacement();
-    bool isValidPlacement(int, int, int, char);
+    void setBoard(int, int, const char);
+    void setShots(int, int, const char);
+    // other functions
     bool isValidCoordinate(int row, int col)
     {
         return (row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE);
     }
+    bool isValidPlacement(int, int, int, char);
+
     bool isCellAlreadyHit(int row, int col)
     {
         return (board[row][col] == HIT_CELL || board[row][col] == MISS_CELL);
     }
+
+public:
+    const static PlayerType TYPE = PlayerType::PLAYER;
+    Player();            // constructor
+    ~Player();           // destructor
+    void displayBoard(); // print current board
+    void displayShots();
+    void promptShipPlacement();
     virtual void attackCell(int, int, Player *);        // Set this to virtual so that it can be overridden in the derived class
     
     bool placeShip(int, int, int, char, char);
 
     int getUnsunk() { return this->unsunk; }
-    void setBoard(int, int, const char);
-    void setShots(int, int, const char);    
     char getBoard(int, int);
-    void getBoardArray(char [BOARD_SIZE][BOARD_SIZE]);
     char getShots(int, int);
-    void getShotsArray(char [BOARD_SIZE][BOARD_SIZE]);
-    void displayBoard(); // print current board
-    void displayShots();
     static int convToInt(string);
     virtual void serialize(stringstream &, int &);
     virtual void deserialize(fstream &);

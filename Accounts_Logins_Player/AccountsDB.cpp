@@ -222,7 +222,7 @@ void AccountsDB::display() {
         file.seekg(0L, ios::beg);
         for (int i = 0; i < cnt; i++){
             file.read(reinterpret_cast<char*>(&record), sizeof(User));
-            record.viewStats();
+            record.display();
         }
     } else {
         cout << "There are no users in the database\n";

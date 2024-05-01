@@ -60,7 +60,7 @@ void Comp::deserialize(fstream& file) {
     file.read(reinterpret_cast<char*>(&smart), sizeof(smart));
 }
 
-void Comp::promptShipPlacement(char board[BOARD_SIZE][BOARD_SIZE]) {
+void Comp::promptShipPlacement(char board[10][10]) {
     // Define ship types and their lengths
     vector<pair<char, int>> ships = {{'A', 5}, {'B', 4}, {'C', 3}, {'D', 3}, {'S', 2}};
 
@@ -134,23 +134,21 @@ void Comp::attackCell(int row, int col, Player* opponent) {
 }
 
 
-void Comp::smartAI(int row, int col, Player* opponent) {
-    char board [BOARD_SIZE][BOARD_SIZE];
-    opponent->getBoardArray(board);
-    if(!hasLastHit){
-        linsearch(board, row, col);
+void Comp::smartAI(row, col, opponent) {
+    if(!haslastHit){
+        linsearch(opponent->getBoard(), row, col);
     }
     else{
-        cardinalSearch(board, row, col);
+        cardinalSearch(opponent->getBoard(), row, col)
     }
 
 }
 
-void Comp::dumbAI(int row, int col, Player* opponent) {
+void Comp::dumbAI(row, col, opponent) {
 
 }
 
-void Comp::linsearch(char board[BOARD_SIZE][BOARD_SIZE], int& row, int& col){
+void Comp::linsearch(char board[10][10], int& row, int& col){
     random_device rd;
     mt19937 gen(rd());
     uniform_int_distribution<> dist(0,9);
