@@ -110,10 +110,6 @@ void Comp::promptShipPlacement(char board[BOARD_SIZE][BOARD_SIZE]) {
     cout << "Computer player has placed its ships." << endl;
 }
 
-void mockupFunc() {
-    //TEST
-}
-
 void Comp::attackCell(int row, int col, Player* opponent) {
     if (smart) {
         smartAI(row, col, opponent);
