@@ -180,7 +180,7 @@ bool Player::placeShip(int row, int col, int size, char direction, char shipType
 
 // Function to prompt the user to place ships on the board
 
-void Player::promptShipPlacement() {
+void Player::place() {
     char shipTypes[] = {'C', 'B', 'D', 'S', 'P'};
     for (char shipType : shipTypes) {
         int size = shipType == 'C' ? 5 : shipType == 'B' ? 4
@@ -211,7 +211,14 @@ void Player::promptShipPlacement() {
 
 // Function to attack a cell on the opponent's board
 
-void Player::attackCell(int row, int col, Player *enemy) {
+void Player::shoot(Player *enemy) {
+    string input;
+    cout << "Commence attack. Enter row and col coordinates:" << endl;
+        cin >> input;
+        int location = Player::convToInt(input);
+        int row = location / 10;
+        int col = location % 10;
+    
     if (enemy->board[row][col] == SHIP_CELL) {
         cout << "Hit!" << endl;
         enemy->setBoard(row, col, HIT_CELL);
@@ -366,17 +373,13 @@ void Game::doTurn() {
 }
 
 void Game::play() {
-    string input;
-    int row, col;
-    char letter;
-
     // Display player 1's board after ship placement
     cout << "Player 1's Board before ship placement:" << endl;
     p1->displayBoard();
 
     // Prompt player 1 to place ships on the board
     cout << "Player 1, please place your ships:" << endl;
-    p1->promptShipPlacement();
+    p1->place();
 
     // Display player 1's board after ship placement
     cout << "Player 1's Board after ship placement:" << endl;
@@ -384,7 +387,7 @@ void Game::play() {
 
     // Prompt player 2 to place ships on the board
     cout << "Player 2, please place your ships:" << endl;
-    p2->promptShipPlacement();
+    p2->place();
 
     // Display player 2's board after ship placement
     cout << "Player 2's Board after ship placement:" << endl;
@@ -392,13 +395,8 @@ void Game::play() {
 
     while (p2->getUnsunk() > 0 || p1->getUnsunk() > 0) {
 
-        cout << "Commence attack. Enter row and col coordinates:" << endl;
-        cin >> input;
-        int location = Player::convToInt(input);
-        int row = location / 10;
-        int col = location % 10;
-        col = letter - 65;
-        p1->attackCell(row, col, p2);
+        
+        p1->shoot(p2);
         p1->displayShots();
     }
 }
@@ -577,7 +575,7 @@ void User::setEmail(const string em) {
     safeCStrNCpy(this->email, em, MAXSTR);
 }
 
-const string User::getEmail() {
+const string User::getEmail() const{
     return this->email;
 }
 
@@ -589,7 +587,7 @@ const string User::getPword() {
     return this->pword;
 }
 
-const bool User::isAsmin() {
+const bool User::getAdmin() {
     return this->isadmin;
 }
 
@@ -683,6 +681,9 @@ long int AccountsDB::size() {
 }
 
 int AccountsDB::find(string email) {
+    //open the file
+    open();
+    //find the user
     int i = 0;
     int pos = -1;
     int end = count();
@@ -699,19 +700,31 @@ int AccountsDB::find(string email) {
         }
         i++;
     }
+    //close the file
+    close();
     return pos;
 }
 
 void AccountsDB::add(const User* user) {
+    //open the file
+    this->open();
+    //add the user
     file.seekp(0L, ios::end);
     file.write(reinterpret_cast<const char*>(user), sizeof (User));
     file.flush();
+    //close the file
+    this->close();
 }
 
 void AccountsDB::get(int pos, User* user) {
+    //open the file
+    this->open();
+    //get the user
     long int cur = pos * sizeof (User);
     file.seekg(cur, ios::beg);
     file.read(reinterpret_cast<char*>(user), sizeof (User));
+    //close the file
+    this->close();
 }
 
 void AccountsDB::getAll(User* users) {
@@ -757,7 +770,9 @@ void AccountsDB::del(int pos) {
 
     char buffer_a[sbytes];
     char buffer_b[cbytes];
-    // Read the chunk of bytes up to record to be deleted into buffer
+    //open the file
+ //   this->open();
+// Read the chunk of bytes up to record to be deleted into buffer
     file.seekg(0L, ios::beg);
     file.read(buffer_a, sbytes);
     // Read the chunk of bytes after record to be deleted into the buffer
@@ -775,7 +790,10 @@ void AccountsDB::del(int pos) {
     if (file.fail()) {
         cout << "Error writing to file: " << fname << endl;
     }
+    //close the file
+  //  this->close();
     file.flush();
+    
 }
 // FAILED ATTEMPT: This leaves the file the same size it was before...
 // NOTE: Keeping this around in case I have time to attempt to make this work later...
@@ -821,6 +839,8 @@ void AccountsDB::delAll() {
 }
 
 void AccountsDB::display() {
+    //open the file
+    this->open();
     int cnt = count();
     //    cout << "COUNT: " << cnt << "\n\n";  //DEBUG
     if (cnt > 0) {
@@ -833,7 +853,8 @@ void AccountsDB::display() {
     } else {
         cout << "There are no users in the database\n";
     }
-
+    //close the file
+    this->close();
 
 }// </editor-fold>
 
@@ -891,16 +912,12 @@ void Battleship::main() {
                 rules();
                 break;
             case 'a': //FOR DEBUG ONLY, display all users
-                this->accounts.open();
                 this->accounts.display();
-                this->accounts.close();
                 break;
             case 'l': //FOR DEBUG ONLY, quickly login to test user account and play game
             {
                 User user;
-                this->accounts.open();
                 this->accounts.get(0, &user);
-                this->accounts.close();
                 cout << "LOGGING IN AS \n";
                 user.display(); //DEBUG
                 cout << "\n";
@@ -909,9 +926,7 @@ void Battleship::main() {
             }
                 //        case 'm': { //FOR DEBUG ONLY, make an admin user lol
                 //            User user = User("admin@org.com", "AdminUser1", true);
-                //            this->accounts.open();
                 //            this->accounts.add(&user);
-                //            this->accounts.close();
                 //            break;
                 //        }
             case 'g':
@@ -919,17 +934,15 @@ void Battleship::main() {
                 Player p1 = Player();
                 Player p2 = Player();
                 User user;
-                this->accounts.open();
                 this->accounts.get(1, &user);
-                this->accounts.close();
                 string uid = user.newGameUID();
                 cout << "GAME UID: " << uid << "\n";
 
                 // Do some stuff to modify game state
                 p1.placeShip(2, 8, 5, 'V', 'C');
                 p1.placeShip(5, 3, 3, 'H', 'S');
-                p2.attackCell(3, 3, &p1);
-                p2.attackCell(5, 3, &p1);
+                p2.shoot(&p1);
+                p2.shoot(&p1);
                 cout << "PLAYER 1 BOARD:\n";
                 p1.displayBoard();
                 cout << "PLAYER 1 SHOTS:\n";
@@ -997,9 +1010,7 @@ void Battleship::login() {
     safeGetLine(e, MAXSTR);
 
     // Find user
-    this->accounts.open();
     pos = this->accounts.find(e);
-    this->accounts.close();
     if (pos < 0) {
         cout << "\nAre ye reporting to the wrong fleet, Captain!?\n";
         cout << "That e-mail is not listed in our logbook.\n";
@@ -1016,13 +1027,34 @@ void Battleship::login() {
     }
 
     // Get user
-    this->accounts.open();
     this->accounts.get(pos, &user);
-    this->accounts.close();
 
     //user.display();  //DEBUG
-
-    userMenu(user);
+    if(!user.getAdmin()){
+        userMenu(user);
+    } else {
+        int choice;
+        bool quit = false;
+        do{
+            cout << "[1] Admin Menu\n"
+                    "[2] User  Menu\n"
+                    "[3] Logout.";
+            getNumeric<int>(choice);
+            switch(choice){
+                case 1:
+                    adminMenu(user);
+                    break;
+                case 2: 
+                    userMenu(user);
+                    break;
+                default: quit = true;
+                break;
+            }
+        } while (!quit);
+        
+        
+    }
+    
 
     //return to main menu
 }
@@ -1047,9 +1079,7 @@ void Battleship::reg() {
     User usr(em, pw, false);
 
     // Store new account in database
-    this->accounts.open();
     this->accounts.add(&usr);
-    this->accounts.close();
 
     cout << "Arr! Yer registered with the fleet!\n";
     //returning to main menu after 2 second delay and clearing terminal
@@ -1115,10 +1145,6 @@ bool Battleship::verify(string em, string pw) {
 
     bool valid = false;
     int pos = -1;
-
-    //open the database file
-    this->accounts.open();
-
     //check all records for em
     pos = this->accounts.find(em);
     if (pos > -1) {
@@ -1129,9 +1155,6 @@ bool Battleship::verify(string em, string pw) {
             valid = true;
         }
     }
-
-    this->accounts.close();
-
     return valid;
 }
 
@@ -1163,44 +1186,6 @@ bool Battleship::rules() {
     }
 }
 
-// TODO: --> MOVE THIS TO Game.cpp
-//void Battleship::play(){
-//    // Create two game boards, one for each player
-//    Player* p1;
-//    Player* p2;
-//    int row, col;
-//    char letter;
-//
-//    // Display player 1's board after ship placement
-//    cout << "Player 1's Board before ship placement:" << endl;
-//    p1.displayBoard();
-//    
-//    // Prompt player 1 to place ships on the board
-//    cout << "Player 1, please place your ships:" << endl;
-//    p1.promptShipPlacement();
-//
-//    // Display player 1's board after ship placement
-//    cout << "Player 1's Board after ship placement:" << endl;
-//    p1.displayBoard();
-//    
-//    // Prompt player 2 to place ships on the board
-//    cout << "Player 2, please place your ships:" << endl;
-//    p2.promptShipPlacement();
-//
-//    // Display player 2's board after ship placement
-//   cout << "Player 2's Board after ship placement:" << endl;
-//    p2.displayBoard();
-//
-//    while(p2.getUnsunk() > 0 || p1.getUnsunk() > 0){
-//        
-//        cout << "Commence attack. Enter row and col coordinates:" << endl;
-//        cin >> letter >> row;
-//        col = letter - 65;
-//        p1.attackCell(row, col, p2);
-//        p1.displayShots();
-//    }
-//}
-
 void Battleship::Quit() {
     //making the user wait specific time before quit program for added realism
     cout << endl << "Exiting Battleship. Farewell Sailor!" << endl;
@@ -1208,6 +1193,7 @@ void Battleship::Quit() {
     //chrono::seconds duration(3);
     //this_thread::sleep_for(duration);
 }
+
 void Battleship::userMenu(User& user) {
     //Declare all Variables Here
     int choice;
@@ -1222,8 +1208,7 @@ void Battleship::userMenu(User& user) {
                 user.display();
                 break;
             case 2:
-                gameMenu(user);
-                
+                gameMenu(user); 
                 break;
             case 3:
                 if(!acctMenu(user)){
@@ -1249,9 +1234,7 @@ bool Battleship::acctMenu(User& user) {
     string e, p;
     bool quit = false;
     string email(user.getEmail());
-    this->accounts.open();
     int pos = this->accounts.find(email);  //for overwriting the user data
-    this->accounts.close();
     
     //Switch case within do-while loop for user submenu options
 //    system("cls");
@@ -1325,14 +1308,20 @@ void Battleship::gameMenu(User user) {
     //Switch case within do-while loop for Game menu
 //    system("cls");
     do {
-        cout << "[1] New Campaign\n[2] Load Campaign\n[3] Go Back\n";
+        cout << "[1] New Campaign\n"
+                "[2] Load Campaign\n"
+                "[3] Go Back\n";
         getNumeric<int>(choice);
         switch (choice) {
-            case 1:
-                cout << "Launching a new game";
+            case 1: {
+            //    Game g;
+            //    g.play();
+                }
                 break;
             case 2:
-                cout << "Recovering previous game";
+                {
+                    cout << "Load game code not added.\n";
+                }
                 break;
             case 3:
                 quit = true;
@@ -1344,6 +1333,59 @@ void Battleship::gameMenu(User user) {
     } while (!quit);
 }
 
+void Battleship::adminMenu(const User admin){ //pass admin as const so we cant delete by accident!
+        int choice;
+        bool quit = false;
+        do{
+            cout << "[1] View All Users\n"
+                    "[2] Add User\n"
+                    "[3] Delete User\n"
+                    "[4] Modify User\n"
+                    "[5] Exit Menu\n";
+            getNumeric<int>(choice);
+            switch(choice){
+                case 1:
+                    this->accounts.display();
+                    break;
+                case 2: 
+                    this->reg();
+                    break;
+                case 3: 
+                    this->delUser(admin);
+                    break;
+                case 4: 
+                    cout << "Modify User\n";
+                    break;
+                case 5: 
+                    quit = true;
+                    break;
+                default: cout << "Invalid option entered." << endl;
+                break;
+            }
+        } while (!quit);
+}
 
+void Battleship::delUser(const User admin){
+    try{
+    //find the position
+    cout << "Enter the Captain's e-mail address: ";
+    string e;
+    safeGetLine(e, MAXSTR);
+    if(e != admin.getEmail()){
+        int pos = this->accounts.find(e);
+        if(pos >= 0){
+            //remove the user
+            this->accounts.open();
+            this->accounts.del(pos);
+            this->accounts.close();
+            cout << "User removed. Updated database:\n";
+            this->accounts.display();
+        }
+        else {cout << "User does not exist\n";}
+    } else { cout << "You cannot delete your own account.\n"; }
+    } catch (...){
+        cerr << "An exception Occurred."<< endl;
+    }
+}
 
 // </editor-fold>

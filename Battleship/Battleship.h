@@ -73,8 +73,8 @@ class Player {
         ~Player();           // destructor
         void displayBoard(); // print current board
         void displayShots();
-        void promptShipPlacement();
-        void attackCell(int, int, Player *);
+        void place();
+        virtual void shoot(Player *);
 
         bool placeShip(int, int, int, char, char);
 
@@ -165,9 +165,9 @@ public:
     void setAdmin (const bool);
     
     //Accessors
-    const string getEmail();
+    const string getEmail() const;
     const string getPword();
-    const bool isAsmin();
+    const bool getAdmin();
     
     //Other Functions
     void display() const;
@@ -254,6 +254,8 @@ public:
     void userMenu(User&);
     bool acctMenu(User&);
     void gameMenu(User);
+    void adminMenu(const User);
+    void delUser(const User);
 };
 
 
