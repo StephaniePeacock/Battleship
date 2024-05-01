@@ -202,32 +202,3 @@ void Game::deserialize(fstream& file)
             }
         }
 }
-
-// DEBUG
-void Game::testPlay()
-{
-    // DEBUG
-    cout << "Player 1's Board before ship placement:" << endl;
-    p1->displayBoard();
-    cout << "Player 2's Board before ship placement:" << endl;
-    p2->displayBoard();
-    cout << "Player 1, please place your ships:" << endl;
-    p1->promptShipPlacement();
-    cout << "Player 1's Board after ship placement:" << endl;
-    p1->displayBoard();
-    cout << "Player 2, please place your ships:" << endl;
-    // p2->promptShipPlacement();
-    cout << "Player 2's Board after ship placement:" << endl;
-    // p2->displayBoard();
-    cout << "Commence attack. Enter row and col coordinates:" << endl;
-    string input;
-    int row, col;
-    char letter;
-    cin >> input;
-    int location = Player::convToInt(input);
-    int row = location / 10;
-    int col = location % 10;
-    col = letter - 65;
-    p1->attackCell(row, col, p2);
-    p1->displayShots();
-}
