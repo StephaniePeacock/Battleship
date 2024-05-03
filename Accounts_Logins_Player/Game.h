@@ -36,14 +36,14 @@ private:
 public:
     Game(string uid);
     Game(Player *p1, Player *p2, string uid);
-    void play();
+    bool play();
     ~Game();
     
     
     //Accessors
     string getUID();
-    Player* getP1();  //DEBUG
-    Player* getP2();  //DEBUG
+    Player* getP1();
+    Player* getP2();
     
     //Serialization
     void serialize(stringstream&);
