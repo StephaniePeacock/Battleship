@@ -20,6 +20,8 @@
 #include <iostream>
 #include <unordered_map>
 
+#include "Generics.h"
+
 // A flag to aid in reconstructing Player objects from binary
 enum class PlayerType : short unsigned int
 {

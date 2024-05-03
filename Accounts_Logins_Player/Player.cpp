@@ -47,6 +47,7 @@ void Player::setShots(int row, int col, const char c)
 int Player::convToInt(string input) // done
 {
     char row = input[0];
+    row = tolower(row);
     int col = (input[1] - '0') - 1;
     int total = 0;
 
@@ -57,43 +58,33 @@ int Player::convToInt(string input) // done
     switch (row)
     {
         // A through J for 10x10 grid
-    case 'A':
     case 'a':
         total += col;
         break;
-    case 'B':
     case 'b':
         total = 10 + col;
         break;
-    case 'C':
     case 'c':
         total = 20 + col;
         break;
-    case 'D':
     case 'd':
         total = 30 + col;
         break;
-    case 'E':
     case 'e':
         total = 40 + col;
         break;
-    case 'F':
     case 'f':
         total = 50 + col;
         break;
-    case 'G':
     case 'g':
         total = 60 + col;
         break;
-    case 'H':
     case 'h':
         total = 70 + col;
         break;
-    case 'I':
     case 'i':
         total = 80 + col;
         break;
-    case 'J':
     case 'j':
         total = 90 + col;
         break;
@@ -111,10 +102,12 @@ int Player::convToInt(string input) // done
 // Function to display the current state of the board
 void Player::displayBoard()
 {
-    cout << "   A B C D E F G H I J" << endl;
+    char rowLabel[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+    
+    cout << "   1 2 3 4 5 6 7 8 9 10" << endl;
     for (int i = 0; i < BOARD_SIZE; ++i)
     {
-        cout << i << "  ";
+        cout << rowLabel[i] << "  ";
         for (int j = 0; j < BOARD_SIZE; ++j)
         {
             cout << board[i][j] << " ";
@@ -127,10 +120,12 @@ void Player::displayBoard()
 // display shots taken (based on opponent's board)
 void Player::displayShots()
 {
-    cout << "   A B C D E F G H I J" << endl;
+    char rowLabel[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+    
+    cout << "   1 2 3 4 5 6 7 8 9 10" << endl;
     for (int i = 0; i < BOARD_SIZE; ++i)
     {
-        cout << i << "  ";
+        cout << rowLabel[i] << "  ";
         for (int j = 0; j < BOARD_SIZE; ++j)
         {
             cout << shots[i][j] << " ";
@@ -219,14 +214,16 @@ void Player::promptShipPlacement()
             char letter;
             char direction;
             cout << "Enter starting coordinates. (Ex. B4)" << endl;
-            cin >> input;
+            safeGetLine(input, 3);
             cout << "Enter direction (H for horizontal, V for vertical): ";
-            cin >> direction;
+            direction = getSingleChar();
+            direction = toupper(direction);
             location = Player::convToInt(input);
             int row = location / 10, col = location % 10;
             if (placeShip(row, col, size, direction, shipType))
             {
                 cout << "Ship placed successfully!" << endl;
+                displayBoard();
                 break;
             }
             else
