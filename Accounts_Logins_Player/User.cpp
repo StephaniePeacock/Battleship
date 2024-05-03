@@ -117,7 +117,9 @@ void User::newGame() {
 void User::handleGame(Game& game) {
     bool save = game.play();
     if (save) {
+        User::gamesdb.open();
         User::gamesdb.save(game);
+        User::gamesdb.close();
         cout << "Game saved\n";
     }    
     cout << "Disengaging!\n";
