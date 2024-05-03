@@ -67,7 +67,7 @@ void Battleship::main() {
             cout << "LOGGING IN AS \n";
             user.display();  //DEBUG
             cout << "\n";
-            user.main();
+            userMenu(user);
             break;
         }
 //        case 'm': { //FOR DEBUG ONLY, make an admin user lol

@@ -60,14 +60,11 @@ public:
     const bool isAdmin();
     
     //Other Functions
-    void main();
     void display() const;
     string newGameUID();
     void saveGame(Game&);
     void loadGame(Game&);
     void newGame();
-    void acctMenu();
-    void start();
     // User operator=(User &); //override = so we can move account to admin type object
 };
 
