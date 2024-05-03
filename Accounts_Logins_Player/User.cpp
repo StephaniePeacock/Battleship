@@ -21,14 +21,16 @@ User::User() {
 User::User(const string em, const string pw, const bool adm) {  //for registering a new user
     safeCStrNCpy(this->email, em, user::MAXSTR);
     safeCStrNCpy(this->pword, pw, user::MAXSTR);
+    safeCStrNCpy(this->sgame, "", game::MAXUID);
     this->isadmin = adm;
     this->info = Stats {0, 0};
     //add Game default
 }
 
-User::User(const string em, const string pw, Stats s, const bool adm) {  //for loading an existing user
-    safeCStrNCpy(email, em, user::MAXSTR);
-    safeCStrNCpy(pword, pw, user::MAXSTR);
+User::User(const string em, const string pw, const string gm, Stats s, const bool adm) {  //for loading an existing user
+    safeCStrNCpy(this->email, em, user::MAXSTR);
+    safeCStrNCpy(this->pword, pw, user::MAXSTR);
+    safeCStrNCpy(this->sgame, gm, game::MAXUID);
     isadmin = adm;
     info.win = s.win;
     info.loss = s.loss;
@@ -112,6 +114,10 @@ void User::newGame() {
     
     Game game = Game(&p1, &p2, newGameUID());
     handleGame(game);
+}
+
+void User::loadGame(Game&) {
+    
 }
 
 void User::handleGame(Game& game) {

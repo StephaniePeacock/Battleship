@@ -35,6 +35,7 @@ class User {
 protected:
     char email[user::MAXSTR];
     char pword[user::MAXSTR];
+    char sgame[game::MAXUID];
     bool isadmin;
     Stats info;
     
@@ -51,7 +52,7 @@ protected:
 public:
     User();                                                 //default
     User(const string, const string, const bool);           //register new
-    User(const string, const string, Stats, const bool);    //load from db
+    User(const string, const string, const string, Stats, const bool);    //load from db
 
     //Mutators
     void setEmail(const string);
