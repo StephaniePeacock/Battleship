@@ -69,7 +69,7 @@ public:
     //Other Functions
     void display() const;
     string newGameUID();
-    void loadGame(Game&);
+    void loadGame();
     void newGame();
     // User operator=(User &); //override = so we can move account to admin type object
 };

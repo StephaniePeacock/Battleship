@@ -122,12 +122,35 @@ void User::newGame() {
         }
     }
     
+    // Create new game
     Game game = Game(&p1, &p2, newGameUID());
+    
+    // Handle running the game
     handleGame(game);
 }
 
-void User::loadGame(Game&) {
+void User::loadGame() {
     
+    // Check if the user has a game saved
+    if (!strlen(this->sgame) > 0) {
+        cout << "No saved game available\n";
+        return;
+    }
+
+    // Load the game or notify if error
+    Game game = Game(this->sgame);
+    User::gamesdb.open();
+    
+    if (User::gamesdb.find(game) < 0) {
+        cout << "Error: Game not found\n";
+        return;
+    }
+    
+    User::gamesdb.load(game);
+    User::gamesdb.close();
+    
+    // Handle running the game
+    handleGame(game);
 }
 
 void User::handleGame(Game& game) {
@@ -136,6 +159,7 @@ void User::handleGame(Game& game) {
         User::gamesdb.open();
         User::gamesdb.save(game);
         User::gamesdb.close();
+        this->setSGame(game.getUID());
         cout << "Game saved\n";
     }    
     cout << "Disengaging!\n";
