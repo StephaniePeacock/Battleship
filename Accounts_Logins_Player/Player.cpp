@@ -214,7 +214,7 @@ void Player::promptShipPlacement()
             char letter;
             char direction;
             cout << "Enter starting coordinates. (Ex. B4)" << endl;
-            safeGetLine(input, 3);
+            safeGetLine(input, 4);
             cout << "Enter direction (H for horizontal, V for vertical): ";
             direction = getSingleChar();
             direction = toupper(direction);
