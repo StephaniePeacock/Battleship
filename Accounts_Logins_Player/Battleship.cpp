@@ -71,7 +71,9 @@ void Battleship::main() {
             break;
         }
 //        case 'm': { //FOR DEBUG ONLY, make an admin user lol
+//            
 //            User user = User("admin@org.com", "AdminUser1", true);
+//            this->accounts.delAll();
 //            this->accounts.add(&user);
 //            break;
 //        }
@@ -474,15 +476,17 @@ void Battleship::gameMenu(User& user) {
     do {
         cout << "[1] New Campaign\n"
                 "[2] Load Campaign\n"
+                "[4] Delete Campaign\n"
                 "[3] Go Back\n";
         getNumeric<int>(choice);
         switch (choice) {
             case 1:
-                cout << "Launching a new game";
+                cout << "Launching a new game\n";
                 user.newGame();
                 break;
             case 2:
-                cout << "Recovering previous game";
+                cout << "Loading a previous game\n";
+                user.loadGame();
                 break;
             case 3:
                 quit = true;

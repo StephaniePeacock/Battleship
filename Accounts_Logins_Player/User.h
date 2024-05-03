@@ -35,35 +35,41 @@ class User {
 protected:
     char email[user::MAXSTR];
     char pword[user::MAXSTR];
+    char sgame[game::MAXUID];
     bool isadmin;
     Stats info;
     
     // Methods
+    
+    /// @brief Handles initiating game loop and post-game loop exit logic (i.e. save game).
+    /// @param game The game instance to handle.
     void handleGame(Game& game);
     
     //static members
+    
     static GamesDB gamesdb;
     
 public:
     User();                                                 //default
     User(const string, const string, const bool);           //register new
-    User(const string, const string, Stats, const bool);    //load from db
+    User(const string, const string, const string, Stats, const bool);    //load from db
 
     //Mutators
     void setEmail(const string);
     void setPword (const string);
     void setAdmin (const bool);
+    void setSGame(const string);
     
     //Accessors
     const string getEmail() const;
     const string getPword();
     const bool isAdmin();
+    const string getSGame();
     
     //Other Functions
     void display() const;
     string newGameUID();
-    void saveGame(Game&);
-    void loadGame(Game&);
+    void loadGame();
     void newGame();
     // User operator=(User &); //override = so we can move account to admin type object
 };

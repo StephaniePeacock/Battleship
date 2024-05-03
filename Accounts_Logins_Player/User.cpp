@@ -21,14 +21,16 @@ User::User() {
 User::User(const string em, const string pw, const bool adm) {  //for registering a new user
     safeCStrNCpy(this->email, em, user::MAXSTR);
     safeCStrNCpy(this->pword, pw, user::MAXSTR);
+    safeCStrNCpy(this->sgame, "", game::MAXUID);
     this->isadmin = adm;
     this->info = Stats {0, 0};
     //add Game default
 }
 
-User::User(const string em, const string pw, Stats s, const bool adm) {  //for loading an existing user
-    safeCStrNCpy(email, em, user::MAXSTR);
-    safeCStrNCpy(pword, pw, user::MAXSTR);
+User::User(const string em, const string pw, const string gm, Stats s, const bool adm) {  //for loading an existing user
+    safeCStrNCpy(this->email, em, user::MAXSTR);
+    safeCStrNCpy(this->pword, pw, user::MAXSTR);
+    safeCStrNCpy(this->sgame, gm, game::MAXUID);
     isadmin = adm;
     info.win = s.win;
     info.loss = s.loss;
@@ -56,6 +58,14 @@ const string User::getPword() {
     return this->pword;
 }
 
+void User::setSGame(const string gm) {
+    safeCStrNCpy(this->sgame, gm, game::MAXUID);
+}
+
+const string User::getSGame() {
+    return this->sgame;
+}
+
 const bool User::isAdmin() {
     return this->isadmin;
 }
@@ -79,6 +89,8 @@ void User::display() const{
     cout << "Password: " << this->pword << "\n";
     cout << "Wins: " << this->info.win << "\n";
     cout << "Losses: " << this->info.loss << "\n";
+    cout << "Saved Game: " << (strlen(this->sgame) > 0 ? "Yes" : "No") << "\n";
+//    cout << "Saved Game UID: \"" << this->sgame << "\"\n";  //DEBUG
 }
 
 void User::newGame() {
@@ -110,7 +122,35 @@ void User::newGame() {
         }
     }
     
+    // Create new game
     Game game = Game(&p1, &p2, newGameUID());
+    
+    // Handle running the game
+    handleGame(game);
+}
+
+void User::loadGame() {
+    
+    // Check if the user has a game saved
+    if (!strlen(this->sgame) > 0) {
+        cout << "No saved game available\n";
+        return;
+    }
+
+    // Load the game or notify if error
+    Game game = Game(this->sgame);
+    User::gamesdb.open();
+    
+    int _;  //throwaway
+    if (User::gamesdb.find(game.getUID(), _) < 0) {
+        cout << "Error: Game not found\n";
+        return;
+    }
+    
+    User::gamesdb.load(game);
+    User::gamesdb.close();
+    
+    // Handle running the game
     handleGame(game);
 }
 
@@ -120,6 +160,7 @@ void User::handleGame(Game& game) {
         User::gamesdb.open();
         User::gamesdb.save(game);
         User::gamesdb.close();
+        this->setSGame(game.getUID());
         cout << "Game saved\n";
     }    
     cout << "Disengaging!\n";
