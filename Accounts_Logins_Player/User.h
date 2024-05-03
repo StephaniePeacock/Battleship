@@ -39,9 +39,13 @@ protected:
     Stats info;
     
     // Methods
+    
+    /// @brief Handles initiating game loop and post-game loop exit logic (i.e. save game).
+    /// @param game The game instance to handle.
     void handleGame(Game& game);
     
     //static members
+    
     static GamesDB gamesdb;
     
 public:
@@ -62,7 +66,6 @@ public:
     //Other Functions
     void display() const;
     string newGameUID();
-    void saveGame(Game&);
     void loadGame(Game&);
     void newGame();
     // User operator=(User &); //override = so we can move account to admin type object
