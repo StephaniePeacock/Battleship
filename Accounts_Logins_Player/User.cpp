@@ -141,7 +141,8 @@ void User::loadGame() {
     Game game = Game(this->sgame);
     User::gamesdb.open();
     
-    if (User::gamesdb.find(game) < 0) {
+    int _;  //throwaway
+    if (User::gamesdb.find(game.getUID(), _) < 0) {
         cout << "Error: Game not found\n";
         return;
     }
