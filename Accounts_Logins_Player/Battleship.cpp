@@ -475,7 +475,7 @@ void Battleship::gameMenu(User& user) {
         switch (choice) {
             case 1:
                 cout << "Launching a new game";
-                newGame(user);
+                user.newGame();
                 break;
             case 2:
                 cout << "Recovering previous game";
@@ -488,38 +488,6 @@ void Battleship::gameMenu(User& user) {
                 break;
         }
     } while (!quit);
-}
-
-void Battleship::newGame(User& user) {
-
-    bool cont = true;
-    int choice;
-
-    // Instantiate Player 1 (Human player)
-    Player p1 = Player();
-
-    // Instantiate Player 2
-    Player p2;
-    cout << "Choose player 2\n[1]Human\n[2]AI\n";
-    getNumeric<int>(choice);
-
-    while (cont) {
-        switch (choice) {
-            case 1:  // Human
-                p2 = Player();
-                break;
-            case 2:  // AI
-                p2 = Comp();
-                break;
-            default:
-                cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";
-                break;
-            }
-    }
-    
-    Game game = Game(&p1, &p2, user.newGameUID());
-    game.play();
-    
 }
 
 void Battleship::adminMenu(const User& admin){ //pass admin as const so we cant delete by accident!

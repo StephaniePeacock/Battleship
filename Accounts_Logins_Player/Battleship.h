@@ -49,7 +49,6 @@ public:
     
     // Game Menu
     void gameMenu(User&);
-    void newGame(User&);
     
     // Admin Menu
     void adminMenu(const User&);    
