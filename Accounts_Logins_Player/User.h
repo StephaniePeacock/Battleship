@@ -38,6 +38,9 @@ protected:
     bool isadmin;
     Stats info;
     
+    // Methods
+    void handleGame(Game& game);
+    
     //static members
     static GamesDB gamesdb;
     

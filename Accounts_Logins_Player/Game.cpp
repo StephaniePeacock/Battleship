@@ -49,7 +49,7 @@ void Game::doTurn()
 {
     turn = !turn;
 }
-void Game::play()
+bool Game::play()
 {
     string input;
     int row, col;
@@ -77,9 +77,20 @@ void Game::play()
 
     while (p2->getUnsunk() > 0 || p1->getUnsunk() > 0)
     {
-
-        cout << "Commence attack. Enter row and col coordinates:" << endl;
-        cin >> input;
+        cout << "Commence attack. Enter coordinates (Q to quit):" << endl;
+        safeGetLine(input, 3);  //No more than 3 characters allowed
+        
+        if (input == "Q" || input == "q") {
+            char save;
+            cout << "Save game before quitting? (Y/)\n";
+            
+            save = getSingleChar();
+            tolower(save);
+            if (save == 'y') {
+                return true;
+            }
+        }
+        
         int location = Player::convToInt(input);
         int row = location / 10;
         int col = location % 10;
@@ -87,6 +98,8 @@ void Game::play()
         p1->attackCell(row, col, p2);
         p1->displayShots();
     }
+    
+    return false;
 }
 
 void Game::serialize(stringstream& buffer)

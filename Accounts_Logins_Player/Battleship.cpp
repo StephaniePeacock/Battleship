@@ -375,7 +375,6 @@ void Battleship::userMenu(User& user) {
                 break;
             case 2:
                 gameMenu(user);
-                
                 break;
             case 3:
                 if(!acctMenu(user)){
@@ -462,7 +461,7 @@ bool Battleship::acctMenu(User& user) {
     return true;
 }
 
-void Battleship::gameMenu(User user) {
+void Battleship::gameMenu(User& user) {
     //Declare all Variables Here
     int choice;
     bool quit = false;
@@ -476,6 +475,7 @@ void Battleship::gameMenu(User user) {
         switch (choice) {
             case 1:
                 cout << "Launching a new game";
+                user.newGame();
                 break;
             case 2:
                 cout << "Recovering previous game";
@@ -490,7 +490,7 @@ void Battleship::gameMenu(User user) {
     } while (!quit);
 }
 
-void Battleship::adminMenu(const User admin){ //pass admin as const so we cant delete by accident!
+void Battleship::adminMenu(const User& admin){ //pass admin as const so we cant delete by accident!
         int choice;
         bool quit = false;
         do{

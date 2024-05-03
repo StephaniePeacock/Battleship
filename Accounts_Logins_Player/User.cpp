@@ -35,7 +35,7 @@ User::User(const string em, const string pw, Stats s, const bool adm) {  //for l
     //add Game object
 }
 
-// Static memebers
+// Static members
 GamesDB User::gamesdb = GamesDB(user::GAMESDBPATH);
 
 
@@ -162,14 +162,42 @@ void User::start(){
 
 void User::newGame() {
     
-    // Player 1 is the human player
-    Player p1 = Player();
-    
-    // Select player 2 (Human or AI)
-    // TODO: Selection player type prompt
-    Player p2 = Player();
+    bool cont = true, save = false;
+    int choice;
 
-    // Create game instance
-    Game game = Game(&p1, &p2, User::newGameUID());
-    game.play();
+    // Instantiate Player 1 (Human player)
+    Player p1 = Player();
+
+    // Instantiate Player 2
+    Player p2;
+    cout << "Choose player 2\n[1]Human\n[2]AI\n";
+    getNumeric<int>(choice);
+
+    while (cont) {
+        switch (choice) {
+            case 1:  // Human
+                p2 = Player();
+                cont = false;
+                break;
+            case 2:  // AI
+                p2 = Comp();
+                cont = false;
+                break;
+            default:
+                cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";
+                break;
+        }
+    }
+    
+    Game game = Game(&p1, &p2, newGameUID());
+    handleGame(game);
+}
+
+void User::handleGame(Game& game) {
+    bool save = game.play();
+    if (save) {
+        User::gamesdb.save(game);
+        cout << "Game saved\n";
+    }    
+    cout << "Disengaging!\n";
 }
