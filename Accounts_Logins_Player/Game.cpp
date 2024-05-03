@@ -92,7 +92,7 @@ bool Game::play()
         if (input == "Q" || input == "q") {
             char save;
             cout << "Save game before quitting? (Y/)\n";
-            
+            cout << "WARNING: Choosing (Y)es will overwrite previous save\n";
             save = getSingleChar();
             tolower(save);
             if (save == 'y') {

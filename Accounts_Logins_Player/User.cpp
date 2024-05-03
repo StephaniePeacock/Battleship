@@ -158,6 +158,7 @@ void User::handleGame(Game& game) {
     bool save = game.play();
     if (save) {
         User::gamesdb.open();
+        User::gamesdb.del(this->sgame);
         User::gamesdb.save(game);
         User::gamesdb.close();
         this->setSGame(game.getUID());
