@@ -48,7 +48,6 @@ public:
     //Serialization
     void serialize(stringstream&);
     void deserialize(fstream&);
-
 };
 
 #endif /* GAME_H */

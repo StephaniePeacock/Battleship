@@ -51,6 +51,15 @@ void Game::doTurn()
 }
 bool Game::play()
 {
+    // DEBUG
+    // QUICKLY "PLAY" A GAME THEN SAVE
+//    p1->placeShip(2, 8, 5, 'V', 'C');
+//    p1->placeShip(5, 3, 3, 'H', 'S');
+//    p2->attackCell(3, 3, p1);
+//    p2->attackCell(5, 3, p1);
+//    return true;
+    // END DEBUG
+    
     string input;
     int row, col;
     char letter;

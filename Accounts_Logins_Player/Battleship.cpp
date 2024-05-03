@@ -86,55 +86,59 @@ void Battleship::main() {
             GamesDB::createDB(user::GAMESDBPATH);
             GamesDB gamesdb = GamesDB(user::GAMESDBPATH);
             
-            cout << "GAME UID: " << uid << "\n";
-            
-            // Do some stuff to modify game state
-            p1.placeShip(2, 8, 5, 'V', 'C');
-            p1.placeShip(5, 3, 3, 'H', 'S');
-            p2.attackCell(3, 3, &p1);
-            p2.attackCell(5, 3, &p1);
-            cout << "PLAYER 1 BOARD:\n";
-            p1.displayBoard();
-            cout << "PLAYER 1 SHOTS:\n";
-            p1.displayShots();
-            cout << "PLAYER 2 BOARD:\n";
-            p2.displayBoard();
-            cout << "PLAYER 2 SHOTS:\n";
-            p2.displayShots();
-            
-            Game game = Game(&p1, &p2, uid);           
-            
-            // Add some more games for testing
-            Player pa1 = Player();
-            Comp pa2 = Comp();
-            Game ga = Game(&pa1, &pa2, "hannes@mail.com_1714321083709");
-            
-            Comp pb1 = Comp();
-            Comp pb2 = Comp();
-            Game gb = Game(&pb1, &pb2, "hannes@mail.com_1714321083712");
-            
-            Comp pc1 = Comp();
-            Player pc2 = Player();
-            Game gc = Game(&pc1, &pc2, "hannes@mail.com_1714321083727");
-            
-            // Save a games
             gamesdb.open();
-            gamesdb.save(ga);
-            gamesdb.save(gb);
-            gamesdb.save(game);
-            gamesdb.save(gc);
             gamesdb.list();
             gamesdb.close();
             
-            // Load a game
-            Game game_load = Game(uid);
-            gamesdb.open();
-            gamesdb.load(game_load);
-            gamesdb.del("hannes@mail.com_1714321083709");
-            gamesdb.del("hannes@mail.com_1714321083707");
-            gamesdb.del("hannes@mail.com_1714321083727");
-            gamesdb.list();
-            gamesdb.close();
+//            cout << "GAME UID: " << uid << "\n";
+//            
+//            // Do some stuff to modify game state
+//            p1.placeShip(2, 8, 5, 'V', 'C');
+//            p1.placeShip(5, 3, 3, 'H', 'S');
+//            p2.attackCell(3, 3, &p1);
+//            p2.attackCell(5, 3, &p1);
+//            cout << "PLAYER 1 BOARD:\n";
+//            p1.displayBoard();
+//            cout << "PLAYER 1 SHOTS:\n";
+//            p1.displayShots();
+//            cout << "PLAYER 2 BOARD:\n";
+//            p2.displayBoard();
+//            cout << "PLAYER 2 SHOTS:\n";
+//            p2.displayShots();
+//            
+//            Game game = Game(&p1, &p2, uid);           
+//            
+//            // Add some more games for testing
+//            Player pa1 = Player();
+//            Comp pa2 = Comp();
+//            Game ga = Game(&pa1, &pa2, "hannes@mail.com_1714321083709");
+//            
+//            Comp pb1 = Comp();
+//            Comp pb2 = Comp();
+//            Game gb = Game(&pb1, &pb2, "hannes@mail.com_1714321083712");
+//            
+//            Comp pc1 = Comp();
+//            Player pc2 = Player();
+//            Game gc = Game(&pc1, &pc2, "hannes@mail.com_1714321083727");
+//            
+//            // Save a games
+//            gamesdb.open();
+//            gamesdb.save(ga);
+//            gamesdb.save(gb);
+//            gamesdb.save(game);
+//            gamesdb.save(gc);
+//            gamesdb.list();
+//            gamesdb.close();
+//            
+//            // Load a game
+//            Game game_load = Game(uid);
+//            gamesdb.open();
+//            gamesdb.load(game_load);
+//            gamesdb.del("hannes@mail.com_1714321083709");
+//            gamesdb.del("hannes@mail.com_1714321083707");
+//            gamesdb.del("hannes@mail.com_1714321083727");
+//            gamesdb.list();
+//            gamesdb.close();
             
 //            stringstream buffer;
 //            buffer.seekp(0L, ios::end);
