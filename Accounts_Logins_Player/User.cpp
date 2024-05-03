@@ -35,7 +35,7 @@ User::User(const string em, const string pw, Stats s, const bool adm) {  //for l
     //add Game object
 }
 
-// Static memebers
+// Static members
 GamesDB User::gamesdb = GamesDB(user::GAMESDBPATH);
 
 

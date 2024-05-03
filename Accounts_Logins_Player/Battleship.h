@@ -28,7 +28,8 @@ private:
     AccountsDB accounts;
 public:
     Battleship();
-    //Other Functions
+
+    // Main menu
     void main();
     void loading();
     void login();
@@ -37,12 +38,21 @@ public:
     bool checkPw(string&);
     bool verify(string, string);
     bool rules();
-    void Quit();
-    void userMenu(User&);
-    bool acctMenu(User&);
-    void gameMenu(User);
-    void adminMenu(const User);
     void delUser(const User);
+    void Quit();
+    
+    // User Menu
+    void userMenu(User&);
+    
+    // Account Menu
+    bool acctMenu(User&);
+    
+    // Game Menu
+    void gameMenu(User&);
+    void newGame(User&);
+    
+    // Admin Menu
+    void adminMenu(const User&);    
 };
 
 
