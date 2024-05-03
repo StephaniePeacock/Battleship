@@ -87,7 +87,7 @@ bool Game::play()
     while (p2->getUnsunk() > 0 || p1->getUnsunk() > 0)
     {
         cout << "Commence attack. Enter coordinates (Q to quit):" << endl;
-        safeGetLine(input, 3);  //No more than 3 characters allowed
+        safeGetLine(input, 4);  //No more than 3 characters allowed
         
         if (input == "Q" || input == "q") {
             char save;
@@ -103,7 +103,7 @@ bool Game::play()
         int location = Player::convToInt(input);
         int row = location / 10;
         int col = location % 10;
-        col = letter - 65;
+        
         p1->attackCell(row, col, p2);
         p1->displayShots();
     }
