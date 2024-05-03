@@ -58,6 +58,14 @@ const string User::getPword() {
     return this->pword;
 }
 
+void User::setSGame(const string gm) {
+    safeCStrNCpy(this->sgame, gm, game::MAXUID);
+}
+
+const string User::getSGame() {
+    return this->sgame;
+}
+
 const bool User::isAdmin() {
     return this->isadmin;
 }
@@ -81,6 +89,8 @@ void User::display() const{
     cout << "Password: " << this->pword << "\n";
     cout << "Wins: " << this->info.win << "\n";
     cout << "Losses: " << this->info.loss << "\n";
+    cout << "Saved Game: " << (strlen(this->sgame) > 0 ? "Yes" : "No") << "\n";
+//    cout << "Saved Game UID: \"" << this->sgame << "\"\n";  //DEBUG
 }
 
 void User::newGame() {

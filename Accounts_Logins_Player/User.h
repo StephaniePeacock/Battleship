@@ -58,11 +58,13 @@ public:
     void setEmail(const string);
     void setPword (const string);
     void setAdmin (const bool);
+    void setSGame(const string);
     
     //Accessors
     const string getEmail() const;
     const string getPword();
     const bool isAdmin();
+    const string getSGame();
     
     //Other Functions
     void display() const;

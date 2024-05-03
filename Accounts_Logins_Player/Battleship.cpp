@@ -71,7 +71,9 @@ void Battleship::main() {
             break;
         }
 //        case 'm': { //FOR DEBUG ONLY, make an admin user lol
+//            
 //            User user = User("admin@org.com", "AdminUser1", true);
+//            this->accounts.delAll();
 //            this->accounts.add(&user);
 //            break;
 //        }
