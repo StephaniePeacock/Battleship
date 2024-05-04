@@ -38,10 +38,10 @@ private:
     char shots[BOARD_SIZE][BOARD_SIZE];
     unordered_map<char, int> shipCounts;
     int unsunk;
+
     // mutators
     //    void setUnsunk();
-    void setBoard(int, int, const char);
-    void setShots(int, int, const char);
+    
     // other functions
     bool isValidCoordinate(int row, int col)
     {
@@ -60,15 +60,24 @@ public:
     ~Player();           // destructor
     void displayBoard(); // print current board
     void displayShots();
-    void promptShipPlacement();
-    void attackCell(int, int, Player *);
+
+    // Move these two down from private
+    void setBoard(int, int, const char);
+    void setShots(int, int, const char);
+
+    // Getters
+    char getBoard(int, int);
+    char getShots(int, int);
+
+    // These two should be virtual
+    virtual void promptShipPlacement();
+    virtual void attackCell(int, int, Player *);
     
     bool placeShip(int, int, int, char, char);
 
     int getUnsunk() { return this->unsunk; }
-    char getBoard(int, int);
-    char getShots(int, int);
     static int convToInt(string);
+
     virtual void serialize(stringstream &, int &);
     virtual void deserialize(fstream &);
 };

@@ -44,6 +44,16 @@ void Player::setShots(int row, int col, const char c)
     shots[row][col] = c;
 }
 
+char Player::getBoard(int row, int col)
+{
+    return board[row][col];
+}
+
+char Player::getShots(int row, int col)
+{
+    return shots[row][col];
+}
+
 int Player::convToInt(string input) // done
 {
     char row = input[0];
