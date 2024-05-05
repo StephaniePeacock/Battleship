@@ -27,6 +27,12 @@ Player::Player()
     shipCounts['D'] = 3; // Destroyer
     shipCounts['S'] = 3; // Submarine
     shipCounts['P'] = 4; // Patrol Boat
+    
+    shipHealth['C'] =5; // Hp for a carrier
+    shipHealth['B'] =4; // Hp for a batteship
+    shipHealth['D'] =3; // Hp for a destroyer
+    shipHealth['S'] =3; // Hp for a submarine
+    shipHealth['P'] =2; // Hp for a patrol boat
     unsunk = 0;
 }
 
@@ -42,6 +48,16 @@ void Player::setBoard(int row, int col, const char c)
 void Player::setShots(int row, int col, const char c)
 {
     shots[row][col] = c;
+}
+
+char Player::getBoard(int row, int col)
+{
+    return board[row][col];
+}
+
+char Player::getShots(int row, int col)
+{
+    return shots[row][col];
 }
 
 int Player::convToInt(string input) // done
@@ -237,11 +253,18 @@ void Player::promptShipPlacement()
 // Function to attack a cell on the opponent's board
 void Player::attackCell(int row, int col, Player *enemy)
 {
+    char shipType;
+    
     if (enemy->board[row][col] == SHIP_CELL)
     {
         cout << "Hit!" << endl;
-        enemy->setBoard(row, col, HIT_CELL);
-        setShots(row, col, HIT_CELL);
+        shipType = enemy->board[row][col];      // this will return the char at those coordinates which will decrement  
+        enemy->setBoard(row, col, HIT_CELL);    // the appropriate ship, wont have to worry about the hit char taking over
+        setShots(row, col, HIT_CELL);           // because we're looking for the ship's char before the board is updated 
+        shipHealth[shipType]--;                 // a hit marker
+        if(shipHealth[shipType]==0){
+         cout << shipType << " was sunk!\n";    
+        }
     }
     else
     {
