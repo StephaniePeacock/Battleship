@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['game_0',['game',['../namespacegame.html',1,'']]],
+  ['game_1',['Game',['../class_game.html#a7228d51aa3b1eaede93efc3a5c339078',1,'Game::Game(string uid)'],['../class_game.html#a97970e520e9cfceb38b70ef527e2fde4',1,'Game::Game(Player *p1, Player *p2, string uid)'],['../class_game.html',1,'Game']]],
+  ['game_2ecpp_2',['Game.cpp',['../_game_8cpp.html',1,'']]],
+  ['game_2eh_3',['Game.h',['../_game_8h.html',1,'']]],
+  ['gamemenu_4',['gameMenu',['../class_battleship.html#af7a99790e667afad6220a0cd604bf310',1,'Battleship']]],
+  ['gamesdb_5',['GamesDB',['../class_games_d_b.html',1,'']]],
+  ['gamesdb_6',['gamesdb',['../class_user.html#a5b9ddb1e5381b246b0a86b1535a107e4',1,'User']]],
+  ['gamesdb_7',['GamesDB',['../class_games_d_b.html#a26d69db8ac128007cfd97ba98ac9076e',1,'GamesDB::GamesDB()'],['../class_games_d_b.html#a3229b0387f7043fb0294f8eb445cef43',1,'GamesDB::GamesDB(string)']]],
+  ['gamesdb_2ecpp_8',['GamesDB.cpp',['../_games_d_b_8cpp.html',1,'']]],
+  ['gamesdb_2eh_9',['GamesDB.h',['../_games_d_b_8h.html',1,'']]],
+  ['gamesdbpath_10',['GAMESDBPATH',['../namespaceuser.html#afbe74e06893bf9f2348e6677f7ef1a95',1,'user']]],
+  ['generics_2eh_11',['Generics.h',['../_generics_8h.html',1,'']]],
+  ['get_12',['get',['../class_accounts_d_b.html#a0a2bc4918a37f48f76bb8163e46fb597',1,'AccountsDB']]],
+  ['getall_13',['getAll',['../class_accounts_d_b.html#ab8b891446bd306de5303d6627855a369',1,'AccountsDB']]],
+  ['getboard_14',['getBoard',['../class_player.html#a47eec9dc0de9e40c1f1a19735ecd694c',1,'Player']]],
+  ['getemail_15',['getEmail',['../class_user.html#acddb3b78b3d52a22e84e19180bf862df',1,'User']]],
+  ['getnumeric_16',['getNumeric',['../_generics_8h.html#a9920fc8afc3d4a8a9b51d3832eaf62bf',1,'Generics.h']]],
+  ['getp1_17',['getP1',['../class_game.html#ab8d9c15e4416898d8b413a2b1ba5a212',1,'Game']]],
+  ['getp2_18',['getP2',['../class_game.html#a1cc027900f2c3c3eff128003a2791187',1,'Game']]],
+  ['getpword_19',['getPword',['../class_user.html#a5d276067daf38680d7edaf9adbc83141',1,'User']]],
+  ['getsgame_20',['getSGame',['../class_user.html#a5e353ce3b1b68274f1e706c66128c4e6',1,'User']]],
+  ['getshots_21',['getShots',['../class_player.html#af1cb691b87c07484ec3a2d8f40403904',1,'Player']]],
+  ['getsinglechar_22',['getSingleChar',['../_generics_8h.html#ae76dbb33265b3af3948a58b19109572d',1,'Generics.h']]],
+  ['getuid_23',['getUID',['../class_game.html#ae84674727270f7a0f9d51672afc7f368',1,'Game']]],
+  ['getunsunk_24',['getUnsunk',['../class_player.html#aa90bcbb1e2c427672d6446e43373ad12',1,'Player']]]
+];
