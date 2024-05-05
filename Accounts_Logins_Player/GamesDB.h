@@ -27,21 +27,49 @@ private:
     
     // Private methods
 //    void checkState();  //DEBUG
+    
+    /// @brief Skip a full saved game record in the database
     void skip();
 public:
     GamesDB();
     GamesDB(string);
+    
+    /// @brief Open file stream.
     void open();
+
+    /// @brief Close file stream.
     void close();
+
+    /// @brief Create a new database.
+    /// @param fname The path to the new database.
     static void createDB(string);
+
+    /// @brief Delete an existing database.
+    /// @param fname The path to the database that will be deleted.
     static void deleteDB(string);
-//    int count();
+
     int size();
+
+    /// @brief Get the size (in bytes) of the database.
+    /// @return The size (in bytes) of the database.
     int find(const string& uid, int& cur);
+
+    /// @brief Load a game from the database.
+    /// @param game The loaded game (fully restored Game object from saved data).
     void load(Game& game);
+
+    /// @brief Save a game to the database.
+    /// @param game The game object to save to the database.
     void save(Game& game);
+    
+    /// @brief Delete a game from the database.
+    /// @param uid The UID of the game to be deleted.
     void del(const string& uid);
+
+    /// @brief List all the games in the database.
     void list();
+
+    /// @brief Delete all the games in the database (empty the database).
     void delAll();
 };
 

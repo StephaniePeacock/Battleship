@@ -23,6 +23,13 @@ using namespace std;
 #include "User.h"
 
 class AccountsDB {
+    private:
+        /// @brief Open file stream.
+        void open();
+
+        /// @brief Close file stream.
+        void close();
+
     public:
         // Member variables
         string fname;
@@ -33,12 +40,6 @@ class AccountsDB {
         AccountsDB();
         AccountsDB(string);
         
-        /// @brief Open file stream.
-        void open();
-
-        /// @brief Close file stream.
-        void close();
-
         /// @brief Create a new database.
         /// @param fname The path to the new database.
         static void createDB(string);
