@@ -255,7 +255,7 @@ void Player::attackCell(int row, int col, Player *enemy)
 {
     char shipType;
     
-    if (enemy->board[row][col] == SHIP_CELL)
+    if (enemy->board[row][col] == 'C' || enemy->board[row][col] == 'B' || enemy->board[row][col] == 'D' || enemy->board[row][col] == 'S' || enemy->board[row][col] == 'P')
     {
         cout << "Hit!" << endl;
         shipType = enemy->board[row][col];      // this will return the char at those coordinates which will decrement  
