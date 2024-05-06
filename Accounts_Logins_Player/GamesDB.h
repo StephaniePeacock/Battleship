@@ -51,6 +51,8 @@ public:
     int size();
 
     /// @brief Get the size (in bytes) of the database.
+    /// @param uid The unique identifier of the game to find.
+    /// @param cur The cursor position found game (search also starts from given value, so only reliable if return value != -1)
     /// @return The size (in bytes) of the database.
     int find(const string& uid, int& cur);
 
