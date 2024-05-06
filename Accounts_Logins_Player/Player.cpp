@@ -194,7 +194,7 @@ bool Player::placeShip(int row, int col, int size, char direction, char shipType
     {
         for (int j = col; j < col + size; ++j)
         {
-            setBoard(row, j, SHIP_CELL);
+            setBoard(row, j, shipType);
             unsunk++;
         }
     }
@@ -202,7 +202,7 @@ bool Player::placeShip(int row, int col, int size, char direction, char shipType
     { // direction == 'V'
         for (int i = row; i < row + size; ++i)
         {
-            setBoard(i, col, SHIP_CELL);
+            setBoard(i, col, shipType);
             unsunk++;
         }
     }
