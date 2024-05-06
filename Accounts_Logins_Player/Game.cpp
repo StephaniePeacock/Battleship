@@ -106,6 +106,10 @@ bool Game::play()
         
         p1->attackCell(row, col, p2);
         p1->displayShots();
+        
+        // Player 2 now attacks (For AI purposes)
+        p2->attackCell(row, col, p1);
+        p2->displayShots();
     }
     
     return false;
