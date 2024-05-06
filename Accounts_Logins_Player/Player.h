@@ -40,9 +40,6 @@ private:
     unordered_map<char, int> shipHealth;
     int unsunk;
 
-    // mutators
-    //    void setUnsunk();
-    
     // other functions
     bool isValidCoordinate(int row, int col)
     {
@@ -76,7 +73,7 @@ public:
     
     bool placeShip(int, int, int, char, char);
 
-    int getUnsunk() { return this->unsunk; }
+    int getUnsunk() { return unsunk; }
     static int convToInt(string);
 
     virtual void serialize(stringstream &, int &);
