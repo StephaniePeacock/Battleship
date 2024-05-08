@@ -485,7 +485,7 @@ void Battleship::adminMenu(const User& admin){ //pass admin as const so we cant 
                     this->delUser(admin);
                     break;
                 case 4: 
-                    updateUser(const User admin);
+                    updateUser(admin);
                     break;
                 case 5: 
                     quit = true;
@@ -514,7 +514,7 @@ void Battleship::updateUser(const User admin) {
             safeGetLine(str, user::MAXSTR);
             if (str != admin.getEmail()) { //making sure admin is not trying to update their own account
                 pos = this->accounts.find(str);
-                this->accounts.get(pos,&user); //searches for user in database and displays info
+                this->accounts.get(pos,user); //searches for user in database and displays info
                 user.display();
                 cout << endl;
 
@@ -534,7 +534,7 @@ void Battleship::updateUser(const User admin) {
                         }
                         em = str.c_str();
                         user.setEmail(em);
-                        this->accounts.set(pos, &user);
+                        this->accounts.set(pos, user);
                         cout << "Email updated \n";
                         break;
                     case 2:
@@ -544,7 +544,7 @@ void Battleship::updateUser(const User admin) {
                         }
                         pw = str.c_str();
                         user.setEmail(pw);
-                        this->accounts.set(pos, &user);
+                        this->accounts.set(pos, user);
                         cout << "Password updated \n";
                         break;
                     case 3:
@@ -555,7 +555,7 @@ void Battleship::updateUser(const User admin) {
                             getNumeric<int>(choice);
                             switch (choice) {
                             case 1: user.setAdmin(false);
-                                this->accounts.set(pos, &user);
+                                this->accounts.set(pos, user);
                                 break;
                             }
                         }   
@@ -566,7 +566,7 @@ void Battleship::updateUser(const User admin) {
                                 getNumeric<int>(choice);
                                 switch (choice) {
                                 case 1: user.setAdmin(true);
-                                    this->accounts.set(pos, &user);
+                                    this->accounts.set(pos, user);
                                     break;
                                 }
                         }
@@ -575,13 +575,13 @@ void Battleship::updateUser(const User admin) {
                         cout << "Enter their new wins...hehe: ";
                         getNumeric<int>(winloss);
                         stat.win = winloss;
-                        this->accounts.set(pos, &user);
+                        this->accounts.set(pos, user);
                         break;
                     case 5:
                         cout << "Enter their new losses...hehe: ";
                         getNumeric<int>(winloss);
                         stat.loss = winloss;
-                        this->accounts.set(pos, &user);
+                        this->accounts.set(pos, user);
                         break;
                     case 6:
                         break;
