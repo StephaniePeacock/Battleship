@@ -84,7 +84,7 @@ bool Game::play()
     cout << "Player 2's Board after ship placement:" << endl;
     p2->displayBoard();
 
-    while (p2->getUnsunk() > 0 || p1->getUnsunk() > 0)
+    while (p2->getUnsunk() != 0 && p1->getUnsunk() != 0)
     {
         cout << "Commence attack. Enter coordinates (Q to quit):" << endl;
         safeGetLine(input, 4);  //No more than 3 characters allowed
