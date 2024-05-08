@@ -22,6 +22,16 @@ public:
     const static PlayerType TYPE = PlayerType::COMP;
     Comp();
     Comp(bool smart);
+
+    // These functions are virtual in the base class
+    void promptShipPlacement();
+    void attackCell(int, int, Player *);
+
+    // Accessor functions
+    // void smartAI(int&, int&, Player*);
+    // void dumbAI(int&, int&, Player*);
+
+    // Serialization functions
     void serialize(stringstream&, int&) override;
     void deserialize(fstream&) override;
 };

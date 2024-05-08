@@ -99,21 +99,22 @@ void User::newGame() {
     int choice;
 
     // Instantiate Player 1 (Human player)
-    Player p1 = Player();
+    Player* p1 = nullptr;
+    p1 = new Player();
 
     // Instantiate Player 2
-    Player p2;
+    Player* p2 = nullptr;
     cout << "Choose player 2\n[1]Human\n[2]AI\n";
     getNumeric<int>(choice);
 
     while (cont) {
         switch (choice) {
             case 1:  // Human
-                p2 = Player();
+                p2 = new Player();
                 cont = false;
                 break;
             case 2:  // AI
-                p2 = Comp();
+                p2 = new Comp();
                 cont = false;
                 break;
             default:
@@ -123,10 +124,15 @@ void User::newGame() {
     }
     
     // Create new game
-    Game game = Game(&p1, &p2, newGameUID());
+    Game game = Game(p1, p2, newGameUID());
     
     // Handle running the game
     handleGame(game);
+    
+    delete p1;
+    p1 = nullptr;
+    delete p2;
+    p2 = nullptr;
 }
 
 void User::loadGame() {
