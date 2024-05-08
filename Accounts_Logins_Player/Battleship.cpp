@@ -514,7 +514,7 @@ void Battleship::updateUser(const User admin) {
             safeGetLine(str, user::MAXSTR);
             if (str != admin.getEmail()) { //making sure admin is not trying to update their own account
                 pos = this->accounts.find(str);
-                this->accounts.get(pos,user); //searches for user in database and displays info
+                this->accounts.get(pos,&user); //searches for user in database and displays info
                 user.display();
                 cout << endl;
 
