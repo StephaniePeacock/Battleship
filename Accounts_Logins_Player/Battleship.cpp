@@ -215,7 +215,7 @@ void Battleship::login() {
         do{
             cout << "[1] Admin Menu\n"
                     "[2] User  Menu\n"
-                    "[3] Logout.";
+                    "[3] Logout.\n"<< ">> ";
             getNumeric<int>(choice);
             switch(choice){
                 case 1:
@@ -339,7 +339,10 @@ void Battleship::userMenu(User& user) {
     //Switch case within do-while loop for user options
 
     do {
-        cout << "[1] Account Info\n[2] Play Game\n[3] Update Account\n[4] Logout\n";
+        cout << "[1] Account Info\n"
+                "[2] Play Game\n"
+                "[3] Update Account\n"
+                "[4] Logout\n"<< ">> ";
         getNumeric<int>(choice);
         switch (choice) {
             case 1:
@@ -378,7 +381,7 @@ bool Battleship::acctMenu(User& user) {
         cout << "[1] Change email\n"
                 "[2] Update Password\n"
                 "[3] Delete Account\n"
-                "[4] Go Back\n";
+                "[4] Go Back\n"<< ">> ";
         getNumeric<int>(choice);
         switch (choice) {
             case 1: {
@@ -443,7 +446,7 @@ void Battleship::gameMenu(User& user) {
         cout << "[1] New Campaign\n"
                 "[2] Load Campaign\n"
                 "[4] Delete Campaign\n"
-                "[3] Go Back\n";
+                "[3] Go Back\n"<< ">> ";
         getNumeric<int>(choice);
         switch (choice) {
             case 1:
@@ -472,7 +475,7 @@ void Battleship::adminMenu(const User& admin){ //pass admin as const so we cant 
                     "[2] Add User\n"
                     "[3] Delete User\n"
                     "[4] Modify User\n"
-                    "[5] Exit Menu\n";
+                    "[5] Exit Menu\n"<< ">> ";
             getNumeric<int>(choice);
             switch(choice){
                 case 1:
@@ -506,15 +509,18 @@ void Battleship::updateUser(const User admin) {
     string str;
     do {
         cout << "[1] Enter Email \n"
-            "[2] Quit";
+                "[2] Quit\n"<< ">> ";
         getNumeric<int>(choice);
         switch (choice) {
         case 1:
             cout << "Enter the sailor's email address: ";
             safeGetLine(str, user::MAXSTR);
             if (str != admin.getEmail()) { //making sure admin is not trying to update their own account
+                cout << "finding account\n";
                 pos = this->accounts.find(str);
+                cout << "getting user info\n";
                 this->accounts.get(pos,&user); //searches for user in database and displays info
+                cout << "printing user\n";
                 user.display();
                 cout << endl;
 
@@ -524,7 +530,7 @@ void Battleship::updateUser(const User admin) {
                         "[3] Update Admin Status\n"
                         "[4] Update Wins\n"
                         "[5] Update Losses\n"
-                        "[6] Exit\n";
+                        "[6] Exit\n"<< ">> ";
                     getNumeric<int>(choice);
                     switch (choice) {
                     case 1:
@@ -536,54 +542,47 @@ void Battleship::updateUser(const User admin) {
                         user.setEmail(em);
                         this->accounts.set(pos, user);
                         cout << "Email updated \n";
+                        user.display();
                         break;
                     case 2:
-                        cout << "Enter yer top secret code: ";
+                        cout << "Enter their top secret code: ";
                         while (!checkPw(str)) {
-                            cout << "This ain't no Sunday sail, Captain! Make your code more secure!!: ";
+                            cout << "This ain't no Sunday sail, Captain! Make their code more secure!!: ";
                         }
                         pw = str.c_str();
-                        user.setEmail(pw);
+                        user.setPword(pw);
                         this->accounts.set(pos, user);
                         cout << "Password updated \n";
+                        user.display();
                         break;
                     case 3:
-                        if (!user.isAdmin()) { 
-                            cout << "User is not an admin \n";
-                            "[1] Apply Admin status \n";
-                            "Any other key to leave alone \n";
-                            getNumeric<int>(choice);
-                            switch (choice) {
-                            case 1: user.setAdmin(false);
-                                this->accounts.set(pos, user);
-                                break;
-                            }
-                        }   
-                        else {
-                            cout << "User is an admin \n"
-                                "[1] Remove Admin status \n"
-                                "Any other key to leave alone \n";
-                                getNumeric<int>(choice);
-                                switch (choice) {
-                                case 1: user.setAdmin(true);
-                                    this->accounts.set(pos, user);
-                                    break;
-                                }
+                        cout << "User admin status: " << user.isAdmin() << endl;
+                        cout << "[1] Change Admin status \n" <<
+                                "Any other number to cancel.\n" << ">> ";
+                        getNumeric<int>(choice);
+                        if(choice == 1) {
+                            user.setAdmin(!user.isAdmin()); //flip the admin to opposite
+                            this->accounts.set(pos, user);  //save update to file
+                        } else {
+                            cout << "No change made to admin status.\n";
                         }
                         break;
                     case 4:
                         cout << "Enter their new wins...hehe: ";
                         getNumeric<int>(winloss);
-                        stat.win = winloss;
+                        user.setWins(winloss);
                         this->accounts.set(pos, user);
+                        user.display();
                         break;
                     case 5:
                         cout << "Enter their new losses...hehe: ";
                         getNumeric<int>(winloss);
-                        stat.loss = winloss;
+                        user.setLoss(winloss);
                         this->accounts.set(pos, user);
+                        user.display();
                         break;
-                    case 6:
+                    case 6: 
+                        quit = true;
                         break;
                     default: cout << "Invalid option entered." << endl;
                         break;

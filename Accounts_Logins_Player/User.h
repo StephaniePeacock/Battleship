@@ -59,6 +59,8 @@ public:
     void setPword (const string);
     void setAdmin (const bool);
     void setSGame(const string);
+    void setWins(const int n) { this->info.win = n; }
+    void setLoss(const int n) { this->info.loss = n; }
     
     //Accessors
     const string getEmail() const;
