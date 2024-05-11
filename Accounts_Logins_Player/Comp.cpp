@@ -112,6 +112,7 @@ void Comp::dumbAI(int& row, int& col, Player* opponent) {
                     if (cell == EMPTY_CELL) {
                         opponent->setBoard(i, j, MISS_CELL);
                         this->setShots(i, j, MISS_CELL);
+                        cout << "\nMissed!\n";
                     }
                     else {
                         // Shot hit
@@ -130,6 +131,7 @@ void Comp::dumbAI(int& row, int& col, Player* opponent) {
                         // Change to hit
                         opponent->setBoard(i, j, HIT_CELL);
                         this->setShots(i, j, HIT_CELL);
+                        cout << "\nHit!\n";
                         score++;
                     }
                     row = i;
