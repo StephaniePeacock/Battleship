@@ -1,0 +1,8 @@
+**/build
+**/dist
+**/output
+*.exe
+**/x64
+.vscode
+
+Accounts_Logins_Player/build/Debug/Cygwin-Windows/AccountsDB.o

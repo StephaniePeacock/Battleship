@@ -194,20 +194,19 @@ bool Player::placeShip(int row, int col, int size, char direction, char shipType
     {
         for (int j = col; j < col + size; ++j)
         {
-            setBoard(row, j, SHIP_CELL);
-            unsunk++;
+            setBoard(row, j, shipType);
         }
     }
     else
     { // direction == 'V'
         for (int i = row; i < row + size; ++i)
         {
-            setBoard(i, col, SHIP_CELL);
-            unsunk++;
+            setBoard(i, col, shipType);
         }
     }
 
     shipCounts[shipType]--;
+    unsunk++;
 //    displayBoard(); // Display the board after each placement
     return true;
 }
@@ -255,7 +254,7 @@ void Player::attackCell(int row, int col, Player *enemy)
 {
     char shipType;
     
-    if (enemy->board[row][col] == SHIP_CELL)
+    if (enemy->board[row][col] == 'C' || enemy->board[row][col] == 'B' || enemy->board[row][col] == 'D' || enemy->board[row][col] == 'S' || enemy->board[row][col] == 'P')
     {
         cout << "Hit!" << endl;
         shipType = enemy->board[row][col];      // this will return the char at those coordinates which will decrement  
@@ -263,7 +262,9 @@ void Player::attackCell(int row, int col, Player *enemy)
         setShots(row, col, HIT_CELL);           // because we're looking for the ship's char before the board is updated 
         shipHealth[shipType]--;                 // a hit marker
         if(shipHealth[shipType]==0){
-         cout << shipType << " was sunk!\n";    
+         cout << shipType << " was sunk!\n";
+         unsunk--;
+         cout << unsunk << endl;
         }
     }
     else

@@ -37,10 +37,10 @@ public:
     bool checkEm(string&);
     bool checkPw(string&);
     bool verify(string, string);
-    bool rules();
+    void rules();
     void delUser(const User);
-    void Quit();
-    
+    void updateUser(const User admin);
+
     // User Menu
     void userMenu(User&);
     
@@ -52,6 +52,7 @@ public:
     
     // Admin Menu
     void adminMenu(const User&);    
+
 };
 
 

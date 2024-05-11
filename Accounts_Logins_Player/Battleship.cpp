@@ -15,16 +15,7 @@ Battleship::Battleship(){
     this->accounts = AccountsDB(USERSDBPATH);
 }
 void Battleship::loading(){
-    //Constructing battleship game and thread - duration function for 3 seconds, with terminal clear
-//    cout << "Loading please wait...";
-//    chrono::seconds duration(3);
-    /*
-     * if you reached this error then netbeans does not support this_thread function from thread library.
-     * function would pause game for as long as we want, perfect for loading games, simulation connecting to and online server etc..
-     * can comment out and I will try to find a work around
-     */
-//    this_thread::sleep_for(duration);
-//    system("cls");
+
     cout << "8 8888888o        .8.      88888 88888  88888 88888  8 88       8 888888   d888888o.   8 88      88  8 88  8 88888888o" << endl;
     cout << "8 88    `88.      .88.         8 88        8 88      8 88       8 88      .`88:' `88.  8 88      88  8 88  8 888    `88." << endl;
     cout << "8 88     `88      :888.        8 88        8 88      8 88       8 88      8.`88.   Y8  8 88      88  8 88  8 888     `88" << endl;
@@ -56,7 +47,7 @@ void Battleship::main() {
         case '2':
             reg();break;
         case '3':
-           quit = rules(); break;
+           rules(); break;
         case 'a':  //FOR DEBUG ONLY, display all users
             this->accounts.display();
             break;
@@ -181,7 +172,7 @@ void Battleship::main() {
         } 
     } while (!quit);
     //Quitting game
-    Quit();
+    cout << endl << "Exiting Battleship. Farewell Sailor!" << endl;
 }
 
 void Battleship::login() {
@@ -224,7 +215,7 @@ void Battleship::login() {
         do{
             cout << "[1] Admin Menu\n"
                     "[2] User  Menu\n"
-                    "[3] Logout.";
+                    "[3] Logout.\n"<< ">> ";
             getNumeric<int>(choice);
             switch(choice){
                 case 1:
@@ -267,11 +258,6 @@ void Battleship::reg() {
     this->accounts.add(&usr);
     
     cout << "Arr! Yer registered with the fleet!\n";
-    //returning to main menu after 2 second delay and clearing terminal
-//    chrono::seconds duration(2);
-   //this_thread::sleep_for(duration);
-//    system("cls");
-    //return false;
 }
 
 bool Battleship::checkEm(string& em) {
@@ -329,10 +315,9 @@ bool Battleship::verify(string em, string pw) {
     return valid;
 }
 
-bool Battleship::rules(){
+void Battleship::rules(){
      //Declaring variables
     fstream txt;
-    char c = ' ';
     string str;
     //Clearing terminal and opening up text file and displaying rules of game
     system("cls");
@@ -342,28 +327,9 @@ bool Battleship::rules(){
     }
     //closing file
     txt.close();
-    //Prompting User to return to main menu or exit game
-    cout << endl << endl << "Would you like to quit or return to main menu" << endl;
-    cout << endl << "1 = Quit Game" << endl << "2 = Main Menu " << endl << "Choose: ";
-    cin >> c;
-    if (toupper(c) == '1') {
-        return true;
-    }
-    //returning to main menu and clear terminal
-    else if (toupper(c) == '2') {
-        system("cls"); return false; 
-    }
-    else {
-        return false;
-    }
-}
-
-void Battleship::Quit() {
-    //making the user wait specific time before quit program for added realism
-    cout << endl << "Exiting Battleship. Farewell Sailor!" << endl;
-    //thread - duration function for 3 seconds
-    chrono::seconds duration(3);
-    //this_thread::sleep_for(duration);
+    //Prompting User to return to main menu 
+    cout << "Press Enter to return to Main Menu ";
+    cin.get();
 }
 
 void Battleship::userMenu(User& user) {
@@ -371,9 +337,12 @@ void Battleship::userMenu(User& user) {
     int choice;
     bool quit = false;
     //Switch case within do-while loop for user options
-//    system("cls");
+
     do {
-        cout << "[1] Account Info\n[2] Play Game\n[3] Update Account\n[4] Logout\n";
+        cout << "[1] Account Info\n"
+                "[2] Play Game\n"
+                "[3] Update Account\n"
+                "[4] Logout\n"<< ">> ";
         getNumeric<int>(choice);
         switch (choice) {
             case 1:
@@ -397,7 +366,7 @@ void Battleship::userMenu(User& user) {
     } while (!quit);
     //returning to main menu and clearing the terminal
     cout << "Logging out...bye world" << endl;
-//    system("cls");
+
 }
 
 bool Battleship::acctMenu(User& user) {
@@ -412,7 +381,7 @@ bool Battleship::acctMenu(User& user) {
         cout << "[1] Change email\n"
                 "[2] Update Password\n"
                 "[3] Delete Account\n"
-                "[4] Go Back\n";
+                "[4] Go Back\n"<< ">> ";
         getNumeric<int>(choice);
         switch (choice) {
             case 1: {
@@ -477,7 +446,7 @@ void Battleship::gameMenu(User& user) {
         cout << "[1] New Campaign\n"
                 "[2] Load Campaign\n"
                 "[4] Delete Campaign\n"
-                "[3] Go Back\n";
+                "[3] Go Back\n"<< ">> ";
         getNumeric<int>(choice);
         switch (choice) {
             case 1:
@@ -506,7 +475,7 @@ void Battleship::adminMenu(const User& admin){ //pass admin as const so we cant 
                     "[2] Add User\n"
                     "[3] Delete User\n"
                     "[4] Modify User\n"
-                    "[5] Exit Menu\n";
+                    "[5] Exit Menu\n"<< ">> ";
             getNumeric<int>(choice);
             switch(choice){
                 case 1:
@@ -519,7 +488,7 @@ void Battleship::adminMenu(const User& admin){ //pass admin as const so we cant 
                     this->delUser(admin);
                     break;
                 case 4: 
-                    cout << "Modify User\n";
+                    updateUser(admin);
                     break;
                 case 5: 
                     quit = true;
@@ -530,6 +499,106 @@ void Battleship::adminMenu(const User& admin){ //pass admin as const so we cant 
         } while (!quit);
 }
 
+void Battleship::updateUser(const User admin) {
+    int choice = 0, pos = 0, winloss = 0;
+    bool quit = false;
+    const char* em;
+    const char* pw;
+    User user;
+    Stats stat;
+    string str;
+    do {
+        cout << "[1] Enter Email \n"
+                "[2] Quit\n"<< ">> ";
+        getNumeric<int>(choice);
+        switch (choice) {
+        case 1:
+            cout << "Enter the sailor's email address: ";
+            safeGetLine(str, user::MAXSTR);
+            if (str != admin.getEmail()) { //making sure admin is not trying to update their own account
+                cout << "finding account\n";
+                pos = this->accounts.find(str);
+                cout << "getting user info\n";
+                this->accounts.get(pos,&user); //searches for user in database and displays info
+                cout << "printing user\n";
+                user.display();
+                cout << endl;
+
+                do {
+                    cout << "[1] Update Email \n"
+                        "[2] Update Password\n"
+                        "[3] Update Admin Status\n"
+                        "[4] Update Wins\n"
+                        "[5] Update Losses\n"
+                        "[6] Exit\n"<< ">> ";
+                    getNumeric<int>(choice);
+                    switch (choice) {
+                    case 1:
+                        cout << "Enter new email address: ";
+                        while (!checkEm(str)) {
+                            cout << "Invalid email, please re-enter: ";
+                        }
+                        em = str.c_str();
+                        user.setEmail(em);
+                        this->accounts.set(pos, user);
+                        cout << "Email updated \n";
+                        user.display();
+                        break;
+                    case 2:
+                        cout << "Enter their top secret code: ";
+                        while (!checkPw(str)) {
+                            cout << "This ain't no Sunday sail, Captain! Make their code more secure!!: ";
+                        }
+                        pw = str.c_str();
+                        user.setPword(pw);
+                        this->accounts.set(pos, user);
+                        cout << "Password updated \n";
+                        user.display();
+                        break;
+                    case 3:
+                        cout << "User admin status: " << user.isAdmin() << endl;
+                        cout << "[1] Change Admin status \n" <<
+                                "Any other number to cancel.\n" << ">> ";
+                        getNumeric<int>(choice);
+                        if(choice == 1) {
+                            user.setAdmin(!user.isAdmin()); //flip the admin to opposite
+                            this->accounts.set(pos, user);  //save update to file
+                        } else {
+                            cout << "No change made to admin status.\n";
+                        }
+                        break;
+                    case 4:
+                        cout << "Enter their new wins...hehe: ";
+                        getNumeric<int>(winloss);
+                        user.setWins(winloss);
+                        this->accounts.set(pos, user);
+                        user.display();
+                        break;
+                    case 5:
+                        cout << "Enter their new losses...hehe: ";
+                        getNumeric<int>(winloss);
+                        user.setLoss(winloss);
+                        this->accounts.set(pos, user);
+                        user.display();
+                        break;
+                    case 6: 
+                        quit = true;
+                        break;
+                    default: cout << "Invalid option entered." << endl;
+                        break;
+                    }
+                } while (!quit);           
+            }
+            else { cout << "You cannot update your own account here, refer to user menu\n"; }
+            break;
+        case 2:
+            quit = true;
+        default: cout << "Invalid option entered." << endl;
+            break;
+        }     
+    } while (!quit);
+}
+     
 void Battleship::delUser(const User admin){
     //find the position
     cout << "Enter the Captain's e-mail address: ";

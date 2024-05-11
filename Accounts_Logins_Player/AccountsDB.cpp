@@ -236,6 +236,7 @@ void AccountsDB::display() {
         for (int i = 0; i < cnt; i++){
             file.read(reinterpret_cast<char*>(&record), sizeof(User));
             record.display();
+            cout << endl;
         }
     } else {
         cout << "There are no users in the database\n";
