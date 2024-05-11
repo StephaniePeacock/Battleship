@@ -104,8 +104,8 @@ bool Game::play()
         int row = location / 10;
         int col = location % 10;
         
-        p1->attackCell(row, col, p2);
-        p1->displayShots();
+        //p1->attackCell(row, col, p2);
+        //p1->displayShots();
         
         // Player 2 now attacks (For AI purposes)
         p2->attackCell(row, col, p1);
