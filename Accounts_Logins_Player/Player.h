@@ -74,7 +74,12 @@ public:
     bool placeShip(int, int, int, char, char);
 
     int getUnsunk() { return unsunk; }
+    void setUnsunk(int u) { unsunk = u; }       // Added this for the Comp class
     static int convToInt(string);
+
+    // Hashmap functions
+    void decrementShipHealth(char);
+    int getShipHealth(char);
 
     virtual void serialize(stringstream &, int &);
     virtual void deserialize(fstream &);
