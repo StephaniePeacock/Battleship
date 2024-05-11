@@ -84,6 +84,9 @@ bool Game::play()
     cout << "Player 2's Board after ship placement:" << endl;
     p2->displayBoard();
 
+    cout << "Player 1's status: " << p1->getUnsunk() << endl;
+    cout << "Player 2's status: " << p2->getUnsunk() << endl;
+
     while (p2->getUnsunk() != 0 && p1->getUnsunk() != 0)
     {
         cout << "Commence attack. Enter coordinates (Q to quit):" << endl;
@@ -104,9 +107,10 @@ bool Game::play()
         int row = location / 10;
         int col = location % 10;
         
-        //p1->attackCell(row, col, p2);
-        //p1->displayShots();
+        p1->attackCell(row, col, p2);
+        p1->displayShots();
         
+
         // Player 2 now attacks (For AI purposes)
         p2->attackCell(row, col, p1);
         p2->displayShots();

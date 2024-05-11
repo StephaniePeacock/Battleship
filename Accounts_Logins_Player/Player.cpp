@@ -371,3 +371,13 @@ void Player::deserialize(fstream& file) {
     // Read unsunk integer value
     file.read(reinterpret_cast<char*>(&unsunk), sizeof(unsunk));
 }
+
+void Player::decrementShipHealth(char shipType)
+{
+    shipHealth[shipType]--;
+}
+
+int Player::getShipHealth(char shipType)
+{
+    return shipHealth[shipType];
+}

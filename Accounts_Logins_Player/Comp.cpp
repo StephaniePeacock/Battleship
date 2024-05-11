@@ -27,7 +27,7 @@ Comp::Comp(bool smart) : Player() {
 void Comp::promptShipPlacement() {
     // Define ship types and their lengths
 
-    std::vector<pair<char, int>> ships = {{'A', 5}, {'B', 4}, {'C', 3}, {'D', 3}, {'S', 2}};
+    std::vector<pair<char, int>> ships = {{'C', 5}, {'B', 4}, {'S', 3}, {'D', 3}, {'P', 2}};
 
     for (const auto& ship : ships) {
         int length = ship.second;
@@ -71,7 +71,7 @@ void Comp::promptShipPlacement() {
             }
         }
     }
-
+    setUnsunk(5);
     cout << "Computer player has placed its ships." << endl;
 }
 
@@ -82,22 +82,23 @@ void Comp::attackCell(int row, int col, Player* opponent) {
         // Define row and col based on smart move
     }
     else {
+        std::cout << "Dumb AI choosing move..." << std::endl;
         dumbAI(row, col, opponent);
-        std::cout << "Dumb AI not implemented yet." << std::endl;
+        std::cout << "Dumb AI chose move: Row: " << row << ". Column: " << col << std::endl;
         // Define row and col based on dumb move
     }
 
-    // By this point, row and col should have been defined by generateMove
-    if (opponent->getBoard(row, col) == SHIP_CELL) {
-        cout << "Hit!" << endl;
-        opponent->setBoard(row, col, HIT_CELL);     //
-        setShots(row, col, HIT_CELL);               // This is for computer's own tracking (Basically the top screen for tracking)
-    }
-    else {
-        cout << "Miss!" << endl;
-        opponent->setBoard(row, col, MISS_CELL);
-        setShots(row, col, MISS_CELL);              // This is for computer's own tracking
-    }
+    // // By this point, row and col should have been defined by generateMove
+    // if (opponent->getBoard(row, col) == SHIP_CELL) {
+    //     cout << "Hit!" << endl;
+    //     opponent->setBoard(row, col, HIT_CELL);     //
+    //     setShots(row, col, HIT_CELL);               // This is for computer's own tracking (Basically the top screen for tracking)
+    // }
+    // else {
+    //     cout << "Miss!" << endl;
+    //     opponent->setBoard(row, col, MISS_CELL);
+    //     setShots(row, col, MISS_CELL);              // This is for computer's own tracking
+    // }
 }
 
 void Comp::dumbAI(int& row, int& col, Player* opponent) {
@@ -110,6 +111,7 @@ void Comp::dumbAI(int& row, int& col, Player* opponent) {
                 if (cell != HIT_CELL && cell != MISS_CELL) {
                     if (cell == EMPTY_CELL) {
                         opponent->setBoard(i, j, MISS_CELL);
+                        this->setShots(i, j, MISS_CELL);
                     }
                     else {
                         // Shot hit
@@ -117,10 +119,21 @@ void Comp::dumbAI(int& row, int& col, Player* opponent) {
                         quadrant = quadrantDetector(10, 10, j, i);
                         // Set to narrowed state
                         state = 1;
+                        // Decrement ship health
+                        char shipType = cell;
+                        this->decrementShipHealth(shipType);
+                        if (this->getShipHealth(shipType) == 0) {
+                            cout << shipType << " has been sunk!" << endl;
+                            int unsunk = getUnsunk();
+                            setUnsunk(unsunk - 1);
+                        }
                         // Change to hit
                         opponent->setBoard(i, j, HIT_CELL);
+                        this->setShots(i, j, HIT_CELL);
                         score++;
                     }
+                    row = i;
+                    col = j;
                     shot = true;
                     break;
                 }
@@ -149,15 +162,27 @@ void Comp::dumbAI(int& row, int& col, Player* opponent) {
             if (cell == '-') {
                 // Set to missed
                 opponent->setBoard(i, j, MISS_CELL);
+                this->setShots(i, j, MISS_CELL);
                 cout << "\nMissed!\n";
             }
             else {
+                // Decrement ship health
+                char shipType = cell;
+                this->decrementShipHealth(shipType);
+                if (this->getShipHealth(shipType) == 0) {
+                    cout << shipType << " has been sunk!" << endl;
+                    int unsunk = getUnsunk();
+                    setUnsunk(unsunk - 1);
+                }
                 // Set to hit
                 opponent->setBoard(i, j, HIT_CELL);
+                this->setShots(i, j, HIT_CELL);
                 score++;
                 hitFlag = true;
                 cout << "\nHit!\n";
             }
+            row = i;
+            col = j;
         }
         else {
             cout << "No more moves in quadrant!";
