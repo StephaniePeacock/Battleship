@@ -74,15 +74,15 @@ void Comp::attackCell(int row, int col, Player* opponent) {
     if (smart) {
         if (!inCardinalSearch) {
             smartAI(row, col, opponent);
-            if (inCardinalSearch) return;
-        }
-        if (inCardinalSearch) {
+            if (opponent->getBoard(row, col) != EMPTY_CELL) {
+                inCardinalSearch = true;
+            }
+        } else {
             cardinalSearch(row, col, opponent);
         }
-    } else {
-        std::cout << "Dumb AI choosing move..." << std::endl;
+    }
+    else {
         dumbAI(row, col, opponent);
-        std::cout << "Dumb AI chose move: Row: " << row << ". Column: " << col << std::endl;
     }
 }
 
@@ -91,7 +91,7 @@ void Comp::smartAI(int& row, int& col, Player* opponent) {
 }
 
 void Comp::linSearch(int& row, int& col, Player* opponent) {
-    srand(time(NULL)); // Ensure different random results each run
+    srand(time(NULL));
     bool found = false;
     while (!found) {
         row = rand() % 10;
@@ -99,6 +99,7 @@ void Comp::linSearch(int& row, int& col, Player* opponent) {
 
         if (opponent->getBoard(row, col) != HIT_CELL && opponent->getBoard(row, col) != MISS_CELL) {
             found = true;
+            std::cout << "Valid cell found at: (" << char('A' + row) << ", " << col + 1 << "). Executing attack..." << std::endl;
             attackPosition(row, col, opponent);
         }
     }
@@ -108,12 +109,12 @@ void Comp::attackPosition(int& row, int& col, Player* opponent) {
     if (opponent->getBoard(row, col) == EMPTY_CELL) {
         opponent->setBoard(row, col, MISS_CELL);
         setShots(row, col, MISS_CELL);
-        cout << "Miss at (" << row << ", " << col << ").\n";
+        cout << "Attack at (" << row << ", " << col << ") resulted in a miss." << endl;
     } else {
         decrementShipHealth(opponent->getBoard(row, col));
         opponent->setBoard(row, col, HIT_CELL);
         setShots(row, col, HIT_CELL);
-        cout << "Hit at (" << row << ", " << col << ")!\n";
+        cout << "Attack at (" << row << ", " << col << ") resulted in a hit!" << endl;
         inCardinalSearch = true;
     }
 }
@@ -121,32 +122,31 @@ void Comp::attackPosition(int& row, int& col, Player* opponent) {
 
 void Comp::cardinalSearch(int& row, int& col, Player* opponent) {
     static int direction = 0;
-    static bool continueSearch = true;
-
-    if (!continueSearch) {
-        direction = 0;
-        continueSearch = true;
-        return;
-    }
-
     int dRow[] = {0, 1, 0, -1}; // Right, Down, Left, Up
     int dCol[] = {1, 0, -1, 0};
 
     int checkRow = row + dRow[direction];
     int checkCol = col + dCol[direction];
-    if (isValid(checkRow, checkCol, opponent)) {
-        attackPosition(checkRow, checkCol, opponent);
-        if (opponent->getBoard(checkRow, checkCol) == MISS_CELL) {
+
+    if (checkRow >= 0 && checkRow < 10 && checkCol >= 0 && checkCol < 10) {
+        if (opponent->getBoard(checkRow, checkCol) != HIT_CELL && opponent->getBoard(checkRow, checkCol) != MISS_CELL) {
+            std::cout << "Checking valid cell at (" << char('A' + checkRow) << ", " << checkCol + 1 << ")" << std::endl;
+            attackPosition(checkRow, checkCol, opponent);
+            if (opponent->getBoard(checkRow, checkCol) == MISS_CELL) {
+                direction = (direction + 1) % 4;
+            }
+        } else {
             direction = (direction + 1) % 4; 
-            if (direction == 0) continueSearch = false;
         }
     } else {
-        direction = (direction + 1) % 4;
-        if (direction == 0) continueSearch = false;
+        direction = (direction + 1) % 4; 
     }
 
-    row = checkRow;
-    col = checkCol;
+    if (direction == 0) {
+        std::cout << "Completed full rotation for cardinal search. Reverting to linear search." << std::endl;
+        row = checkRow;
+        col = checkCol;
+    }
 }
 
 bool Comp::isValid(int& row, int& col, Player* opponent) {
