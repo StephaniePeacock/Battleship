@@ -14,6 +14,8 @@
 #define BOARD_H
 
 #include <vector>
+#include <unordered_map>
+#include <string>
 
 const int BOARD_SIZE = 10;
 const char EMPTY_CELL = '-';
@@ -27,6 +29,14 @@ const std::vector<std::pair<char, int>> SHIP_SIZES = {
     {'D', 3},  //Destroyer
     {'S', 3},  //Submarine
     {'P', 2}   //Patrol Boat
+};
+
+const std::unordered_map<char, std::string> SHIP_NAMES = {
+    {'C', "Carrier"},
+    {'B', "Battleship"},
+    {'D', "Destroyer"},
+    {'S', "Submarine"},
+    {'P', "Patrol Boat"}
 };
 
 #endif /* BOARD_H */

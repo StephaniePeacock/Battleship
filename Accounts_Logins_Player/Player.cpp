@@ -216,7 +216,7 @@ void Player::placeShips()
     for (const auto& ship : SHIP_SIZES)
     {
         int length = ship.second;
-        cout << "Placing " << length << "-unit " << ship.first << " ship." << endl;
+        cout << "Placing " << length << "-unit " << SHIP_NAMES.at(ship.first) << endl;
         while (true)
         {
             int location;
