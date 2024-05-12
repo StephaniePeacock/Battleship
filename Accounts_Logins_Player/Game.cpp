@@ -63,34 +63,33 @@ bool Game::play()
     string input;
     int row, col;
     char letter;
-
-    // Display player 1's board after ship placement
-    cout << "Player 1's Board before ship placement:" << endl;
-    p1->displayBoard();
+    
+    // Setup: players set their boards
 
     // Prompt player 1 to place ships on the board
-    cout << "Player 1, please place your ships:" << endl;
-    p1->promptShipPlacement();
+    cout << "--Player 1 turn--" << endl;
+    p1->placeShips();
 
     // Display player 1's board after ship placement
     cout << "Player 1's Board after ship placement:" << endl;
     p1->displayBoard();
 
     // Prompt player 2 to place ships on the board
-    cout << "Player 2, please place your ships:" << endl;
-    p2->promptShipPlacement();
+    cout << "--Player 2 turn--" << endl;
+    p2->placeShips();
 
     // Display player 2's board after ship placement
     cout << "Player 2's Board after ship placement:" << endl;
     p2->displayBoard();
 
-    cout << "Player 1's status: " << p1->getUnsunk() << endl;
-    cout << "Player 2's status: " << p2->getUnsunk() << endl;
     cout << "Player 1's available ships: " << p1->getUnsunk() << endl;
     cout << "Player 2's available ships: " << p2->getUnsunk() << endl;
 
+    // Play: Players battle
+    
     while (p2->getUnsunk() != 0 && p1->getUnsunk() != 0)
     {
+        cout << "--Player 1 turn--" << endl;
         cout << "Commence attack. Enter coordinates (Q to quit):" << endl;
         safeGetLine(input, 4);  //No more than 3 characters allowed
         
@@ -109,12 +108,13 @@ bool Game::play()
         int row = location / 10;
         int col = location % 10;
         
-        p1->attackCell(row, col, p2);
+        p1->shoot(row, col, p2);
         p1->displayShots();
         
 
         // Player 2 now attacks (For AI purposes)
-        p2->attackCell(row, col, p1);
+        cout << "--Player 2 turn--" << endl;
+        p2->shoot(row, col, p1);
         p2->displayShots();
     }
 

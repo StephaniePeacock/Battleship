@@ -21,12 +21,10 @@ Comp::Comp(bool smart) : Player() {
     this->smart = smart;
 }
 
-void Comp::promptShipPlacement() {
+void Comp::placeShips() {
     // Define ship types and their lengths
 
-    std::vector<pair<char, int>> ships = {{'C', 5}, {'B', 4}, {'S', 3}, {'D', 3}, {'P', 2}};
-
-    for (const auto& ship : ships) {
+    for (const auto& ship : SHIP_SIZES) {
         int length = ship.second;
         bool placed = false;
 
@@ -72,30 +70,89 @@ void Comp::promptShipPlacement() {
     cout << "Computer player has placed its ships." << endl;
 }
 
-void Comp::attackCell(int row, int col, Player* opponent) {
+void Comp::shoot(int row, int col, Player* opponent) {
     if (smart) {
-        //smartAI(row, col, opponent);
-        cout << "Smart AI not implemented yet." << endl;
-        // Define row and col based on smart move
-    }
-    else {
+        if (!inCardinalSearch) {
+            smartAI(row, col, opponent);
+            if (inCardinalSearch) return;
+        }
+        if (inCardinalSearch) {
+            cardinalSearch(row, col, opponent);
+        }
+    } else {
         std::cout << "Dumb AI choosing move..." << std::endl;
         dumbAI(row, col, opponent);
         std::cout << "Dumb AI chose move: Row: " << row << ". Column: " << col << std::endl;
-        // Define row and col based on dumb move
+    }
+}
+
+void Comp::smartAI(int& row, int& col, Player* opponent) {
+    linSearch(row, col, opponent);
+}
+
+void Comp::linSearch(int& row, int& col, Player* opponent) {
+    srand(time(NULL)); // Ensure different random results each run
+    bool found = false;
+    while (!found) {
+        row = rand() % 10;
+        col = rand() % 10;
+
+        if (opponent->getBoard(row, col) != HIT_CELL && opponent->getBoard(row, col) != MISS_CELL) {
+            found = true;
+            attackPosition(row, col, opponent);
+        }
+    }
+}
+
+void Comp::attackPosition(int& row, int& col, Player* opponent) {
+    if (opponent->getBoard(row, col) == EMPTY_CELL) {
+        opponent->setBoard(row, col, MISS_CELL);
+        setShots(row, col, MISS_CELL);
+        cout << "Miss at (" << row << ", " << col << ").\n";
+    } else {
+        decrementShipHealth(opponent->getBoard(row, col));
+        opponent->setBoard(row, col, HIT_CELL);
+        setShots(row, col, HIT_CELL);
+        cout << "Hit at (" << row << ", " << col << ")!\n";
+        inCardinalSearch = true;
+    }
+}
+
+
+void Comp::cardinalSearch(int& row, int& col, Player* opponent) {
+    static int direction = 0;
+    static bool continueSearch = true;
+
+    if (!continueSearch) {
+        direction = 0;
+        continueSearch = true;
+        return;
     }
 
-    // // By this point, row and col should have been defined by generateMove
-    // if (opponent->getBoard(row, col) == SHIP_CELL) {
-    //     cout << "Hit!" << endl;
-    //     opponent->setBoard(row, col, HIT_CELL);     //
-    //     setShots(row, col, HIT_CELL);               // This is for computer's own tracking (Basically the top screen for tracking)
-    // }
-    // else {
-    //     cout << "Miss!" << endl;
-    //     opponent->setBoard(row, col, MISS_CELL);
-    //     setShots(row, col, MISS_CELL);              // This is for computer's own tracking
-    // }
+    int dRow[] = {0, 1, 0, -1}; // Right, Down, Left, Up
+    int dCol[] = {1, 0, -1, 0};
+
+    int checkRow = row + dRow[direction];
+    int checkCol = col + dCol[direction];
+    if (isValid(checkRow, checkCol, opponent)) {
+        attackPosition(checkRow, checkCol, opponent);
+        if (opponent->getBoard(checkRow, checkCol) == MISS_CELL) {
+            direction = (direction + 1) % 4; 
+            if (direction == 0) continueSearch = false;
+        }
+    } else {
+        direction = (direction + 1) % 4;
+        if (direction == 0) continueSearch = false;
+    }
+
+    row = checkRow;
+    col = checkCol;
+}
+
+bool Comp::isValid(int& row, int& col, Player* opponent) {
+    return row >= 0 && row < 10 && col >= 0 && col < 10 &&
+           opponent->getBoard(row, col) != HIT_CELL &&
+           opponent->getBoard(row, col) != MISS_CELL;
 }
 
 void Comp::dumbAI(int& row, int& col, Player* opponent) {

@@ -13,11 +13,31 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include <vector>
+#include <unordered_map>
+#include <string>
+
 const int BOARD_SIZE = 10;
 const char EMPTY_CELL = '-';
 const char SHIP_CELL = 'S';
 const char HIT_CELL = 'X';
 const char MISS_CELL = 'O';
+
+const std::vector<std::pair<char, int>> SHIP_SIZES = {
+    {'C', 5},  //Carrier
+    {'B', 4},  //Battleship
+    {'D', 3},  //Destroyer
+    {'S', 3},  //Submarine
+    {'P', 2}   //Patrol Boat
+};
+
+const std::unordered_map<char, std::string> SHIP_NAMES = {
+    {'C', "Carrier"},
+    {'B', "Battleship"},
+    {'D', "Destroyer"},
+    {'S', "Submarine"},
+    {'P', "Patrol Boat"}
+};
 
 #endif /* BOARD_H */
 
