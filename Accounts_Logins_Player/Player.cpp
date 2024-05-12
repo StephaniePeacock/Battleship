@@ -209,6 +209,9 @@ bool Player::placeShip(int row, int col, int size, char direction, char shipType
 // Function to prompt the user to place ships on the board
 void Player::placeShips()
 {
+    // Show empty board for reference
+    displayBoard();    
+    
     for (const auto& ship : SHIP_SIZES)
     {
         int length = ship.second;

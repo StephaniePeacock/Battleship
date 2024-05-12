@@ -64,10 +64,6 @@ bool Game::play()
     int row, col;
     char letter;
 
-    // Display player 1's board after ship placement
-    cout << "Player 1's Board before ship placement:" << endl;
-    p1->displayBoard();
-
     // Prompt player 1 to place ships on the board
     cout << "Player 1, please place your ships:" << endl;
     p1->placeShips();
