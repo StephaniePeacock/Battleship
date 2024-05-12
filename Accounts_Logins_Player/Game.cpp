@@ -75,7 +75,7 @@ bool Game::play()
     p1->displayBoard();
 
     // Prompt player 2 to place ships on the board
-    cout << "Player 2 turn" << endl;
+    cout << "--Player 2 turn--" << endl;
     p2->placeShips();
 
     // Display player 2's board after ship placement
