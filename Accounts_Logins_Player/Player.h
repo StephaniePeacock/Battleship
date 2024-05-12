@@ -36,7 +36,6 @@ class Player
 private:
     char board[BOARD_SIZE][BOARD_SIZE];
     char shots[BOARD_SIZE][BOARD_SIZE];
-    unordered_map<char, int> shipCounts;
     unordered_map<char, int> shipHealth;
     int unsunk;
 
