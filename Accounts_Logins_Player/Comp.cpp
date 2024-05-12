@@ -21,7 +21,7 @@ Comp::Comp(bool smart) : Player() {
     this->smart = smart;
 }
 
-void Comp::promptShipPlacement() {
+void Comp::placeShips() {
     // Define ship types and their lengths
 
     for (const auto& ship : SHIP_SIZES) {
@@ -70,7 +70,7 @@ void Comp::promptShipPlacement() {
     cout << "Computer player has placed its ships." << endl;
 }
 
-void Comp::attackCell(int row, int col, Player* opponent) {
+void Comp::shoot(int row, int col, Player* opponent) {
     if (smart) {
         if (!inCardinalSearch) {
             smartAI(row, col, opponent);

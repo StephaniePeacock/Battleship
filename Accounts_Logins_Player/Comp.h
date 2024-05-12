@@ -36,8 +36,8 @@ public:
     Comp(bool smart);
 
     // These functions are virtual in the base class
-    void promptShipPlacement();
-    void attackCell(int, int, Player *);
+    void placeShips();
+    void shoot(int, int, Player *);
 
     // Accessor functions
     // void smartAI(int&, int&, Player*);

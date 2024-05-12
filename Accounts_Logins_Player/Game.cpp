@@ -70,7 +70,7 @@ bool Game::play()
 
     // Prompt player 1 to place ships on the board
     cout << "Player 1, please place your ships:" << endl;
-    p1->promptShipPlacement();
+    p1->placeShips();
 
     // Display player 1's board after ship placement
     cout << "Player 1's Board after ship placement:" << endl;
@@ -78,7 +78,7 @@ bool Game::play()
 
     // Prompt player 2 to place ships on the board
     cout << "Player 2, please place your ships:" << endl;
-    p2->promptShipPlacement();
+    p2->placeShips();
 
     // Display player 2's board after ship placement
     cout << "Player 2's Board after ship placement:" << endl;
@@ -107,12 +107,12 @@ bool Game::play()
         int row = location / 10;
         int col = location % 10;
         
-        p1->attackCell(row, col, p2);
+        p1->shoot(row, col, p2);
         p1->displayShots();
         
 
         // Player 2 now attacks (For AI purposes)
-        p2->attackCell(row, col, p1);
+        p2->shoot(row, col, p1);
         p2->displayShots();
     }
 

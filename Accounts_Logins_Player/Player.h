@@ -67,8 +67,8 @@ public:
     char getShots(int, int);
 
     // These two should be virtual
-    virtual void promptShipPlacement();
-    virtual void attackCell(int, int, Player *);
+    virtual void placeShips();
+    virtual void shoot(int, int, Player *);
     
     bool placeShip(int, int, int, char, char);
 

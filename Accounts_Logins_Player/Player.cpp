@@ -207,7 +207,7 @@ bool Player::placeShip(int row, int col, int size, char direction, char shipType
 }
 
 // Function to prompt the user to place ships on the board
-void Player::promptShipPlacement()
+void Player::placeShips()
 {
     for (const auto& ship : SHIP_SIZES)
     {
@@ -241,7 +241,7 @@ void Player::promptShipPlacement()
 }
 
 // Function to attack a cell on the opponent's board
-void Player::attackCell(int row, int col, Player *enemy)
+void Player::shoot(int row, int col, Player *enemy)
 {
     char shipType;
     
