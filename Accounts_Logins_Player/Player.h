@@ -57,6 +57,7 @@ public:
     ~Player();           // destructor
     void displayBoard(); // print current board
     void displayShots();
+    void displayShipsHealth();
 
     // Move these two down from private
     void setBoard(int, int, const char);
@@ -68,9 +69,11 @@ public:
 
     // These two should be virtual
     virtual void placeShips();
-    virtual void shoot(int, int, Player *);
+    virtual bool shoot(Player*);
+//    virtual void doTurn();
     
     bool placeShip(int, int, int, char, char);
+    void attackPosition(int&, int&, Player*);
 
     int getUnsunk() { return unsunk; }
     void setUnsunk(int u) { unsunk = u; }       // Added this for the Comp class

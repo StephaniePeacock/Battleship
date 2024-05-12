@@ -70,11 +70,12 @@ void Comp::placeShips() {
     cout << "Computer player has placed its ships." << endl;
 }
 
-void Comp::shoot(int row, int col, Player* opponent) {
+bool Comp::shoot(Player* opponent) {
+    int row = 0, col = 0;
     if (smart) {
         if (!inCardinalSearch) {
             smartAI(row, col, opponent);
-            if (inCardinalSearch) return;
+            if (inCardinalSearch) return false;
         }
         if (inCardinalSearch) {
             cardinalSearch(row, col, opponent);
@@ -84,6 +85,7 @@ void Comp::shoot(int row, int col, Player* opponent) {
         dumbAI(row, col, opponent);
         std::cout << "Dumb AI chose move: Row: " << row << ". Column: " << col << std::endl;
     }
+    return false;
 }
 
 void Comp::smartAI(int& row, int& col, Player* opponent) {
@@ -103,21 +105,6 @@ void Comp::linSearch(int& row, int& col, Player* opponent) {
         }
     }
 }
-
-void Comp::attackPosition(int& row, int& col, Player* opponent) {
-    if (opponent->getBoard(row, col) == EMPTY_CELL) {
-        opponent->setBoard(row, col, MISS_CELL);
-        setShots(row, col, MISS_CELL);
-        cout << "Miss at (" << row << ", " << col << ").\n";
-    } else {
-        decrementShipHealth(opponent->getBoard(row, col));
-        opponent->setBoard(row, col, HIT_CELL);
-        setShots(row, col, HIT_CELL);
-        cout << "Hit at (" << row << ", " << col << ")!\n";
-        inCardinalSearch = true;
-    }
-}
-
 
 void Comp::cardinalSearch(int& row, int& col, Player* opponent) {
     static int direction = 0;

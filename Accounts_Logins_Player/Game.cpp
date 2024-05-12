@@ -87,45 +87,41 @@ bool Game::play()
 
     // Play: Players battle
     
+    bool quit = false;
     while (p2->getUnsunk() != 0 && p1->getUnsunk() != 0)
     {
+        // Player 1 now attacks
         cout << "--Player 1 turn--" << endl;
-        cout << "Commence attack. Enter coordinates (Q to quit):" << endl;
-        safeGetLine(input, 4);  //No more than 3 characters allowed
-        
-        if (input == "Q" || input == "q") {
-            char save;
-            cout << "Save game before quitting? (Y/)\n";
-            cout << "WARNING: Choosing (Y)es will overwrite previous save\n";
-            save = getSingleChar();
-            tolower(save);
-            if (save == 'y') {
-                return true;
-            }
-        }
-        
-        int location = Player::convToInt(input);
-        int row = location / 10;
-        int col = location % 10;
-        
-        p1->shoot(row, col, p2);
+        quit = p1->shoot(p2);
+        if (quit) break;
         p1->displayShots();
         
-
-        // Player 2 now attacks (For AI purposes)
+        // Player 2 now attacks
         cout << "--Player 2 turn--" << endl;
-        p2->shoot(row, col, p1);
+        quit = p2->shoot(p1);
+        if (quit) break;
         p2->displayShots();
     }
-
-    // Game winner
-    if (p1->getUnsunk() == 0)
-    {
-        cout << "Player 1 wins!" << endl;
-    }
-    else
-    {
-        cout << "Player 2 wins!" << endl;
+    
+    if (quit) {
+        char save;
+        cout << "Save game before quitting? (Y/)\n";
+        cout << "WARNING: Choosing (Y)es will overwrite previous save\n";
+        save = getSingleChar();
+        tolower(save);
+        if (save == 'y') {
+            return true;
+        }
+    } else {
+        // Game winner
+        if (p1->getUnsunk() == 0)
+        {
+            cout << "Player 1 wins!" << endl;
+        }
+        else
+        {
+            cout << "Player 2 wins!" << endl;
+        }
     }
     
     return false;

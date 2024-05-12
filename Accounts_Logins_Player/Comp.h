@@ -36,8 +36,8 @@ public:
     Comp(bool smart);
 
     // These functions are virtual in the base class
-    void placeShips();
-    void shoot(int, int, Player *);
+    void placeShips() override;
+    bool shoot(Player *) override;
 
     // Accessor functions
     // void smartAI(int&, int&, Player*);
@@ -47,7 +47,6 @@ public:
     void smartAI(int&, int&, Player*);
     void linSearch(int&, int&, Player*);
     void cardinalSearch(int&, int&, Player*);
-    void attackPosition(int&, int&, Player*);
     int quadrantDetector(int, int, int, int);
     
     bool movesAvailable(int);

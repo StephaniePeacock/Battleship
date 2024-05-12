@@ -245,29 +245,47 @@ void Player::placeShips()
 }
 
 // Function to attack a cell on the opponent's board
-void Player::shoot(int row, int col, Player *enemy)
+bool Player::shoot(Player *opponent)
 {
-    char shipType;
-    
-    if (enemy->board[row][col] == 'C' || enemy->board[row][col] == 'B' || enemy->board[row][col] == 'D' || enemy->board[row][col] == 'S' || enemy->board[row][col] == 'P')
-    {
-        cout << "Hit!" << endl;
-        shipType = enemy->board[row][col];      // this will return the char at those coordinates which will decrement  
-        enemy->setBoard(row, col, HIT_CELL);    // the appropriate ship, wont have to worry about the hit char taking over
-        setShots(row, col, HIT_CELL);           // because we're looking for the ship's char before the board is updated 
-        shipHealth[shipType]--;                 // a hit marker
-        if(shipHealth[shipType]==0){
-         cout << shipType << " was sunk!\n";
-         unsunk--;
-         cout << unsunk << endl;
+        string input;
+        
+        displayShipsHealth();  //DEBUG;
+
+        cout << "Commence attack. Enter coordinates (Q to quit):" << endl;
+        safeGetLine(input, 4);  //No more than 3 characters allowed
+        
+        if (input == "Q" || input == "q") {
+            return true;
+        }
+        
+        int location = Player::convToInt(input);
+        int row = location / 10;
+        int col = location % 10;
+        
+        attackPosition(row, col, opponent);
+        
+        return false;
+}
+
+void Player::attackPosition(int& row, int& col, Player* opponent) {
+    if (opponent->getBoard(row, col) == EMPTY_CELL) {
+        opponent->setBoard(row, col, MISS_CELL);
+        setShots(row, col, MISS_CELL);
+        cout << "Miss at (" << row << ", " << col << ").\n";
+    } else {
+        char shipType = opponent->getBoard(row, col);
+        opponent->decrementShipHealth(opponent->getBoard(row, col));
+        opponent->setBoard(row, col, HIT_CELL);
+        setShots(row, col, HIT_CELL);
+        
+        cout << "Hit at (" << row << ", " << col << ")!\n";
+        
+        if(opponent->getShipHealth(shipType)==0){
+            opponent->setUnsunk(opponent->getUnsunk() - 1);
+            cout << SHIP_NAMES.at(shipType) << " was sunk!\n";
         }
     }
-    else
-    {
-        cout << "Miss!" << endl;
-        enemy->setBoard(row, col, MISS_CELL);
-        setShots(row, col, MISS_CELL);
-    }
+    
 }
 
 void Player::serialize(stringstream &buffer, int &size)
@@ -351,18 +369,6 @@ void Player::deserialize(fstream& file) {
         }
     }
     
-    //// Read unordered_map (shipCounts)
-    // Read size of unordered_map
-//    file.read(reinterpret_cast<char*>(&map_count), sizeof(map_count));
-    // Read each key, value pair
-//    char key;
-//    int val;
-//    for (int i = 0; i < map_count; i++) {
-//        file.read(reinterpret_cast<char*>(&key), sizeof(key));
-//        file.read(reinterpret_cast<char*>(&val), sizeof(val));
-//        shipCounts[key] = val;
-//    }
-    
     // Read unsunk integer value
     file.read(reinterpret_cast<char*>(&unsunk), sizeof(unsunk));
 }
@@ -375,4 +381,11 @@ void Player::decrementShipHealth(char shipType)
 int Player::getShipHealth(char shipType)
 {
     return shipHealth[shipType];
+}
+
+void Player::displayShipsHealth() {
+    for (const auto& ship : SHIP_SIZES)
+    {
+        cout << SHIP_NAMES.at(ship.first) << " Health: " << shipHealth[ship.first] << "/" << ship.second << "\n";
+    }
 }
