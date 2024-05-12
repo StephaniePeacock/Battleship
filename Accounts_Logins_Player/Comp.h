@@ -18,6 +18,8 @@
 class Comp : public Player {
 private:
     bool smart;
+    bool inCardinalSearch;
+
 
     // Stuff for dumb AI
     int state;      // States: 0 - Linear Search
@@ -25,6 +27,8 @@ private:
     int guesses;    // Number of guesses left
     int quadrant;   // Quadrant of the board to search
     int score;      // Score of the AI
+    int consecutiveMisses;
+
     
 public:
     const static PlayerType TYPE = PlayerType::COMP;
@@ -40,9 +44,15 @@ public:
 
     // Dumb AI functions
     void dumbAI(int&, int&, Player*);
+    void smartAI(int&, int&, Player*);
+    void linSearch(int&, int&, Player*);
+    void cardinalSearch(int&, int&, Player*);
+    void attackPosition(int&, int&, Player*);
     int quadrantDetector(int, int, int, int);
+    
     bool movesAvailable(int);
     bool getRandomPointInQuadrant(int, int, int, int&, int&);
+    bool isValid(int&, int&, Player*);
     bool isGameOver();
 
     // Serialization functions
