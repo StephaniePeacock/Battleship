@@ -84,6 +84,8 @@ bool Game::play()
     cout << "Player 2's Board after ship placement:" << endl;
     p2->displayBoard();
 
+    cout << "Player 1's status: " << p1->getUnsunk() << endl;
+    cout << "Player 2's status: " << p2->getUnsunk() << endl;
     cout << "Player 1's available ships: " << p1->getUnsunk() << endl;
     cout << "Player 2's available ships: " << p2->getUnsunk() << endl;
 

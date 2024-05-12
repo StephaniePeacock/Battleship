@@ -1,17 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cppFiles/class.cc to edit this template
- */
-
 /* 
  * File:   Comp.cpp
- * Author: hanne
+ * Author: hannes, Matthew, Leoncio, Marco
  * 
  * Created on April 14, 2024, 1:24 PM
  */
 
 #include "Comp.h"
 #include <vector>
+#include <ctime>
+#include <cstdlib>
 
 Comp::Comp() : Player() {
     this->smart = false;
@@ -27,6 +24,7 @@ Comp::Comp(bool smart) : Player() {
 void Comp::promptShipPlacement() {
     // Define ship types and their lengths
 
+    vector<pair<char, int>> ships = {{'C', 5}, {'B', 4}, {'S', 3}, {'D', 3}, {'P', 2}};
     std::vector<pair<char, int>> ships = {{'C', 5}, {'B', 4}, {'S', 3}, {'D', 3}, {'P', 2}};
 
     for (const auto& ship : ships) {
@@ -78,10 +76,13 @@ void Comp::promptShipPlacement() {
 void Comp::attackCell(int row, int col, Player* opponent) {
     if (smart) {
         //smartAI(row, col, opponent);
-        std::cout << "Smart AI not implemented yet." << std::endl;
+        cout << "Smart AI not implemented yet." << endl;
         // Define row and col based on smart move
     }
     else {
+        cout << "Dumb AI choosing move..." << endl;
+        dumbAI(row, col, opponent);
+        cout << "Dumb AI chose move: Row: " << row << ". Column: " << col << endl;
         std::cout << "Dumb AI choosing move..." << std::endl;
         dumbAI(row, col, opponent);
         std::cout << "Dumb AI chose move: Row: " << row << ". Column: " << col << std::endl;
@@ -102,6 +103,41 @@ void Comp::attackCell(int row, int col, Player* opponent) {
 }
 
 void Comp::dumbAI(int& row, int& col, Player* opponent) {
+    bool shot = false;
+    srand(time(0));
+
+    char shipType;
+
+    if (!state) { 
+        while (!shot) {
+            int i = rand() % 10;
+            int j = rand() % 10; 
+            char cell = opponent->getBoard(i, j);
+            
+            if (cell != HIT_CELL && cell != MISS_CELL) {
+                if (cell == EMPTY_CELL) {
+                    opponent->setBoard(i, j, MISS_CELL);
+                    this->setShots(i, j, MISS_CELL);
+                } else {
+                    shipType = cell;
+                    quadrant = quadrantDetector(10, 10, j, i);
+                    state = 1; 
+                    this->decrementShipHealth(shipType);
+                    if (this->getShipHealth(shipType) == 0) {
+                        cout << shipType << " has been sunk!" << endl;
+                        int unsunk = getUnsunk();
+                        setUnsunk(unsunk - 1);
+                    }
+                    opponent->setBoard(i, j, HIT_CELL);
+                    this->setShots(i, j, HIT_CELL);
+                    score++;
+                }
+                row = i;
+                col = j;
+                shot = true;
+            }
+        }
+    } else {
     bool shot = false;      // Shot flag
     if (!state) {           // If we are in linear search state
         int i = 0, j = 0;
@@ -159,6 +195,14 @@ void Comp::dumbAI(int& row, int& col, Player* opponent) {
         int i, j;
         bool status = getRandomPointInQuadrant(quadrant, 10, 10, j, i);
         bool hitFlag = false;
+        if (status) {
+            char cell = opponent->getBoard(i, j);
+            if (cell == EMPTY_CELL) {
+                opponent->setBoard(i, j, MISS_CELL);
+                this->setShots(i, j, MISS_CELL);
+                cout << "\nMissed!\n";
+            } else {
+                shipType = cell;
         if (status) {       // Success?
             char cell = opponent->getBoard(i, j);
             if (cell == '-') {
@@ -185,6 +229,10 @@ void Comp::dumbAI(int& row, int& col, Player* opponent) {
             }
             row = i;
             col = j;
+        } else {
+            cout << "No more moves in quadrant!";
+            hitFlag = true;
+            state = 0;
         }
         else {
             cout << "No more moves in quadrant!";
@@ -199,6 +247,7 @@ void Comp::dumbAI(int& row, int& col, Player* opponent) {
         if (hitFlag) {
             guesses++;
             state = 1;
+        } else {
         }
         else {
             guesses--;
