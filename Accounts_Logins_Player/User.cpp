@@ -1,6 +1,6 @@
 /* 
  * File:   User.cpp
- * Author: hanne
+ * Author: hannes
  * 
  * Created on April 14, 2024, 10:42 AM
  */
@@ -114,8 +114,18 @@ void User::newGame() {
                 cont = false;
                 break;
             case 2:  // AI
-                p2 = new Comp();
-                cont = false;
+                int aiChoice;
+                cout << "Choose AI type\n[1] Dumb AI\n[2] Smart AI\n";
+                getNumeric<int>(aiChoice);
+                if (aiChoice == 1) {
+                    p2 = new Comp(false);  // Dumb AI
+                    cont = false;
+                } else if (aiChoice == 2) {
+                    p2 = new Comp(true);   // Smart AI
+                    cont = false;
+                } else {
+                    cout << "Invalid choice for AI type. Please choose again.\n";
+                }
                 break;
             default:
                 cout << "Aye, matey! That be no valid course o’ action. Sing a new tune and try again!\n";
