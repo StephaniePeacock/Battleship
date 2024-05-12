@@ -28,7 +28,7 @@ private:
     Player *p1; // Polymorphic: Can be Player or Comp
     Player *p2; // Polymorphic: Can be Player or Comp
     bool turn;
-    bool clr;  // Flag set when memory dynamically allocated
+    bool clr;  // NOT STORED TO FILE! Flag set when memory dynamically allocated.
 
     // Methods
     void doTurn();
