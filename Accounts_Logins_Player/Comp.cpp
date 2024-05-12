@@ -24,9 +24,7 @@ Comp::Comp(bool smart) : Player() {
 void Comp::promptShipPlacement() {
     // Define ship types and their lengths
 
-    std::vector<pair<char, int>> ships = {{'C', 5}, {'B', 4}, {'S', 3}, {'D', 3}, {'P', 2}};
-
-    for (const auto& ship : ships) {
+    for (const auto& ship : SHIP_SIZES) {
         int length = ship.second;
         bool placed = false;
 

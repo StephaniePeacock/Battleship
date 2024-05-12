@@ -209,14 +209,10 @@ bool Player::placeShip(int row, int col, int size, char direction, char shipType
 // Function to prompt the user to place ships on the board
 void Player::promptShipPlacement()
 {
-    char shipTypes[] = {'C', 'B', 'D', 'S', 'P'};
-    for (char shipType : shipTypes)
+    for (const auto& ship : SHIP_SIZES)
     {
-        int size = shipType == 'C' ? 5 : shipType == 'B' ? 4
-                                     : shipType == 'D'   ? 3
-                                     : shipType == 'S'   ? 3
-                                                         : 2;
-        cout << "Placing " << size << "-unit " << shipType << " ship." << endl;
+        int length = ship.second;
+        cout << "Placing " << length << "-unit " << ship.first << " ship." << endl;
         while (true)
         {
             int location;
@@ -230,7 +226,7 @@ void Player::promptShipPlacement()
             direction = toupper(direction);
             location = Player::convToInt(input);
             int row = location / 10, col = location % 10;
-            if (placeShip(row, col, size, direction, shipType))
+            if (placeShip(row, col, length, direction, ship.first))
             {
                 cout << "Ship placed successfully!" << endl;
                 displayBoard();
