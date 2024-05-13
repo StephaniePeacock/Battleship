@@ -73,7 +73,7 @@ public:
 //    virtual void doTurn();
     
     bool placeShip(int, int, int, char, char);
-    void attackPosition(int&, int&, Player*);
+    void attackPosition(int, int, Player*);
 
     int getUnsunk() { return unsunk; }
     void setUnsunk(int u) { unsunk = u; }       // Added this for the Comp class

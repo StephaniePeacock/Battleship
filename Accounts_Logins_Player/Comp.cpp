@@ -343,6 +343,7 @@ void Comp::serialize(stringstream& buffer, int& size) {
      * int:                 unsunk integer value
      * --Plus the following unique to Comp
      * bool:                smart or dumb AI
+     * bool: isInCardinalSearch in cardinal search or not (smart AI attribute)
      */
     
     //// Serialize base class (Player) data
@@ -354,6 +355,9 @@ void Comp::serialize(stringstream& buffer, int& size) {
     // Store smart boolean value
     buffer.write(reinterpret_cast<char*>(&smart), sizeof(smart));
     size += sizeof(smart);
+    
+    buffer.write(reinterpret_cast<char*>(&inCardinalSearch), sizeof(inCardinalSearch));
+    size += sizeof(inCardinalSearch);
 }
 
 void Comp::deserialize(fstream& file) {
@@ -366,4 +370,6 @@ void Comp::deserialize(fstream& file) {
     
     // Read smart boolean value
     file.read(reinterpret_cast<char*>(&smart), sizeof(smart));
+    
+    file.read(reinterpret_cast<char*>(&inCardinalSearch), sizeof(inCardinalSearch));
 }

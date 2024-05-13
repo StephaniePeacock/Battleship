@@ -76,10 +76,11 @@ void Battleship::main() {
             string uid = "hannes@mail.com_1714321083707";
             
             // Create GamesDB if it doesn't already exist
-            GamesDB::createDB(user::GAMESDBPATH);
+//            GamesDB::createDB(user::GAMESDBPATH);
             GamesDB gamesdb = GamesDB(user::GAMESDBPATH);
             
             gamesdb.open();
+//            gamesdb.delAll();
             gamesdb.list();
             gamesdb.close();
             
@@ -88,8 +89,8 @@ void Battleship::main() {
 //            // Do some stuff to modify game state
 //            p1.placeShip(2, 8, 5, 'V', 'C');
 //            p1.placeShip(5, 3, 3, 'H', 'S');
-//            p2.attackCell(3, 3, &p1);
-//            p2.attackCell(5, 3, &p1);
+//            p2.attackPosition(3, 3, &p1);
+//            p2.attackPosition(5, 3, &p1);
 //            cout << "PLAYER 1 BOARD:\n";
 //            p1.displayBoard();
 //            cout << "PLAYER 1 SHOTS:\n";
@@ -122,7 +123,7 @@ void Battleship::main() {
 //            gamesdb.save(gc);
 //            gamesdb.list();
 //            gamesdb.close();
-//            
+////            
 //            // Load a game
 //            Game game_load = Game(uid);
 //            gamesdb.open();
@@ -132,26 +133,6 @@ void Battleship::main() {
 //            gamesdb.del("hannes@mail.com_1714321083727");
 //            gamesdb.list();
 //            gamesdb.close();
-            
-//            stringstream buffer;
-//            buffer.seekp(0L, ios::end);
-//            cout << "SEREALIZING GAME...\n";
-//            game.serialize(buffer);
-//            cout << "SUCCESSFULLY SERIALIZED GAME!\n";
-//            buffer.seekg(0L, ios::beg);
-//            cout << "SET CURSOR TO BEGINNING\n";
-//            
-//            char c_uid[102];
-//            buffer.read(reinterpret_cast<char*>(c_uid), sizeof(c_uid));
-//            cout << "READ GAME UID: " << c_uid << "\n";
-//            
-//            int gsize = 0;
-//            buffer.read(reinterpret_cast<char*>(&gsize), sizeof(gsize));
-//            cout << "READ GAME SIZE: " << gsize << "\n";
-//            
-//            cout << "DESEREALIZING GAME...\n";
-//            game.deserialize(buffer);            
-//            cout << "SUCCESSFULLY DESERIALIZED!\n";
 //            
 //            cout << "PLAYER 1\n";
 //            Player* p1n = game.getP1();
@@ -442,6 +423,7 @@ void Battleship::gameMenu(User& user) {
     bool quit = false;
     //Switch case within do-while loop for Game menu
 //    system("cls");
+    int pos = this->accounts.find(user.getEmail());
     do {
         cout << "[1] New Campaign\n"
                 "[2] Load Campaign\n"
@@ -452,10 +434,12 @@ void Battleship::gameMenu(User& user) {
             case 1:
                 cout << "Launching a new game\n";
                 user.newGame();
+                this->accounts.set(pos, user);
                 break;
             case 2:
                 cout << "Loading a previous game\n";
                 user.loadGame();
+                this->accounts.set(pos, user);
                 break;
             case 3:
                 quit = true;
