@@ -173,8 +173,8 @@ void User::loadGame() {
 
 void User::handleGame(Game& game) {
     bool save = game.play();
-    cout << "SAVING? " << save << "\n";
-    cout << "OID: " << game.getUID() << "\n";
+//    cout << "SAVING? " << save << "\n";
+//    cout << "OID: " << game.getUID() << "\n";
     if (save) {
         User::gamesdb.open();
         User::gamesdb.del(this->sgame);
