@@ -21,7 +21,7 @@ Comp::Comp(bool smart) : Player() {
     this->smart = smart;
 }
 
-void Comp::promptShipPlacement() {
+void Comp::placeShips() {
     // Define ship types and their lengths
 
     for (const auto& ship : SHIP_SIZES) {
@@ -70,20 +70,21 @@ void Comp::promptShipPlacement() {
     cout << "Computer player has placed its ships." << endl;
 }
 
-void Comp::attackCell(int row, int col, Player* opponent) {
+bool Comp::shoot(Player* opponent) {
+    int row = 0, col = 0;
     if (smart) {
         if (!inCardinalSearch) {
             smartAI(row, col, opponent);
-            if (opponent->getBoard(row, col) != EMPTY_CELL) {
-                inCardinalSearch = true;
-            }
-        } else {
+            if (inCardinalSearch) return false;
+        }
+        if (inCardinalSearch) {
             cardinalSearch(row, col, opponent);
         }
     }
     else {
         dumbAI(row, col, opponent);
     }
+    return false;
 }
 
 void Comp::smartAI(int& row, int& col, Player* opponent) {
@@ -104,21 +105,6 @@ void Comp::linSearch(int& row, int& col, Player* opponent) {
         }
     }
 }
-
-void Comp::attackPosition(int& row, int& col, Player* opponent) {
-    if (opponent->getBoard(row, col) == EMPTY_CELL) {
-        opponent->setBoard(row, col, MISS_CELL);
-        setShots(row, col, MISS_CELL);
-        cout << "Attack at (" << row << ", " << col << ") resulted in a miss." << endl;
-    } else {
-        decrementShipHealth(opponent->getBoard(row, col));
-        opponent->setBoard(row, col, HIT_CELL);
-        setShots(row, col, HIT_CELL);
-        cout << "Attack at (" << row << ", " << col << ") resulted in a hit!" << endl;
-        inCardinalSearch = true;
-    }
-}
-
 
 void Comp::cardinalSearch(int& row, int& col, Player* opponent) {
     static int direction = 0;
