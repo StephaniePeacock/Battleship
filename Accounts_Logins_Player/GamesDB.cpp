@@ -225,6 +225,11 @@ void GamesDB::list() {
     int pos = -1, cur = 0, game_size = 0;
     char uid[game::MAXUID];
     
+    if (size() == 0) {
+        cout << "Database is empty\n";
+        return;
+    }
+    
     int i = 0;
     file.seekg(cur, ios::beg);
     while (true) {

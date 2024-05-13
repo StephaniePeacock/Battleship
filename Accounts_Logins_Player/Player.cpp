@@ -249,8 +249,9 @@ bool Player::shoot(Player *opponent)
 {
         string input;
         
-        displayShipsHealth();  //DEBUG;
-
+        displayShipsHealth();
+        displayShots();
+        
         cout << "Commence attack. Enter coordinates (Q to quit):" << endl;
         safeGetLine(input, 4);  //No more than 3 characters allowed
         
@@ -267,7 +268,7 @@ bool Player::shoot(Player *opponent)
         return false;
 }
 
-void Player::attackPosition(int& row, int& col, Player* opponent) {
+void Player::attackPosition(int row, int col, Player* opponent) {
     if (opponent->getBoard(row, col) == EMPTY_CELL) {
         opponent->setBoard(row, col, MISS_CELL);
         setShots(row, col, MISS_CELL);
@@ -295,7 +296,7 @@ void Player::serialize(stringstream &buffer, int &size)
      * int:                 size of board
      * char[board size]:    char for each item in board array
      * char[board size]:    char for each item in shots array
-     * int:                 shipCounts map count
+     * int:                 shipHealth map count
      * char & int pars:     first key (char) then value (int)
      *                        for each pair in map
      * int:                 unsunk integer value
@@ -303,6 +304,7 @@ void Player::serialize(stringstream &buffer, int &size)
     
     // Store object type to aid in deserialization
     short unsigned int type = static_cast<short unsigned int>(TYPE);
+//    cout << "TYPE: " << type << "\n";
     buffer.write(reinterpret_cast<char*>(&type), sizeof(type));
     size += sizeof(type);
 
@@ -325,21 +327,21 @@ void Player::serialize(stringstream &buffer, int &size)
     }
     size += board_size * board_size * sizeof(char) * 2;
 
-    //// Store unordered_map (shipCounts)
+    //// Store unordered_map (shipHealth)
     
     // Store size of unordered_map
-//    int map_count = shipCounts.size();
-//    buffer.write(reinterpret_cast<char*>(&map_count), sizeof(map_count));
-//    size += sizeof(map_count);
+    int map_count = shipHealth.size();
+    buffer.write(reinterpret_cast<char*>(&map_count), sizeof(map_count));
+    size += sizeof(map_count);
     
     // Store each key, value pair
-//    for (const pair<char, int> &kv : shipCounts)
+    for (const pair<char, int> &kv : shipHealth)
     {
-        //        cout << kv.first << " : " << kv.second << "\n";  //DEBUG
-//        buffer.write(reinterpret_cast<const char*>(&kv.first), sizeof(kv.first));
-//        buffer.write(reinterpret_cast<const char*>(&kv.second), sizeof(kv.second));
+//        cout << kv.first << " : " << kv.second << "\n";  //DEBUG
+        buffer.write(reinterpret_cast<const char*>(&kv.first), sizeof(kv.first));
+        buffer.write(reinterpret_cast<const char*>(&kv.second), sizeof(kv.second));
     }
-//    size += map_count * (sizeof(char) + sizeof(int));
+    size += map_count * (sizeof(char) + sizeof(int));
     
     // Store unsunk integer value
     buffer.write(reinterpret_cast<char*>(&unsunk), sizeof(unsunk));
@@ -368,6 +370,20 @@ void Player::deserialize(fstream& file) {
             file.read(reinterpret_cast<char*>(&shots[r][c]), sizeof(char));
         }
     }
+    
+    // Read unordered_map (shipHealth)
+    
+    // Read size of unordered_map
+    file.read(reinterpret_cast<char*>(&map_count), sizeof(map_count));
+    
+    // Read each key, value pair
+    char key;
+    int val;
+    for (int i = 0; i < map_count; i++) {
+        file.read(reinterpret_cast<char*>(&key), sizeof(key));
+        file.read(reinterpret_cast<char*>(&val), sizeof(val));
+        shipHealth[key] = val;
+   }
     
     // Read unsunk integer value
     file.read(reinterpret_cast<char*>(&unsunk), sizeof(unsunk));

@@ -90,7 +90,7 @@ void User::display() const{
     cout << "Wins: " << this->info.win << "\n";
     cout << "Losses: " << this->info.loss << "\n";
     cout << "Saved Game: " << (strlen(this->sgame) > 0 ? "Yes" : "No") << "\n";
-//    cout << "Saved Game UID: \"" << this->sgame << "\"\n";  //DEBUG
+    cout << "Saved Game UID: \"" << this->sgame << "\"\n";  //DEBUG
 }
 
 void User::newGame() {
@@ -137,6 +137,7 @@ void User::newGame() {
     Game game = Game(p1, p2, newGameUID());
     
     // Handle running the game
+    game.setup();
     handleGame(game);
     
     delete p1;
@@ -172,6 +173,8 @@ void User::loadGame() {
 
 void User::handleGame(Game& game) {
     bool save = game.play();
+    cout << "SAVING? " << save << "\n";
+    cout << "OID: " << game.getUID() << "\n";
     if (save) {
         User::gamesdb.open();
         User::gamesdb.del(this->sgame);

@@ -63,27 +63,6 @@ bool Game::play()
     string input;
     int row, col;
     char letter;
-    
-    // Setup: players set their boards
-
-    // Prompt player 1 to place ships on the board
-    cout << "--Player 1 turn--" << endl;
-    p1->placeShips();
-
-    // Display player 1's board after ship placement
-    cout << "Player 1's Board after ship placement:" << endl;
-    p1->displayBoard();
-
-    // Prompt player 2 to place ships on the board
-    cout << "--Player 2 turn--" << endl;
-    p2->placeShips();
-
-    // Display player 2's board after ship placement
-    cout << "Player 2's Board after ship placement:" << endl;
-    p2->displayBoard();
-
-    cout << "Player 1's available ships: " << p1->getUnsunk() << endl;
-    cout << "Player 2's available ships: " << p2->getUnsunk() << endl;
 
     // Play: Players battle
     
@@ -125,6 +104,26 @@ bool Game::play()
     }
     
     return false;
+}
+
+void Game::setup() {
+    // Setup: players set their boards
+
+    // Prompt player 1 to place ships on the board
+    cout << "--Player 1 turn--" << endl;
+    p1->placeShips();
+
+    // Display player 1's board after ship placement
+    cout << "Player 1's Board after ship placement:" << endl;
+    p1->displayBoard();
+
+    // Prompt player 2 to place ships on the board
+    cout << "--Player 2 turn--" << endl;
+    p2->placeShips();
+
+    // Display player 2's board after ship placement
+    cout << "Player 2's Board after ship placement:" << endl;
+    p2->displayBoard();
 }
 
 void Game::serialize(stringstream& buffer)
@@ -202,6 +201,8 @@ void Game::deserialize(fstream& file)
         file.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
         type = static_cast<PlayerType>(type_val);
         
+        
+//        cout << "P1 TYPE: " << static_cast<int>(type) << "\n";
         // get new p1; Use appropriate serialization method for type
         switch (type) {
             case PlayerType::PLAYER: {
@@ -224,6 +225,7 @@ void Game::deserialize(fstream& file)
         file.read(reinterpret_cast<char*>(&type_val), sizeof(type_val));
         type = static_cast<PlayerType>(type_val);
         
+//        cout << "P2 TYPE: " << static_cast<int>(type) << "\n";
         // get new p2; Use appropriate serialization method for type
         switch (type) {
             case PlayerType::PLAYER: {

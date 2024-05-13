@@ -37,6 +37,7 @@ public:
     Game(string uid);
     Game(Player *p1, Player *p2, string uid);
     bool play();
+    void setup();
     ~Game();
     
     
